@@ -1,0 +1,27 @@
+<svg width="980" height="760" viewBox="0 0 980 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="980" height="760" rx="36" fill="#F1FAFC"/>
+  <rect x="76" y="52" width="720" height="646" rx="30" fill="#10243A"/>
+  <path d="M76 461C209 329 346 368 486 292C618 220 698 154 796 112V698H76V461Z" fill="#213B35"/>
+  <path d="M76 294C213 214 343 245 486 187C616 134 707 127 796 78V698H76V294Z" fill="#16324E"/>
+  <g transform="translate(132 444)">
+    <rect x="0" y="48" width="328" height="84" rx="18" fill="#F8FAFC"/>
+    <rect x="64" y="0" width="160" height="88" rx="14" fill="#E2E8F0"/>
+    <circle cx="76" cy="142" r="25" fill="#020617"/>
+    <circle cx="264" cy="142" r="25" fill="#020617"/>
+    <path d="M28 82H304" stroke="#2DD4BF" stroke-width="9" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#s)">
+    <rect x="452" y="92" width="306" height="236" rx="22" fill="white"/>
+    <rect x="480" y="122" width="250" height="112" rx="14" fill="#0B1728"/>
+    <path d="M493 199C544 147 594 190 646 150C676 128 703 141 729 119" stroke="#22D3EE" stroke-width="4"/>
+    <text x="480" y="274" fill="#0F172A" font-family="Arial" font-size="20" font-weight="800">Harsh Braking Alert</text>
+    <text x="480" y="303" fill="#64748B" font-family="Arial" font-size="16">Vehicle 28 • Driver coaching needed</text>
+  </g>
+  <g filter="url(#s)">
+    <rect x="580" y="382" width="218" height="92" rx="18" fill="white"/>
+    <path d="M618 427h62" stroke="#0F172A" stroke-width="12" stroke-linecap="round"/>
+    <path d="M632 401h34l13 26h-60l13-26Z" fill="#0F172A"/>
+    <text x="702" y="435" fill="#0F172A" font-family="Arial" font-size="24" font-weight="800">Immobilize</text>
+  </g>
+  <defs><filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0F172A" flood-opacity=".18"/></filter></defs>
+</svg>

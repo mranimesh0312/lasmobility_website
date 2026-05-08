@@ -1,0 +1,35 @@
+<svg width="980" height="760" viewBox="0 0 980 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="980" height="760" rx="36" fill="#EEF9FC"/>
+  <rect x="84" y="68" width="732" height="620" rx="30" fill="#0B1728"/>
+  <path d="M84 499C196 391 326 431 449 346C571 262 692 289 816 178V688H84V499Z" fill="#123E5A"/>
+  <path d="M84 322C226 255 360 302 503 233C625 174 714 166 816 96V688H84V322Z" fill="#0E2A43"/>
+  <path d="M0 140H980M0 260H980M0 380H980M0 500H980M0 620H980M140 0V760M280 0V760M420 0V760M560 0V760M700 0V760M840 0V760" stroke="#22D3EE" stroke-opacity=".06"/>
+  <path d="M153 516C284 379 416 444 544 338C650 249 724 257 803 187" stroke="#22D3EE" stroke-width="8" stroke-linecap="round" stroke-dasharray="18 18"/>
+  <g filter="url(#s)">
+    <rect x="604" y="104" width="296" height="142" rx="22" fill="white"/>
+    <circle cx="638" cy="139" r="9" fill="#10B981"/>
+    <text x="660" y="146" fill="#0F766E" font-family="Arial" font-size="18" font-weight="700">Moving</text>
+    <text x="628" y="181" fill="#64748B" font-family="Arial" font-size="16">Last data received 9 sec ago</text>
+    <text x="628" y="214" fill="#0F172A" font-family="Arial" font-size="17" font-weight="700">Depot Road, Sector 8</text>
+  </g>
+  <g filter="url(#s)">
+    <rect x="698" y="292" width="210" height="132" rx="20" fill="white"/>
+    <text x="730" y="346" fill="#0F172A" font-family="Arial" font-size="28" font-weight="800">76.2 L</text>
+    <text x="730" y="385" fill="#64748B" font-family="Arial" font-size="23">Fuel</text>
+  </g>
+  <g filter="url(#s)">
+    <rect x="636" y="474" width="244" height="132" rx="20" fill="white"/>
+    <text x="664" y="520" fill="#64748B" font-family="Arial" font-size="20" font-weight="700">Stopped Time</text>
+    <text x="664" y="566" fill="#0F172A" font-family="Arial" font-size="31" font-weight="800">3h : 42m</text>
+    <text x="664" y="597" fill="#0F766E" font-family="Arial" font-size="17">Idle: 9m</text>
+  </g>
+  <g transform="translate(260 438)">
+    <rect x="0" y="28" width="244" height="72" rx="16" fill="#F8FAFC"/>
+    <rect x="42" y="0" width="118" height="70" rx="14" fill="#DDE7F1"/>
+    <circle cx="58" cy="108" r="22" fill="#111827"/>
+    <circle cx="196" cy="108" r="22" fill="#111827"/>
+    <rect x="166" y="38" width="76" height="46" rx="8" fill="#CBD5E1"/>
+    <path d="M18 61H222" stroke="#22D3EE" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <defs><filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#0F172A" flood-opacity=".16"/></filter></defs>
+</svg>

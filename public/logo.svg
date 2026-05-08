@@ -1,0 +1,19 @@
+<svg width="980" height="220" viewBox="0 0 980 220" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">LAS Mobility</title>
+  <defs>
+    <filter id="softShadow" x="-8%" y="-20%" width="116%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#020617" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <g filter="url(#softShadow)">
+    <path d="M63 54H92L72 154H156L151 178H45C31 178 22 166 25 151L45 54H63Z" fill="#F8FAFC"/>
+    <path d="M130 178L199 71C207 58 218 52 231 52C245 52 254 58 262 72L321 178H282L234 91C232 87 229 85 226 85C223 85 220 87 217 92L163 178H130Z" fill="#F8FAFC"/>
+    <path d="M268 178H374C402 178 421 160 426 136C432 108 414 92 383 92H326C316 92 313 86 318 79C321 75 325 73 332 73H445L466 54H334C305 54 286 72 281 97C276 123 293 139 323 139H380C391 139 394 145 389 153C386 158 381 160 373 160H291L268 178Z" fill="#F8FAFC"/>
+    <path d="M153 201C181 160 229 133 306 123C257 137 217 163 190 201H153Z" fill="#F8FAFC"/>
+    <path d="M201 201C225 171 258 151 299 140C264 160 238 181 225 201H201Z" fill="#F8FAFC"/>
+    <path d="M223 158C238 151 260 144 288 139" stroke="#2DD4BF" stroke-width="10" stroke-linecap="round"/>
+    <path d="M236 166C245 161 255 157 267 153" stroke="#06152B" stroke-width="8" stroke-linecap="round"/>
+    <path d="M275 149C284 146 294 144 304 142" stroke="#06152B" stroke-width="8" stroke-linecap="round"/>
+    <text x="530" y="151" fill="#F8FAFC" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="600" letter-spacing="17">MOBILITY</text>
+  </g>
+</svg>

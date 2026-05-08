@@ -1,0 +1,8 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#08111F"/>
+  <path d="M0 520C196 442 366 479 537 393C720 302 872 161 1200 206V630H0V520Z" fill="#0F766E" opacity="0.45"/>
+  <path d="M0 401C179 323 386 353 560 281C755 200 919 83 1200 117V630H0V401Z" fill="#2563EB" opacity="0.36"/>
+  <text x="84" y="220" fill="white" font-family="Arial, sans-serif" font-size="72" font-weight="700">LAS Mobility</text>
+  <text x="88" y="302" fill="#A5F3FC" font-family="Arial, sans-serif" font-size="38" font-weight="500">AI-Powered Fleet Intelligence</text>
+  <text x="90" y="378" fill="#DDEBFF" font-family="Arial, sans-serif" font-size="28">Real-time visibility, safer operations, smarter fleet performance.</text>
+</svg>

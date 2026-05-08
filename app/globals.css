@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --background: #f6f9fc;
+  --foreground: #08111f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(45, 212, 191, 0.12), transparent 32rem),
+    linear-gradient(180deg, #f7fbff 0%, #eef5fb 46%, #ffffff 100%);
+  color: var(--foreground);
+  font-family: var(--font-inter), Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(20, 184, 212, 0.25);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(37, 99, 235, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.dark-glass {
+  background: rgba(8, 17, 31, 0.72);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.map-line {
+  stroke-dasharray: 9 10;
+  animation: routeMove 12s linear infinite;
+}
+
+.moving-route {
+  stroke-dasharray: 14 16;
+  animation: routeMove 7s linear infinite;
+}
+
+.premium-gradient {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(20, 184, 212, 0.28), transparent 28rem),
+    radial-gradient(circle at 82% 4%, rgba(32, 201, 151, 0.2), transparent 25rem),
+    linear-gradient(135deg, #020817 0%, #06152b 45%, #082f49 100%);
+  background-size: 120% 120%;
+  animation: gradientDrift 16s ease-in-out infinite alternate;
+}
+
+.reveal-card {
+  animation: cardRise 0.7s ease both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 28%;
+}
+
+.hover-lift {
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 70px rgba(8, 17, 31, 0.14);
+}
+
+.route-glow {
+  filter: drop-shadow(0 0 14px rgba(20, 184, 212, 0.56));
+}
+
+.vehicle-marker {
+  animation: markerPulse 2.4s ease-in-out infinite;
+}
+
+.moving-vehicle {
+  animation-name: vehicleDrive;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.scan-line {
+  animation: scanAcross 5.5s ease-in-out infinite;
+}
+
+.float-slow {
+  animation: floatSlow 7s ease-in-out infinite;
+}
+
+.float-delayed {
+  animation: floatSlow 8s ease-in-out infinite;
+  animation-delay: -2.2s;
+}
+
+@keyframes routeMove {
+  to {
+    stroke-dashoffset: -220;
+  }
+}
+
+@keyframes gradientDrift {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes cardRise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes markerPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.34);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 14px rgba(45, 212, 191, 0);
+  }
+}
+
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes vehicleDrive {
+  0% {
+    transform: translate3d(-8vw, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  90% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate3d(112vw, 0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes scanAcross {
+  0%,
+  100% {
+    transform: translateY(-110px);
+    opacity: 0;
+  }
+  45%,
+  55% {
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateY(110px);
+  }
+}
