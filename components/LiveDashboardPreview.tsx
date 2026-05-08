@@ -26,10 +26,12 @@ export default function LiveDashboardPreview() {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
 
-  const centerY = useSpring(useTransform(scrollYProgress, [0, 1], ["6%", "-6%"]), { stiffness: 50, damping: 18 });
-  const centerScale = useSpring(useTransform(scrollYProgress, [0, 0.45, 1], [0.94, 1.04, 0.98]), { stiffness: 50, damping: 18 });
-  const leftY = useSpring(useTransform(scrollYProgress, [0, 1], ["12%", "-2%"]), { stiffness: 45, damping: 18 });
-  const rightY = useSpring(useTransform(scrollYProgress, [0, 1], ["18%", "-4%"]), { stiffness: 45, damping: 18 });
+  const centerY = useSpring(useTransform(scrollYProgress, [0, 1], ["10%", "-10%"]), { stiffness: 45, damping: 16 });
+  const centerScale = useSpring(useTransform(scrollYProgress, [0, 0.45, 1], [0.82, 1.14, 1.0]), { stiffness: 45, damping: 16 });
+  const leftY = useSpring(useTransform(scrollYProgress, [0, 1], ["20%", "-6%"]), { stiffness: 40, damping: 16 });
+  const leftScale = useSpring(useTransform(scrollYProgress, [0, 0.5, 1], [0.88, 1.04, 0.96]), { stiffness: 40, damping: 16 });
+  const rightY = useSpring(useTransform(scrollYProgress, [0, 1], ["28%", "-8%"]), { stiffness: 40, damping: 16 });
+  const rightScale = useSpring(useTransform(scrollYProgress, [0, 0.5, 1], [0.86, 1.02, 0.94]), { stiffness: 40, damping: 16 });
 
   return (
     <section ref={sectionRef} className="section-pad overflow-hidden" style={{ background: "var(--bg-deep)" }}>
@@ -69,6 +71,7 @@ export default function LiveDashboardPreview() {
             className="relative hidden w-[28%] shrink-0 overflow-hidden rounded-xl shadow-2xl lg:block"
             style={{
               y: leftY,
+              scale: leftScale,
               aspectRatio: "16/10",
               border: "1px solid var(--border)",
               boxShadow: "0 24px 64px rgba(0,0,0,0.35)",
@@ -141,6 +144,7 @@ export default function LiveDashboardPreview() {
             className="relative hidden w-[28%] shrink-0 overflow-hidden rounded-xl shadow-2xl lg:block"
             style={{
               y: rightY,
+              scale: rightScale,
               aspectRatio: "16/10",
               border: "1px solid var(--border)",
               boxShadow: "0 24px 64px rgba(0,0,0,0.35)",
