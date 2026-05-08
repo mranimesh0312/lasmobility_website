@@ -4,11 +4,9 @@ import StatsBar from "@/components/StatsBar";
 import FeaturesSection from "@/components/FeaturesSection";
 import LiveDashboardPreview from "@/components/LiveDashboardPreview";
 import AIIntelligenceSection from "@/components/AIIntelligenceSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import PricingSection from "@/components/PricingSection";
+import IndustryCarousel from "@/components/IndustryCarousel";
 import FAQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
-import IndustryCarousel from "@/components/IndustryCarousel";
 
 export const metadata: Metadata = {
   title: "AI-Powered Fleet Intelligence for Modern Mobility",
@@ -25,8 +23,6 @@ export default function Home() {
       <LiveDashboardPreview />
       <AIIntelligenceSection />
       <IndustryCarousel />
-      <TestimonialsSection />
-      <PricingSection />
       <FAQSection />
       <CTASection />
     </>
