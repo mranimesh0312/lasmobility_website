@@ -42,16 +42,20 @@ export default function Hero() {
         <source src="/hero-bg.mp4" type="video/mp4" />
       </video>
 
-      {/* ── Scrim: bottom vignette + left-side darkening for text readability ── */}
+      {/* ── Scrim: directional darken ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: [
-            /* left text-area dark wash */
-            "linear-gradient(90deg, rgba(4,9,26,0.72) 0%, rgba(4,9,26,0.38) 52%, rgba(4,9,26,0.10) 100%)",
-            /* top + bottom fade-in */
-            "linear-gradient(180deg, rgba(4,9,26,0.55) 0%, transparent 20%, transparent 70%, rgba(4,9,26,0.65) 100%)",
-          ].join(", "),
+          background: "linear-gradient(90deg, rgba(4,9,26,0.72) 0%, rgba(4,9,26,0.38) 52%, rgba(4,9,26,0.10) 100%)",
+        }}
+      />
+      {/* ── Bottom vignette — uses normal blend mode to hard-cover watermark ── */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{
+          height: "45%",
+          background: "linear-gradient(to top, #04091A 0%, #04091A 18%, rgba(4,9,26,0.85) 45%, transparent 100%)",
+          mixBlendMode: "normal",
         }}
       />
 
