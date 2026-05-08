@@ -1,0 +1,6 @@
+<svg width="900" height="620" viewBox="0 0 900 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="bg" x1="0" x2="900" y1="0" y2="620"><stop stop-color="#7c5a2c"/><stop offset=".44" stop-color="#d8b26a"/><stop offset="1" stop-color="#4b3420"/></linearGradient><linearGradient id="shade" x1="450" x2="450" y1="0" y2="620"><stop stop-color="#000" stop-opacity=".02"/><stop offset=".62" stop-color="#000" stop-opacity=".42"/><stop offset="1" stop-color="#000" stop-opacity=".9"/></linearGradient></defs>
+  <rect width="900" height="620" fill="url(#bg)"/><path d="M0 390C194 324 352 365 500 320C650 275 754 250 900 268V620H0V390Z" fill="#7b5a34"/>
+  <g transform="translate(210 262)"><rect x="120" y="128" width="340" height="72" rx="18" fill="#d97706"/><circle cx="176" cy="214" r="40" fill="#111827"/><circle cx="362" cy="214" r="40" fill="#111827"/><path d="M180 128L256 42L342 128" fill="#f59e0b"/><path d="M254 42L504 0" stroke="#f59e0b" stroke-width="18" stroke-linecap="round"/><path d="M506 0L548 96" stroke="#f59e0b" stroke-width="12" stroke-linecap="round"/></g>
+  <rect width="900" height="620" fill="url(#shade)"/>
+</svg>

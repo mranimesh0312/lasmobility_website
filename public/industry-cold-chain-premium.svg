@@ -1,0 +1,6 @@
+<svg width="900" height="620" viewBox="0 0 900 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="bg" x1="0" x2="900" y1="0" y2="620"><stop stop-color="#0ea5e9"/><stop offset=".52" stop-color="#e0f2fe"/><stop offset="1" stop-color="#64748b"/></linearGradient><linearGradient id="shade" x1="450" x2="450" y1="0" y2="620"><stop stop-color="#000" stop-opacity=".02"/><stop offset=".65" stop-color="#000" stop-opacity=".36"/><stop offset="1" stop-color="#000" stop-opacity=".88"/></linearGradient></defs>
+  <rect width="900" height="620" fill="url(#bg)"/><path d="M40 158l58 50 62-50 62 50 62-50 62 50 62-50" stroke="#fff" stroke-opacity=".42" stroke-width="10"/><rect y="392" width="900" height="228" fill="#55616a"/>
+  <g transform="translate(190 292)"><rect x="132" y="42" width="340" height="130" rx="10" fill="#f8fafc"/><rect x="28" y="88" width="126" height="84" rx="12" fill="#e0f2fe"/><path d="M64 52h64l26 36H28l36-36Z" fill="#f8fafc"/><circle cx="92" cy="184" r="28" fill="#111827"/><circle cx="382" cy="184" r="28" fill="#111827"/><path d="M184 106h220" stroke="#22d3ee" stroke-width="8"/><text x="230" y="148" font-family="Arial" font-size="42" fill="#0ea5e9" font-weight="800">-18°C</text></g>
+  <rect width="900" height="620" fill="url(#shade)"/>
+</svg>

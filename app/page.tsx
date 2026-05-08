@@ -3,13 +3,11 @@ import {
   Activity,
   BellRing,
   BrainCircuit,
-  Building2,
   Fuel,
   Gauge,
   Map,
   Route,
   ShieldAlert,
-  Truck,
   Wrench
 } from "lucide-react";
 import Hero from "@/components/Hero";
@@ -20,7 +18,7 @@ import AnimatedCounter from "@/components/AnimatedCounter";
 import DashboardMockup from "@/components/DashboardMockup";
 import FeatureTabs from "@/components/FeatureTabs";
 import ModuleShowcase from "@/components/ModuleShowcase";
-import IndustryVisualCards from "@/components/IndustryVisualCards";
+import IndustryCarousel from "@/components/IndustryCarousel";
 
 export const metadata: Metadata = {
   title: "AI-Powered Fleet Intelligence for Modern Mobility",
@@ -43,8 +41,6 @@ const features = [
   { icon: BellRing, title: "Smart Alerts", description: "Get timely notifications for geofence events, safety issues, device health, route deviations, and operational anomalies." },
   { icon: BrainCircuit, title: "AI Fleet Insights", description: "Use anomaly detection and recommendations to focus attention where action will create measurable impact." }
 ];
-
-const industries = ["Logistics", "School transport", "Employee transport", "Construction", "Delivery operations", "Rental fleets"];
 
 export default function Home() {
   return (
@@ -114,24 +110,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeader eyebrow="Industries" title="Built for fleets that keep businesses moving" />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {industries.map((industry) => (
-              <div key={industry} className="reveal-card hover-lift flex items-center gap-4 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
-                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-electric/10 text-electric">
-                  {industry === "Construction" ? <Building2 className="h-5 w-5" /> : <Truck className="h-5 w-5" />}
-                </div>
-                <p className="font-semibold text-ink">{industry}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-10">
-            <IndustryVisualCards />
-          </div>
-        </div>
-      </section>
+      <IndustryCarousel />
       <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
