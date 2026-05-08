@@ -2,194 +2,311 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: light;
-  --background: #f6f9fc;
-  --foreground: #08111f;
+/* =============================================
+   LAS Mobility — Design System CSS Variables
+   ============================================= */
+
+:root,
+[data-theme="dark"] {
+  --bg-base:        #0B1628;
+  --bg-deep:        #060E1A;
+  --bg-card:        #162035;
+  --bg-card-hover:  #1E2E45;
+  --bg-muted:       rgba(255,255,255,0.04);
+  --text-primary:   #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted:     #64748B;
+  --border:         rgba(255,255,255,0.08);
+  --border-accent:  rgba(14,206,206,0.3);
+  --accent:         #0ECECE;
+  --accent-dark:    #0AABAB;
+  --accent-glow:    rgba(14,206,206,0.2);
+  --accent-text:    #22D9D9;
+  --nav-bg:         rgba(6,14,26,0.88);
+  --shadow-card:    0 24px 64px rgba(0,0,0,0.5);
+  --shadow-glow:    0 0 60px rgba(14,206,206,0.18);
+  --glass-bg:       rgba(22,32,53,0.6);
+  color-scheme: dark;
 }
 
-* {
-  box-sizing: border-box;
+[data-theme="light"] {
+  --bg-base:        #F0F6FF;
+  --bg-deep:        #E4EEF8;
+  --bg-card:        #FFFFFF;
+  --bg-card-hover:  #F7FBFF;
+  --bg-muted:       rgba(11,22,40,0.03);
+  --text-primary:   #0B1628;
+  --text-secondary: #475569;
+  --text-muted:     #94A3B8;
+  --border:         rgba(11,22,40,0.09);
+  --border-accent:  rgba(10,171,171,0.3);
+  --accent:         #0AABAB;
+  --accent-dark:    #087F7F;
+  --accent-glow:    rgba(10,171,171,0.12);
+  --accent-text:    #0AABAB;
+  --nav-bg:         rgba(255,255,255,0.92);
+  --shadow-card:    0 8px 40px rgba(11,22,40,0.07);
+  --shadow-glow:    0 0 40px rgba(10,171,171,0.14);
+  --glass-bg:       rgba(255,255,255,0.7);
+  color-scheme: light;
 }
+
+[data-theme="glass"] {
+  --bg-base:        transparent;
+  --bg-deep:        transparent;
+  --bg-card:        rgba(255,255,255,0.06);
+  --bg-card-hover:  rgba(255,255,255,0.1);
+  --bg-muted:       rgba(255,255,255,0.03);
+  --text-primary:   #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted:     #64748B;
+  --border:         rgba(255,255,255,0.12);
+  --border-accent:  rgba(14,206,206,0.35);
+  --accent:         #0ECECE;
+  --accent-dark:    #0AABAB;
+  --accent-glow:    rgba(14,206,206,0.25);
+  --accent-text:    #22D9D9;
+  --nav-bg:         rgba(11,22,40,0.45);
+  --shadow-card:    0 24px 64px rgba(0,0,0,0.35);
+  --shadow-glow:    0 0 80px rgba(14,206,206,0.22);
+  --glass-bg:       rgba(14,24,40,0.35);
+  color-scheme: dark;
+}
+
+/* Glass mode fixed background */
+[data-theme="glass"] body {
+  background:
+    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(14,206,206,0.12), transparent),
+    radial-gradient(ellipse 80% 80% at 80% 80%, rgba(6,14,26,0.9), transparent),
+    linear-gradient(135deg, #030810 0%, #060E1A 40%, #0B1628 70%, #0D1E38 100%);
+  background-attachment: fixed;
+}
+
+/* =============================================
+   Base Reset & Typography
+   ============================================= */
+
+* { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(45, 212, 191, 0.12), transparent 32rem),
-    linear-gradient(180deg, #f7fbff 0%, #eef5fb 46%, #ffffff 100%);
-  color: var(--foreground);
-  font-family: var(--font-inter), Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+  transition: background-color 0.4s ease, color 0.3s ease;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+[data-theme="light"] body {
+  background:
+    radial-gradient(ellipse 100% 60% at 50% -20%, rgba(10,171,171,0.06), transparent),
+    linear-gradient(180deg, #EEF4FB 0%, #F5F9FF 50%, #FFFFFF 100%);
 }
+
+a { color: inherit; text-decoration: none; }
 
 ::selection {
-  background: rgba(20, 184, 212, 0.25);
+  background: rgba(14,206,206,0.25);
+  color: var(--text-primary);
 }
 
+/* =============================================
+   Utility Classes
+   ============================================= */
+
+.theme-bg       { background-color: var(--bg-base); }
+.theme-card     { background-color: var(--bg-card); }
+.theme-text     { color: var(--text-primary); }
+.theme-muted    { color: var(--text-secondary); }
+.theme-border   { border-color: var(--border); }
+.theme-accent   { color: var(--accent-text); }
+
+/* Grid pattern */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(37, 99, 235, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
-  background-size: 44px 44px;
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
-.glass {
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(148, 163, 184, 0.24);
+/* Glass card */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border);
 }
 
-.dark-glass {
-  background: rgba(8, 17, 31, 0.72);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(148, 163, 184, 0.16);
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-text) 0%, #22D9D9 50%, #5DECEC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
+[data-theme="light"] .gradient-text {
+  background: linear-gradient(135deg, #0AABAB 0%, #087F7F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow button */
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-deep);
+  font-weight: 600;
+  box-shadow: 0 0 28px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 44px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.2);
+  background: var(--accent-dark);
+}
+
+.btn-ghost {
+  border: 1px solid var(--border);
+  background: var(--bg-muted);
+  color: var(--text-primary);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-accent);
+  background: var(--bg-card);
+}
+
+/* Feature card */
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--border-accent);
+}
+
+/* Stat card */
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+/* Section padding */
+.section-pad { padding: 5rem 1rem; }
+@media (min-width: 640px)  { .section-pad { padding: 5rem 1.5rem; } }
+@media (min-width: 1024px) { .section-pad { padding: 6rem 2rem; } }
+
+/* Shimmer skeleton */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--bg-card-hover) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+/* Route map animation */
 .map-line {
-  stroke-dasharray: 9 10;
-  animation: routeMove 12s linear infinite;
+  stroke-dasharray: 10 12;
+  animation: routeAnim 9s linear infinite;
 }
 
-.moving-route {
-  stroke-dasharray: 14 16;
-  animation: routeMove 7s linear infinite;
+@keyframes routeAnim {
+  to { stroke-dashoffset: -220; }
 }
 
-.premium-gradient {
-  background:
-    radial-gradient(circle at 18% 18%, rgba(20, 184, 212, 0.28), transparent 28rem),
-    radial-gradient(circle at 82% 4%, rgba(32, 201, 151, 0.2), transparent 25rem),
-    linear-gradient(135deg, #020817 0%, #06152b 45%, #082f49 100%);
-  background-size: 120% 120%;
-  animation: gradientDrift 16s ease-in-out infinite alternate;
-}
-
-.reveal-card {
-  animation: cardRise 0.7s ease both;
-  animation-timeline: view();
-  animation-range: entry 0% cover 28%;
-}
-
-.hover-lift {
-  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 24px 70px rgba(8, 17, 31, 0.14);
-}
-
-.route-glow {
-  filter: drop-shadow(0 0 14px rgba(20, 184, 212, 0.56));
-}
-
-.vehicle-marker {
+/* Marker pulse */
+.marker-pulse {
   animation: markerPulse 2.4s ease-in-out infinite;
 }
 
-.moving-vehicle {
-  animation-name: vehicleDrive;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-.scan-line {
-  animation: scanAcross 5.5s ease-in-out infinite;
-}
-
-.float-slow {
-  animation: floatSlow 7s ease-in-out infinite;
-}
-
-.float-delayed {
-  animation: floatSlow 8s ease-in-out infinite;
-  animation-delay: -2.2s;
-}
-
-@keyframes routeMove {
-  to {
-    stroke-dashoffset: -220;
-  }
-}
-
-@keyframes gradientDrift {
-  from {
-    background-position: 0% 0%;
-  }
-  to {
-    background-position: 100% 100%;
-  }
-}
-
-@keyframes cardRise {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @keyframes markerPulse {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.34);
-  }
-  50% {
-    transform: scale(1.08);
-    box-shadow: 0 0 0 14px rgba(45, 212, 191, 0);
-  }
+  0%,100% { transform: scale(1); opacity: 1; }
+  50%     { transform: scale(1.12); opacity: 0.85; }
 }
 
-@keyframes floatSlow {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-14px);
-  }
+/* Float animation */
+.float-anim   { animation: floatAnim 6s ease-in-out infinite; }
+.float-delay  { animation: floatAnim 7s ease-in-out 1.5s infinite; }
+
+@keyframes floatAnim {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-14px); }
 }
 
-@keyframes vehicleDrive {
-  0% {
-    transform: translate3d(-8vw, 0, 0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.85;
-  }
-  90% {
-    opacity: 0.85;
-  }
-  100% {
-    transform: translate3d(112vw, 0, 0);
-    opacity: 0;
-  }
+/* Scan line */
+.scan-line { animation: scanLine 4.5s ease-in-out infinite; }
+
+@keyframes scanLine {
+  0%,100% { transform: translateY(-100%); opacity: 0; }
+  40%,60% { opacity: 0.65; }
+  50%     { transform: translateY(100%); }
 }
 
-@keyframes scanAcross {
-  0%,
-  100% {
-    transform: translateY(-110px);
-    opacity: 0;
-  }
-  45%,
-  55% {
-    opacity: 0.75;
-  }
-  50% {
-    transform: translateY(110px);
-  }
+/* Theme transition */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color, fill, stroke, opacity;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+}
+
+/* Override for transform-heavy elements */
+.motion-safe * {
+  transition-property: none;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dark); }
+
+/* Hero premium gradient */
+.hero-premium {
+  background:
+    radial-gradient(ellipse 100% 60% at 50% -5%, rgba(14,206,206,0.15), transparent),
+    radial-gradient(ellipse 60% 60% at 0% 50%, rgba(14,206,206,0.06), transparent),
+    radial-gradient(ellipse 60% 60% at 100% 50%, rgba(10,171,171,0.06), transparent),
+    linear-gradient(180deg, #060E1A 0%, #0B1628 100%);
+}
+
+[data-theme="light"] .hero-premium {
+  background:
+    radial-gradient(ellipse 100% 60% at 50% -5%, rgba(10,171,171,0.08), transparent),
+    linear-gradient(180deg, #E4EEF8 0%, #F0F6FF 100%);
+}
+
+/* Pricing card highlight */
+.pricing-featured {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow-glow);
+}
+
+/* Chatbot */
+.chatbot-bubble {
+  background: var(--accent);
+  color: var(--bg-deep);
+  font-weight: 600;
 }

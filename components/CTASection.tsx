@@ -1,40 +1,55 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight, CalendarCheck } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, CalendarCheck, Phone } from "lucide-react";
 
-type CTASectionProps = {
-  title?: string;
-  description?: string;
-};
-
-export default function CTASection({
-  title = "Ready to run your fleet with sharper visibility?",
-  description = "Book a LAS Mobility demo and see how real-time tracking, intelligent alerts, and AI-powered insights can support safer, more efficient operations."
-}: CTASectionProps) {
+export default function CTASection() {
   return (
-    <section className="px-4 py-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl overflow-hidden rounded-lg bg-ink px-6 py-12 shadow-glow sm:px-10 lg:flex lg:items-center lg:justify-between lg:px-12">
-        <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-mint">Demo request</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl">{title}</h2>
-          <p className="mt-4 text-lg leading-8 text-slate-300">{description}</p>
-        </div>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:mt-0">
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-cyan px-5 py-3 text-sm font-semibold text-ink transition hover:bg-mint focus:outline-none focus:ring-2 focus:ring-cyan focus:ring-offset-2 focus:ring-offset-ink"
-          >
-            <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-            Book a Demo
+    <section className="relative overflow-hidden section-pad" style={{ background: "var(--bg-deep)" }}>
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{ background: "radial-gradient(ellipse 80% 50% at 50% 50%, var(--accent-glow), transparent)" }}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-40" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7 }}
+        className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8"
+      >
+        <span className="inline-block rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wider" style={{ border: "1px solid var(--border-accent)", color: "var(--accent-text)", background: "var(--accent-glow)" }}>
+          Get Started Today
+        </span>
+        <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl" style={{ color: "var(--text-primary)" }}>
+          Ready to transform your{" "}
+          <span className="gradient-text">fleet operations?</span>
+        </h2>
+        <p className="mt-5 text-xl" style={{ color: "var(--text-secondary)" }}>
+          Join hundreds of fleet teams already using LAS Mobility to track smarter, drive safer, and operate more efficiently.
+        </p>
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link href="/contact" className="btn-primary inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-semibold">
+            <CalendarCheck className="h-5 w-5" />
+            Book a Free Demo
           </Link>
-          <Link
-            href="/features"
-            className="inline-flex items-center justify-center gap-2 rounded-md border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-ink"
-          >
-            Explore Features
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          <Link href="/contact" className="btn-ghost inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-semibold">
+            <Phone className="h-5 w-5" />
+            Talk to Sales
+            <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-      </div>
+        <p className="mt-6 text-sm" style={{ color: "var(--text-muted)" }}>
+          Free 14-day trial · No credit card required · Setup in under 48 hours
+        </p>
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-6 opacity-40">
+          {["FastTrack", "CityExpress", "BuildCorp", "SunTrans", "MetroGuard", "Alpine"].map((name) => (
+            <span key={name} className="text-sm font-bold tracking-wider" style={{ color: "var(--text-secondary)" }}>{name}</span>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 }

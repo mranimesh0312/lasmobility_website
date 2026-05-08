@@ -15,7 +15,6 @@ export default function SectionHeader({
   title,
   description,
   align = "center",
-  inverse = false
 }: SectionHeaderProps) {
   return (
     <motion.div
@@ -25,23 +24,22 @@ export default function SectionHeader({
       transition={{ duration: 0.55 }}
       className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}
     >
-      {eyebrow ? (
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-cyan">
+      {eyebrow && (
+        <span
+          className="mb-3 inline-block rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wider"
+          style={{ border: "1px solid var(--border-accent)", color: "var(--accent-text)", background: "var(--accent-glow)" }}
+        >
           {eyebrow}
-        </p>
-      ) : null}
-      <h2
-        className={`text-3xl font-semibold tracking-tight sm:text-4xl ${
-          inverse ? "text-white" : "text-ink"
-        }`}
-      >
+        </span>
+      )}
+      <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "var(--text-primary)" }}>
         {title}
       </h2>
-      {description ? (
-        <p className={`mt-4 text-base leading-7 sm:text-lg ${inverse ? "text-slate-300" : "text-slate-600"}`}>
+      {description && (
+        <p className="mt-4 text-base leading-7 sm:text-lg" style={{ color: "var(--text-secondary)" }}>
           {description}
         </p>
-      ) : null}
+      )}
     </motion.div>
   );
 }
