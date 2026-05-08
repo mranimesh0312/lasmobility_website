@@ -24,35 +24,35 @@ const industries = [
   {
     title: "Logistics",
     description: "Streamline fleet operations, optimize routes, and deliver more with real-time visibility.",
-    image: "/industry-logistics-premium.svg",
+    image: "/industry-truck.avif",
     icon: Truck,
     href: "/industries"
   },
   {
     title: "School Transport",
     description: "Improve student safety with live tracking, route history, alerts, and controlled access.",
-    image: "/industry-school-premium.svg",
+    image: "/industry-school-bus.avif",
     icon: School,
     href: "/industries"
   },
   {
     title: "Employee Transport",
     description: "Manage employee mobility with reliable trip visibility, safety alerts, and route monitoring.",
-    image: "/industry-employee-premium.svg",
+    image: "/industry-employee-bus.avif",
     icon: UsersRound,
     href: "/industries"
   },
   {
     title: "Construction",
     description: "Monitor assets on site, track equipment utilization, and improve project productivity.",
-    image: "/industry-construction-premium.svg",
+    image: "/industry-construction.avif",
     icon: Construction,
     href: "/industries"
   },
   {
     title: "Delivery Operations",
     description: "Improve on-time performance, reduce delays, and ensure every delivery counts.",
-    image: "/industry-delivery-premium.svg",
+    image: "/industry-delivery-van.avif",
     icon: PackageCheck,
     href: "/industries"
   },
@@ -143,15 +143,15 @@ export default function IndustryCarousel() {
   };
 
   return (
-    <section className="bg-[#f4f9fc] px-4 py-20 sm:px-6 lg:px-8">
+    <section className="section-pad px-4 sm:px-6 lg:px-8" style={{ background: "var(--bg-base)" }}>
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan">Industries</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-              Built for fleets that keep businesses moving
+            <span className="inline-block rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wider" style={{ border: "1px solid var(--border-accent)", color: "var(--accent-text)", background: "var(--accent-glow)" }}>Industries</span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "var(--text-primary)" }}>
+              Built for fleets that keep <span className="gradient-text">businesses moving</span>
             </h2>
-            <p className="mt-4 text-lg leading-8 text-slate-600">
+            <p className="mt-4 text-lg leading-8" style={{ color: "var(--text-secondary)" }}>
               From logistics to last-mile delivery, LAS Mobility adapts to every industry with real-time visibility, intelligent alerts, and AI-powered fleet insights.
             </p>
           </div>
@@ -159,7 +159,8 @@ export default function IndustryCarousel() {
             <button
               type="button"
               onClick={goPrevious}
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 bg-white text-ink shadow-sm transition hover:-translate-y-0.5 hover:border-cyan hover:text-cyan focus:outline-none focus:ring-2 focus:ring-cyan"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border transition hover:-translate-y-0.5"
+              style={{ border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text-secondary)" }}
               aria-label="Show previous industries"
             >
               <ChevronLeft className="h-5 w-5" aria-hidden="true" />
@@ -167,7 +168,8 @@ export default function IndustryCarousel() {
             <button
               type="button"
               onClick={goNext}
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-300 bg-white text-ink shadow-sm transition hover:-translate-y-0.5 hover:border-cyan hover:text-cyan focus:outline-none focus:ring-2 focus:ring-cyan"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border transition hover:-translate-y-0.5"
+              style={{ border: "1px solid var(--border)", background: "var(--bg-card)", color: "var(--text-secondary)" }}
               aria-label="Show next industries"
             >
               <ChevronRight className="h-5 w-5" aria-hidden="true" />
@@ -231,9 +233,8 @@ export default function IndustryCarousel() {
               key={dot}
               type="button"
               onClick={() => setIndex(dot)}
-              className={`h-2.5 rounded-full transition ${
-                dot === index ? "w-8 bg-cyan" : "w-2.5 bg-slate-300 hover:bg-slate-400"
-              }`}
+              className="h-2.5 rounded-full transition"
+              style={{ width: dot === index ? "2rem" : "0.625rem", background: dot === index ? "var(--accent)" : "var(--border)" }}
               aria-label={`Go to industry slide ${dot + 1}`}
               aria-current={dot === index}
             />
