@@ -59,35 +59,35 @@ const industries = [
   {
     title: "Rental Fleets",
     description: "Track vehicle availability, usage, movement, and operational health across locations.",
-    image: "/industry-rental-premium.svg",
+    image: "/industry-car-rental.avif",
     icon: CarFront,
     href: "/industries"
   },
   {
     title: "Mining",
     description: "Monitor heavy vehicles, improve safety, and track productivity in remote environments.",
-    image: "/industry-mining-premium.svg",
+    image: "/industry-mining.avif",
     icon: Truck,
     href: "/industries"
   },
   {
     title: "Cold Chain",
     description: "Protect temperature-sensitive logistics with route visibility and real-time alerts.",
-    image: "/industry-cold-chain-premium.svg",
+    image: "/industry-cold-chain.avif",
     icon: Snowflake,
     href: "/industries"
   },
   {
     title: "Public Transport",
     description: "Improve passenger operations with live vehicle tracking and route intelligence.",
-    image: "/industry-public-transport-premium.svg",
+    image: "/industry-public-transport.avif",
     icon: BusFront,
     href: "/industries"
   },
   {
     title: "Emergency Services",
     description: "Enable faster response coordination with live fleet visibility and location intelligence.",
-    image: "/industry-emergency-premium.svg",
+    image: "/industry-emergency.avif",
     icon: ShieldAlert,
     href: "/industries"
   }
