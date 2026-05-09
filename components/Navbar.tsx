@@ -9,6 +9,9 @@ import {
   Menu, X, ChevronDown, ArrowRight,
   Map, Route, ShieldAlert, Fuel, BrainCircuit, BellRing,
   Truck, Building2, Zap, PackageCheck, School, UsersRound,
+  Thermometer, Fingerprint, Video, Clock,
+  Package, Bus, Factory, Landmark, Ambulance, Wrench,
+  BarChart3, Sparkles, Users, Briefcase, Mail, Target,
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 
@@ -17,33 +20,29 @@ const features = [
     icon: Map,
     label: "Live Tracking",
     desc: "Real-time GPS position for every vehicle",
-    href: "/features#tracking",
+    href: "/features/live-tracking",
+    image: "/module-tracking.svg",
   },
   {
     icon: Route,
     label: "Route Analytics",
-    desc: "Optimise trips and cut dead mileage",
-    href: "/features#routes",
+    desc: "Replay trips, review stops, analyse distance",
+    href: "/features/route-analytics",
+    image: "/module-routes.svg",
   },
   {
     icon: ShieldAlert,
     label: "Driver Safety",
     desc: "Score behaviour, reduce harsh events",
-    href: "/features#safety",
+    href: "/features/driver-safety",
     image: "/module-safety.svg",
-  },
-  {
-    icon: Fuel,
-    label: "Fuel Monitoring",
-    desc: "Track consumption and detect anomalies",
-    href: "/features#fuel",
-    image: "/module-fuel.svg",
   },
   {
     icon: BellRing,
     label: "Smart Alerts",
     desc: "Instant notifications for critical events",
-    href: "/features#alerts",
+    href: "/features/smart-alerts",
+    image: "/module-alerts.svg",
   },
   {
     icon: BrainCircuit,
@@ -51,59 +50,88 @@ const features = [
     desc: "Recommendations powered by fleet data",
     href: "/ai-intelligence",
   },
+  {
+    icon: Route,
+    label: "Route Optimization",
+    desc: "Plan efficient routes to cut mileage and time",
+    href: "/features/route-optimization",
+    image: "/module-optimization.svg",
+  },
+];
+
+const comingSoonFeatures = [
+  {
+    icon: Thermometer,
+    label: "Temperature Monitoring",
+    desc: "Real-time cold chain visibility and threshold alerts",
+    href: "/features/temperature-monitoring",
+    image: "/module-temperature.svg",
+  },
+  {
+    icon: Fuel,
+    label: "Fuel Monitoring",
+    desc: "Tank-level tracking, theft detection, cost per km",
+    href: "/features/fuel-monitoring",
+    image: "/module-fuel.svg",
+  },
+  {
+    icon: Fingerprint,
+    label: "Driver Identification",
+    desc: "RFID / iButton login — know who's behind the wheel",
+    href: "/features/driver-identification",
+    image: "/module-driver-id.svg",
+  },
+  {
+    icon: Video,
+    label: "Dash Cam & DVR",
+    desc: "Event-triggered recording, live feed, AI detection",
+    href: "/features/dash-cam-dvr",
+    image: "/module-dashcam.svg",
+  },
 ];
 
 const solutions = [
-  {
-    icon: Truck,
-    label: "Logistics & Delivery",
-    desc: "Real-time visibility for freight and last-mile ops",
-    href: "/industries",
-    image: "/industry-truck.avif",
-  },
-  {
-    icon: School,
-    label: "School Transport",
-    desc: "Student safety with live tracking and alerts",
-    href: "/industries",
-    image: "/industry-school-bus.avif",
-  },
-  {
-    icon: UsersRound,
-    label: "Employee Transport",
-    desc: "Reliable trip visibility and route monitoring",
-    href: "/industries",
-    image: "/industry-employee-bus.avif",
-  },
-  {
-    icon: Building2,
-    label: "Enterprise Fleet",
-    desc: "Centralised control for large multi-branch fleets",
-    href: "/solutions#enterprise",
-    image: "/industry-construction.avif",
-  },
-  {
-    icon: PackageCheck,
-    label: "Delivery Operations",
-    desc: "Improve on-time performance, reduce delays",
-    href: "/industries",
-    image: "/industry-delivery-van.avif",
-  },
-  {
-    icon: Zap,
-    label: "Field Operations",
-    desc: "Track mobile teams and service vehicles live",
-    href: "/solutions#field",
-    image: "/industry-car-rental.avif",
-  },
+  { icon: Truck,        label: "Logistics & Delivery",   desc: "Real-time visibility for freight and last-mile ops", stat: "↓ 22% cost per delivery",   href: "/solutions/logistics-delivery" },
+  { icon: School,       label: "School Transport",        desc: "Student safety, live tracking, and parent alerts",   stat: "98% safety compliance",      href: "/solutions/school-transport" },
+  { icon: UsersRound,   label: "Employee Transport",      desc: "Shift visibility, route adherence, driver scores",   stat: "94% on-time rate",           href: "/solutions/employee-transport" },
+  { icon: Building2,    label: "Enterprise Fleet",        desc: "Multi-branch control, AI insights, role-based access", stat: "↑ 18% fleet utilisation",  href: "/solutions/enterprise-fleet" },
+  { icon: PackageCheck, label: "Delivery Operations",     desc: "Sequence stops, reduce idle, improve SLAs",         stat: "20% more drops per day",     href: "/solutions/delivery-operations" },
+  { icon: Zap,          label: "Field Operations",        desc: "Dispatch technicians, track mobile teams live",      stat: "30% more service calls/day", href: "/solutions/field-operations" },
+];
+
+const industriesNav = [
+  { icon: Truck,     label: "Logistics & Transport",  desc: "Long-haul, regional, and inter-city freight",     href: "/industries/logistics-transport",  image: "/industry-truck.avif" },
+  { icon: Package,   label: "Last-Mile Delivery",     desc: "High-frequency urban parcel and courier",          href: "/industries/last-mile-delivery",   image: "/industry-delivery-van.avif" },
+  { icon: School,    label: "Education Transport",    desc: "School buses, university shuttle, campus fleet",   href: "/industries/education-transport",  image: "/industry-school-bus.avif" },
+  { icon: Bus,       label: "Corporate Mobility",     desc: "Employee commute, office shuttle, shift runs",     href: "/industries/corporate-mobility",   image: "/industry-employee-bus.avif" },
+  { icon: Factory,   label: "Construction & Assets",  desc: "Site vehicles, equipment, heavy machinery",        href: "/industries/construction-assets",  image: "/industry-construction.avif" },
+  { icon: Wrench,    label: "Field Service",          desc: "Technician dispatch and service vehicles",          href: "/industries/field-service",        image: "/industry-car-rental.avif" },
+  { icon: Landmark,  label: "Government Fleets",      desc: "Public sector, institutional, civic fleets",       href: "/industries/government-fleets",    image: "/industry-mining.avif" },
+  { icon: Ambulance, label: "Specialized Fleets",     desc: "Healthcare, emergency, time-critical ops",         href: "/industries/specialized-fleets",   image: "/industry-emergency.avif" },
+];
+
+const aiNav = [
+  { icon: Sparkles,     label: "AI Overview",          desc: "The intelligence layer powering every insight",     href: "/ai-intelligence" },
+  { icon: Route,        label: "Route Intelligence",   desc: "AI-optimised sequencing and deviation analysis",    href: "/ai-intelligence#route" },
+  { icon: ShieldAlert,  label: "Driver Intelligence",  desc: "Risk scoring, coaching insights, trend analysis",   href: "/ai-intelligence#drivers" },
+  { icon: BarChart3,    label: "Fleet Analytics",      desc: "Predictive performance and operational recommendations", href: "/ai-intelligence#analytics" },
+];
+
+const aboutNav = [
+  { icon: Building2, label: "Our Company",   desc: "Who we are and what we build",              href: "/about" },
+  { icon: Target,    label: "Our Mission",   desc: "The problem we exist to solve",              href: "/about#mission" },
+  { icon: Users,     label: "Team",          desc: "The people building LAS Mobility",           href: "/about#team" },
+  { icon: Briefcase, label: "Careers",       desc: "Join us and help shape fleet intelligence",  href: "/about#careers" },
+  { icon: Mail,      label: "Contact Us",    desc: "Talk to our team or book a demo",            href: "/contact" },
 ];
 
 const navLinks = [
   { label: "Features",       href: "/features",        dropdown: "features" },
   { label: "Solutions",      href: "/solutions",       dropdown: "solutions" },
-  { label: "Industries",     href: "/industries",      dropdown: null },
-  { label: "AI Intelligence",href: "/ai-intelligence", dropdown: null },
-  { label: "About",          href: "/about",           dropdown: null },
+  { label: "Industries",     href: "/industries",      dropdown: "industries" },
+  { label: "AI Intelligence",href: "/ai-intelligence", dropdown: "ai" },
+  { label: "About",          href: "/about",           dropdown: "about" },
+  { label: "Coming Soon",    href: "/coming-soon",     dropdown: "coming-soon" },
 ];
 
 export default function Navbar() {
@@ -155,11 +183,15 @@ export default function Navbar() {
                 <Link
                   href={item.href}
                   className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
-                    active
+                    item.label === "Coming Soon"
+                      ? "font-semibold"
+                      : active
                       ? "text-[var(--accent-text)]"
                       : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                   }`}
+                  style={item.label === "Coming Soon" ? { color: "#F59E0B" } : undefined}
                 >
+                  {item.label === "Coming Soon" && <Clock className="h-3.5 w-3.5 mr-0.5" />}
                   {item.label}
                   {hasDropdown && (
                     <ChevronDown
@@ -185,15 +217,19 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="absolute left-1/2 top-full mt-2"
-                      style={{ transform: "translateX(-50%)" }}
+                      className="absolute top-full mt-2"
+                      style={
+                        item.dropdown === "coming-soon"
+                          ? { right: 0 }
+                          : { left: "50%", transform: "translateX(-50%)" }
+                      }
                     >
-                      {item.dropdown === "features" && (
-                        <FeaturesMegaMenu />
-                      )}
-                      {item.dropdown === "solutions" && (
-                        <SolutionsMegaMenu />
-                      )}
+                      {item.dropdown === "features" && <FeaturesMegaMenu />}
+                      {item.dropdown === "solutions" && <SolutionsMegaMenu />}
+                      {item.dropdown === "industries" && <IndustriesMegaMenu />}
+                      {item.dropdown === "ai" && <AiMegaMenu />}
+                      {item.dropdown === "about" && <AboutMegaMenu />}
+                      {item.dropdown === "coming-soon" && <ComingSoonMegaMenu />}
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -258,7 +294,7 @@ export default function Navbar() {
           >
             <div className="mx-auto max-w-7xl space-y-1 px-4 py-4 sm:px-6">
               {navLinks.map((item) => {
-                const list = item.dropdown === "features" ? features : item.dropdown === "solutions" ? solutions : null;
+                const list = item.dropdown === "features" ? features : item.dropdown === "solutions" ? solutions : item.dropdown === "industries" ? industriesNav : item.dropdown === "ai" ? aiNav : item.dropdown === "about" ? aboutNav : item.dropdown === "coming-soon" ? comingSoonFeatures : null;
                 return (
                   <div key={item.href}>
                     <Link
@@ -313,78 +349,130 @@ export default function Navbar() {
 function FeaturesMegaMenu() {
   return (
     <div
-      className="w-[620px] overflow-hidden rounded-2xl p-1"
+      className="w-[680px] overflow-hidden rounded-2xl p-1"
       style={{
         background: "var(--bg-card)",
         border: "1px solid var(--border)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 4px 16px rgba(0,0,0,0.1)",
       }}
     >
-      <div className="grid grid-cols-[1fr_200px]">
+      <div className="grid grid-cols-[1fr_196px]">
         {/* Left: feature list */}
         <div className="p-3">
           <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
             Platform Features
           </p>
           <div className="grid grid-cols-2 gap-0.5">
-            {features.map(({ icon: Icon, label, desc, href }) => (
+            {features.map(({ icon: Icon, label, desc, href, image }) => (
               <Link
                 key={href + label}
                 href={href}
                 className="group flex items-start gap-3 rounded-xl p-3 transition-all"
-                style={{ color: "var(--text-secondary)" }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "var(--accent-glow)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "transparent";
-                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-glow)"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
               >
-                <span
-                  className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                  style={{ background: "var(--accent-glow)", border: "1px solid var(--border-accent)" }}
-                >
-                  <Icon className="h-4 w-4" style={{ color: "var(--accent-text)" }} />
-                </span>
+                {image ? (
+                  <div className="relative mt-0.5 h-8 w-8 shrink-0 overflow-hidden rounded-lg" style={{ border: "1px solid var(--border-accent)" }}>
+                    <Image src={image} alt={label} fill sizes="32px" className="object-cover object-left-top" />
+                  </div>
+                ) : (
+                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "var(--accent-glow)", border: "1px solid var(--border-accent)" }}>
+                    <Icon className="h-4 w-4" style={{ color: "var(--accent-text)" }} />
+                  </span>
+                )}
                 <span>
-                  <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-                    {label}
-                  </span>
-                  <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>
-                    {desc}
-                  </span>
+                  <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
+                  <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
                 </span>
               </Link>
             ))}
           </div>
-        </div>
-
-        {/* Right: visual panel */}
-        <div
-          className="relative flex flex-col overflow-hidden rounded-xl m-1"
-          style={{ background: "linear-gradient(135deg, #060E1A 0%, #0B1628 100%)" }}
-        >
-          <div className="relative flex-1 overflow-hidden">
-            <Image
-              src="/module-safety.svg"
-              alt="Driver Safety Module"
-              fill
-              className="object-cover object-center opacity-80"
-            />
-          </div>
-          <div className="p-4">
-            <p className="text-xs font-bold text-white">Driver Safety Module</p>
-            <p className="mt-1 text-[11px] leading-4" style={{ color: "rgba(200,235,255,0.65)" }}>
-              Real-time scoring, harsh event detection, and coaching triggers.
-            </p>
-            <Link
-              href="/features"
-              className="mt-3 flex items-center gap-1 text-xs font-semibold"
-              style={{ color: "var(--accent-text)" }}
-            >
+          <div className="mt-3 border-t px-3 pt-3" style={{ borderColor: "var(--border)" }}>
+            <Link href="/features" className="flex items-center gap-1 text-xs font-semibold transition hover:opacity-80" style={{ color: "var(--accent-text)" }}>
               View all features <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
+        </div>
+
+        {/* Right: visual panel */}
+        <div className="relative m-1 flex flex-col overflow-hidden rounded-xl" style={{ background: "linear-gradient(135deg, #060E1A 0%, #0B1628 100%)" }}>
+          <div className="relative flex-1 overflow-hidden">
+            <Image src="/module-tracking.svg" alt="Live Tracking Module" fill className="object-cover object-center opacity-90" />
+          </div>
+          <div className="p-4">
+            <p className="text-xs font-bold text-white">Live Tracking</p>
+            <p className="mt-1 text-[11px] leading-4" style={{ color: "rgba(200,235,255,0.65)" }}>
+              Real-time GPS, vehicle status, and live fleet command.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Coming Soon Mega Menu ── */
+function ComingSoonMegaMenu() {
+  return (
+    <div
+      className="w-[580px] overflow-hidden rounded-2xl p-1"
+      style={{
+        background: "var(--bg-card)",
+        border: "1px solid rgba(245,158,11,0.3)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 0 40px rgba(245,158,11,0.06)",
+      }}
+    >
+      <div className="p-3">
+        <div className="mb-3 flex items-center gap-2 px-2">
+          <span
+            className="flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest"
+            style={{ background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.35)", color: "#F59E0B" }}
+          >
+            <Clock className="h-3 w-3" /> Coming Soon
+          </span>
+          <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>
+            Next-generation hardware integrations
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {comingSoonFeatures.map(({ icon: Icon, label, desc, href, image }) => (
+            <Link
+              key={href + label}
+              href={href}
+              className="group flex items-start gap-3 rounded-xl p-3 transition-all"
+              style={{ border: "1px solid var(--border)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "rgba(245,158,11,0.05)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(245,158,11,0.3)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "transparent";
+                (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+              }}
+            >
+              {image ? (
+                <div className="relative mt-0.5 h-10 w-10 shrink-0 overflow-hidden rounded-lg" style={{ border: "1px solid rgba(245,158,11,0.25)" }}>
+                  <Image src={image} alt={label} fill sizes="40px" className="object-cover object-left-top" />
+                </div>
+              ) : (
+                <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)" }}>
+                  <Icon className="h-5 w-5" style={{ color: "#F59E0B" }} />
+                </span>
+              )}
+              <span>
+                <span className="flex items-center gap-1.5">
+                  <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
+                  <span className="rounded-full px-1.5 py-px text-[9px] font-bold uppercase" style={{ background: "rgba(245,158,11,0.15)", color: "#F59E0B" }}>Soon</span>
+                </span>
+                <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-3 border-t px-2 pt-3" style={{ borderColor: "var(--border)" }}>
+          <Link href="/coming-soon" className="flex items-center gap-1 text-xs font-semibold transition hover:opacity-80" style={{ color: "#F59E0B" }}>
+            See all upcoming features <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
       </div>
     </div>
@@ -395,23 +483,95 @@ function FeaturesMegaMenu() {
 function SolutionsMegaMenu() {
   return (
     <div
-      className="w-[680px] overflow-hidden rounded-2xl p-1"
+      className="w-[620px] overflow-hidden rounded-2xl p-1"
       style={{
         background: "var(--bg-card)",
-        border: "1px solid var(--border)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08)",
+        border: "1px solid rgba(34,197,94,0.25)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 0 40px rgba(34,197,94,0.05)",
       }}
     >
       <div className="p-3">
-        <p className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
-          Industries &amp; Solutions
-        </p>
-        <div className="grid grid-cols-3 gap-2">
-          {solutions.map(({ icon: Icon, label, desc, href, image }) => (
+        <div className="mb-3 flex items-center gap-2 px-1">
+          <span
+            className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest"
+            style={{ background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", color: "#22C55E" }}
+          >
+            Solutions
+          </span>
+          <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>
+            Built around how your fleet operates
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-1">
+          {solutions.map(({ icon: Icon, label, desc, stat, href }) => (
             <Link
               key={href + label}
               href={href}
-              className="group relative overflow-hidden rounded-xl transition-all"
+              className="group flex items-start gap-3 rounded-xl p-3 transition-all"
+              style={{ border: "1px solid transparent" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "rgba(34,197,94,0.05)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(34,197,94,0.2)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "transparent";
+                (e.currentTarget as HTMLElement).style.borderColor = "transparent";
+              }}
+            >
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.25)" }}>
+                <Icon className="h-4 w-4" style={{ color: "#22C55E" }} />
+              </span>
+              <span>
+                <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
+                <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
+                <span className="mt-1 block text-[10px] font-bold" style={{ color: "#22C55E" }}>{stat}</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-3 border-t px-1 pt-3" style={{ borderColor: "var(--border)" }}>
+          <Link
+            href="/solutions"
+            className="flex items-center gap-1.5 text-xs font-semibold transition hover:opacity-80"
+            style={{ color: "#22C55E" }}
+          >
+            View all solutions <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Industries Mega Menu ── */
+function IndustriesMegaMenu() {
+  return (
+    <div
+      className="w-[700px] overflow-hidden rounded-2xl p-1"
+      style={{
+        background: "var(--bg-card)",
+        border: "1px solid var(--border)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 4px 16px rgba(0,0,0,0.1)",
+      }}
+    >
+      <div className="p-3">
+        <div className="mb-3 flex items-center gap-2 px-1">
+          <span
+            className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest"
+            style={{ background: "var(--accent-glow)", border: "1px solid var(--border-accent)", color: "var(--accent-text)" }}
+          >
+            Industries
+          </span>
+          <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>
+            Sector-specific fleet intelligence
+          </span>
+        </div>
+        <div className="grid grid-cols-4 gap-1.5">
+          {industriesNav.map(({ icon: Icon, label, desc, href, image }) => (
+            <Link
+              key={href + label}
+              href={href}
+              className="group overflow-hidden rounded-xl transition-all"
               style={{ border: "1px solid var(--border)" }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLElement).style.borderColor = "var(--border-accent)";
@@ -420,27 +580,25 @@ function SolutionsMegaMenu() {
                 (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
               }}
             >
-              {/* Image thumbnail */}
-              <div className="relative h-24 overflow-hidden">
+              <div className="relative h-16 overflow-hidden">
                 <Image
                   src={image}
                   alt={label}
                   fill
-                  sizes="220px"
+                  sizes="160px"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
                 <span
-                  className="absolute left-2.5 top-2.5 flex h-7 w-7 items-center justify-center rounded-lg backdrop-blur-sm"
+                  className="absolute left-2 top-2 flex h-6 w-6 items-center justify-center rounded-md backdrop-blur-sm"
                   style={{ background: "rgba(14,206,206,0.25)", border: "1px solid rgba(14,206,206,0.4)" }}
                 >
-                  <Icon className="h-3.5 w-3.5 text-cyan-300" />
+                  <Icon className="h-3 w-3 text-cyan-300" />
                 </span>
               </div>
-              {/* Text */}
-              <div className="p-3" style={{ background: "var(--bg-card)" }}>
-                <p className="text-xs font-bold" style={{ color: "var(--text-primary)" }}>{label}</p>
-                <p className="mt-0.5 text-[11px] leading-4" style={{ color: "var(--text-muted)" }}>{desc}</p>
+              <div className="p-2.5" style={{ background: "var(--bg-card)" }}>
+                <p className="text-[11px] font-bold leading-tight" style={{ color: "var(--text-primary)" }}>{label}</p>
+                <p className="mt-0.5 text-[10px] leading-3.5" style={{ color: "var(--text-muted)" }}>{desc}</p>
               </div>
             </Link>
           ))}
@@ -453,6 +611,109 @@ function SolutionsMegaMenu() {
           >
             View all industries <ArrowRight className="h-3.5 w-3.5" />
           </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── AI Intelligence Mega Menu ── */
+function AiMegaMenu() {
+  return (
+    <div
+      className="w-[480px] overflow-hidden rounded-2xl p-1"
+      style={{
+        background: "var(--bg-card)",
+        border: "1px solid rgba(139,92,246,0.3)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 0 40px rgba(139,92,246,0.06)",
+      }}
+    >
+      <div className="p-3">
+        <div className="mb-3 flex items-center gap-2 px-1">
+          <span
+            className="flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest"
+            style={{ background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.3)", color: "#8B5CF6" }}
+          >
+            <BrainCircuit className="h-3 w-3" /> AI Intelligence
+          </span>
+          <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>Fleet intelligence, automated</span>
+        </div>
+        <div className="grid grid-cols-1 gap-0.5">
+          {aiNav.map(({ icon: Icon, label, desc, href }) => (
+            <Link
+              key={href + label}
+              href={href}
+              className="flex items-start gap-3 rounded-xl p-3 transition-all"
+              style={{ border: "1px solid transparent" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "rgba(139,92,246,0.06)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.2)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "transparent";
+                (e.currentTarget as HTMLElement).style.borderColor = "transparent";
+              }}
+            >
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.25)" }}>
+                <Icon className="h-4 w-4" style={{ color: "#8B5CF6" }} />
+              </span>
+              <span>
+                <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
+                <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="mt-3 border-t px-1 pt-3" style={{ borderColor: "var(--border)" }}>
+          <Link href="/ai-intelligence" className="flex items-center gap-1.5 text-xs font-semibold transition hover:opacity-80" style={{ color: "#8B5CF6" }}>
+            Explore AI Intelligence <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── About Mega Menu ── */
+function AboutMegaMenu() {
+  return (
+    <div
+      className="w-[380px] overflow-hidden rounded-2xl p-1"
+      style={{
+        background: "var(--bg-card)",
+        border: "1px solid var(--border)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08)",
+      }}
+    >
+      <div className="p-3">
+        <p className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
+          About LAS Mobility
+        </p>
+        <div className="grid grid-cols-1 gap-0.5">
+          {aboutNav.map(({ icon: Icon, label, desc, href }) => (
+            <Link
+              key={href + label}
+              href={href}
+              className="flex items-start gap-3 rounded-xl p-3 transition-all"
+              style={{ border: "1px solid transparent" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "var(--accent-glow)";
+                (e.currentTarget as HTMLElement).style.borderColor = "var(--border-accent)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = "transparent";
+                (e.currentTarget as HTMLElement).style.borderColor = "transparent";
+              }}
+            >
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "var(--accent-glow)", border: "1px solid var(--border-accent)" }}>
+                <Icon className="h-4 w-4" style={{ color: "var(--accent-text)" }} />
+              </span>
+              <span>
+                <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
+                <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
+              </span>
+            </Link>
+          ))}
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import StatsBar from "@/components/StatsBar";
 import FeaturesSection from "@/components/FeaturesSection";
 import LiveDashboardPreview from "@/components/LiveDashboardPreview";
+import MobileAppPreview from "@/components/MobileAppPreview";
 import AIIntelligenceSection from "@/components/AIIntelligenceSection";
 import IndustryCarousel from "@/components/IndustryCarousel";
 import FAQSection from "@/components/FAQSection";
@@ -21,6 +22,7 @@ export default function Home() {
       <StatsBar />
       <FeaturesSection />
       <LiveDashboardPreview />
+      <MobileAppPreview />
       <AIIntelligenceSection />
       <IndustryCarousel />
       <FAQSection />
