@@ -51,36 +51,6 @@
   color-scheme: light;
 }
 
-[data-theme="glass"] {
-  --bg-base:        transparent;
-  --bg-deep:        transparent;
-  --bg-card:        rgba(255,255,255,0.06);
-  --bg-card-hover:  rgba(255,255,255,0.1);
-  --bg-muted:       rgba(255,255,255,0.03);
-  --text-primary:   #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted:     #64748B;
-  --border:         rgba(255,255,255,0.12);
-  --border-accent:  rgba(14,206,206,0.35);
-  --accent:         #0ECECE;
-  --accent-dark:    #0AABAB;
-  --accent-glow:    rgba(14,206,206,0.25);
-  --accent-text:    #22D9D9;
-  --nav-bg:         rgba(11,22,40,0.45);
-  --shadow-card:    0 24px 64px rgba(0,0,0,0.35);
-  --shadow-glow:    0 0 80px rgba(14,206,206,0.22);
-  --glass-bg:       rgba(14,24,40,0.35);
-  color-scheme: dark;
-}
-
-/* Glass mode fixed background */
-[data-theme="glass"] body {
-  background:
-    radial-gradient(ellipse 120% 60% at 50% -10%, rgba(14,206,206,0.12), transparent),
-    radial-gradient(ellipse 80% 80% at 80% 80%, rgba(6,14,26,0.9), transparent),
-    linear-gradient(135deg, #030810 0%, #060E1A 40%, #0B1628 70%, #0D1E38 100%);
-  background-attachment: fixed;
-}
 
 /* =============================================
    Base Reset & Typography

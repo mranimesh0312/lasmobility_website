@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   ArrowRight, CalendarCheck, CheckCircle2, Zap,
   Map, Truck, AlertTriangle, Activity, TrendingUp, Fuel,
 } from "lucide-react";
+import ThemeLogo from "@/components/ThemeLogo";
 
 const trustSignals = [
   "Real-time GPS tracking",
@@ -92,14 +92,7 @@ export default function Hero() {
             transition={{ delay: 0.15, duration: 0.6 }}
             className="mt-6"
           >
-            <Image
-              src="/logo.svg"
-              width={340}
-              height={77}
-              alt="LAS Mobility"
-              priority
-              className="h-16 w-auto sm:h-20"
-            />
+            <ThemeLogo width={340} height={77} className="h-16 w-auto sm:h-20" priority />
           </motion.div>
 
           {/* Headline — bright white, crisp against video */}

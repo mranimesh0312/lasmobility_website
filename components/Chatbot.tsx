@@ -70,8 +70,7 @@ export default function Chatbot() {
     }, 1200);
   };
 
-  const isGlass = theme === "glass";
-  const isDark = theme === "dark" || isGlass;
+  const isDark = theme === "dark";
 
   return (
     <>
@@ -112,8 +111,7 @@ export default function Chatbot() {
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
             className="fixed bottom-24 right-6 z-50 flex w-[340px] flex-col overflow-hidden rounded-2xl"
             style={{
-              background: isGlass ? "rgba(11,22,40,0.75)" : isDark ? "#0B1628" : "#FFFFFF",
-              backdropFilter: isGlass ? "blur(24px)" : undefined,
+              background: isDark ? "#0B1628" : "#FFFFFF",
               border: `1px solid var(--border)`,
               boxShadow: "var(--shadow-card)",
               height: "480px",
