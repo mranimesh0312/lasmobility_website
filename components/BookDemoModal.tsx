@@ -83,6 +83,7 @@ interface FormState {
   companyName: string;
   email: string;
   countryDial: string;
+  countryName: string;
   phone: string;
   fleetSize: string;
   businessType: string;
@@ -94,7 +95,7 @@ interface FormState {
 
 const EMPTY: FormState = {
   fullName:"", companyName:"", email:"",
-  countryDial:"+91", phone:"",
+  countryDial:"+91", countryName:"India", phone:"",
   fleetSize:"", businessType:"",
   preferredDate:"", preferredTime:"",
   message:"", website:"",
@@ -406,7 +407,7 @@ export default function BookDemoModal() {
                                 <ul className="max-h-48 overflow-y-auto py-1">
                                   {filteredCountries.map(c => (
                                     <li key={c.code + c.dial}>
-                                      <button type="button" onClick={() => { set("countryDial", c.dial); setCountryOpen(false); setCountrySearch(""); }}
+                                      <button type="button" onClick={() => { set("countryDial", c.dial); set("countryName", c.name); setCountryOpen(false); setCountrySearch(""); }}
                                         className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition hover:opacity-80"
                                         style={{ background: c.dial === form.countryDial && c.code === selectedCountry.code ? "var(--accent-glow)" : "transparent", color:"var(--text-primary)" }}>
                                         <span className="text-base w-5 shrink-0">{flagEmoji(c.code)}</span>
