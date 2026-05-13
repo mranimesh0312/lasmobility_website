@@ -14,6 +14,7 @@ import {
   BarChart3, Sparkles, Users, Briefcase, Mail, Target,
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
+import { useBookDemo } from "@/context/BookDemoContext";
 
 const features = [
   {
@@ -136,6 +137,7 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { open: openBookDemo } = useBookDemo();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
@@ -252,9 +254,13 @@ export default function Navbar() {
           >
             Log in
           </Link>
-          <Link href="/contact" className="btn-primary rounded-lg px-4 py-2.5 text-sm">
+          <button
+            type="button"
+            onClick={() => openBookDemo("navbar")}
+            className="btn-primary rounded-lg px-4 py-2.5 text-sm"
+          >
             Book a Demo
-          </Link>
+          </button>
         </div>
 
         {/* Mobile controls */}
@@ -333,9 +339,13 @@ export default function Navbar() {
                 >
                   Log in
                 </Link>
-                <Link href="/contact" className="btn-primary flex-1 rounded-lg px-4 py-3 text-center text-sm">
+                <button
+                  type="button"
+                  onClick={() => { setMobileOpen(false); openBookDemo("navbar-mobile"); }}
+                  className="btn-primary flex-1 rounded-lg px-4 py-3 text-center text-sm"
+                >
                   Book a Demo
-                </Link>
+                </button>
               </div>
             </div>
           </motion.div>
