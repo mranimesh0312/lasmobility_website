@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, CalendarCheck, Phone } from "lucide-react";
+import { useBookDemo } from "@/context/BookDemoContext";
 
 export default function CTASection() {
+  const { open: openBookDemo } = useBookDemo();
   return (
     <section className="relative overflow-hidden section-pad" style={{ background: "var(--bg-deep)" }}>
       <div
@@ -31,15 +32,23 @@ export default function CTASection() {
           Join hundreds of fleet teams already using LAS Mobility to track smarter, drive safer, and operate more efficiently.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link href="/contact" className="btn-primary inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-semibold">
+          <button
+            type="button"
+            onClick={() => openBookDemo("cta-section")}
+            className="btn-primary inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-semibold"
+          >
             <CalendarCheck className="h-5 w-5" />
             Book a Free Demo
-          </Link>
-          <Link href="/contact" className="btn-ghost inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-semibold">
+          </button>
+          <button
+            type="button"
+            onClick={() => openBookDemo("cta-talk-to-sales")}
+            className="btn-ghost inline-flex items-center gap-2 rounded-xl px-7 py-4 text-base font-semibold"
+          >
             <Phone className="h-5 w-5" />
             Talk to Sales
             <ArrowRight className="h-4 w-4" />
-          </Link>
+          </button>
         </div>
         <p className="mt-6 text-sm" style={{ color: "var(--text-muted)" }}>
           Free 14-day trial · No credit card required · Setup in under 48 hours
