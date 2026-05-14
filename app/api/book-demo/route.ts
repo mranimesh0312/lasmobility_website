@@ -11,6 +11,9 @@ const ADMIN_RECIPIENTS = [
   "ashish@lasmobility.com"
 ];
 
+const INSTAGRAM_URL = "https://www.instagram.com/lasmobility?igsh=MWptcjhza25udmgzbw%3D%3D&utm_source=qr";
+const LINKEDIN_URL = "https://www.linkedin.com/company/lasmobility/";
+
 type GraphRecipient = {
   emailAddress: {
     address: string;
@@ -139,6 +142,21 @@ function emailShell(content: string) {
                 LAS Mobility &bull; Real-time tracking, fleet intelligence, driver safety, and analytics.
                 For help, contact <a href="mailto:support@lasmobility.com" style="color:#0891b2;text-decoration:none;font-weight:700;">support@lasmobility.com</a>.
               </p>
+              <table cellpadding="0" cellspacing="0" role="presentation" style="margin-top:14px;">
+                <tr>
+                  <td>
+                    <a href="${INSTAGRAM_URL}" style="display:inline-block;text-decoration:none;background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:9px 12px;color:#0891b2;font-size:12px;font-weight:800;">
+                      <span style="font-size:14px;vertical-align:-1px;">&#9673;</span>&nbsp; Instagram
+                    </a>
+                  </td>
+                  <td style="width:10px;"></td>
+                  <td>
+                    <a href="${LINKEDIN_URL}" style="display:inline-block;text-decoration:none;background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:9px 12px;color:#0891b2;font-size:12px;font-weight:800;">
+                      <span style="font-size:14px;vertical-align:-1px;">in</span>&nbsp; LinkedIn
+                    </a>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
         </table>
