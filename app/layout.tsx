@@ -46,12 +46,29 @@ export const metadata: Metadata = {
     description:
       "AI-powered fleet management software for tracking, safety, utilization, alerts, and analytics.",
   },
-  icons: { icon: "/favicon.svg", apple: "/logo.svg" },
+  icons: { icon: "/favicon.svg", apple: "/logo-dark.png" },
 };
+
+// Inline script runs synchronously before any paint — eliminates theme flicker.
+const themeScript = `
+(function(){
+  try {
+    var t = localStorage.getItem('las-theme');
+    document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
+  } catch(e) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
+      {/* eslint-disable-next-line @next/next/no-head-element */}
+      <head>
+        {/* Blocking script: sets correct data-theme before first paint */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className={inter.variable}>
         <Providers>
           <Navbar />

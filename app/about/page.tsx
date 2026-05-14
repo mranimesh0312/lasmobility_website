@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import ThemeLogo from "@/components/ThemeLogo";
 import { motion } from "framer-motion";
 import {
   CheckCircle2, Target, Users, Briefcase, Mail,
@@ -68,7 +68,7 @@ export default function AboutPage() {
           </div>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="rounded-2xl p-8" style={{ background: "var(--bg-card)", border: "1px solid var(--border)", boxShadow: "var(--shadow-glow)" }}>
-            <Image src="/logo.svg" width={280} height={63} alt="LAS Mobility" className="h-14 w-auto max-w-full" />
+            <ThemeLogo width={280} height={63} className="h-14 w-auto max-w-full" />
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {pillars.map((item) => (
                 <div key={item} className="flex items-center gap-3">

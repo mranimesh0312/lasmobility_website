@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Twitter, Linkedin, Github, ArrowRight } from "lucide-react";
+import ThemeLogo from "@/components/ThemeLogo";
 
 const platform = [
   { href: "/features",       label: "Features" },
@@ -39,7 +39,7 @@ export default function Footer() {
         <div className="grid gap-10 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
           {/* Brand */}
           <div>
-            <Image src="/logo.svg" width={240} height={54} alt="LAS Mobility" className="h-12 w-auto" />
+            <ThemeLogo width={200} height={45} className="h-11 w-auto" />
             <p className="mt-5 max-w-xs text-sm leading-7" style={{ color: "var(--text-secondary)" }}>
               AI-powered fleet management and mobility intelligence — real-time visibility, safety insights, and operational excellence for modern businesses.
             </p>

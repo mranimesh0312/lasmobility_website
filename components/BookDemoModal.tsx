@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import {
   X, ChevronDown, Search, Send, CheckCircle2, Loader2,
   Calendar, Clock, Building2, Users, Truck,
 } from "lucide-react";
+import ThemeLogo from "@/components/ThemeLogo";
 import { useBookDemo } from "@/context/BookDemoContext";
 import { useToast }     from "@/context/ToastContext";
 
@@ -268,7 +268,7 @@ export default function BookDemoModal() {
                 <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(14,206,206,0.12), transparent)" }} />
 
                 <div className="relative">
-                  <Image src="/logo.svg" width={160} height={36} alt="LAS Mobility" className="h-9 w-auto" />
+                  <ThemeLogo width={160} height={36} className="h-9 w-auto" forceDark />
                   <h2 className="mt-7 text-2xl font-bold leading-snug text-white">
                     See LAS Mobility in action — built for your fleet.
                   </h2>

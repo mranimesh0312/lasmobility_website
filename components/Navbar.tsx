@@ -14,6 +14,7 @@ import {
   BarChart3, Sparkles, Users, Briefcase, Mail, Target,
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
+import ThemeLogo from "@/components/ThemeLogo";
 import { useBookDemo } from "@/context/BookDemoContext";
 
 const features = [
@@ -167,7 +168,7 @@ export default function Navbar() {
       >
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center" aria-label="LAS Mobility home">
-          <Image src="/logo.svg" width={220} height={50} alt="LAS Mobility" priority className="h-10 w-auto" />
+          <ThemeLogo width={180} height={41} className="h-10 w-auto" priority />
         </Link>
 
         {/* Desktop nav */}
