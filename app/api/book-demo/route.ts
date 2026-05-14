@@ -42,10 +42,52 @@ const schema = z.object({
   preferredTime: z.string().optional().default(""),
   message: z.string().optional().default(""),
   sourceUrl: z.string().optional().default(""),
-  website: z.string().max(0).optional()
+  website: z.string().optional().default("")
 });
 
 type DemoRequest = z.infer<typeof schema>;
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
+}
+
+function readString(record: Record<string, unknown>, ...keys: string[]) {
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === "string") {
+      return value.trim();
+    }
+  }
+  return "";
+}
+
+function normalizeDate(value: string) {
+  const trimmed = value.trim();
+  const ddmmyyyy = /^(\d{2})-(\d{2})-(\d{4})$/.exec(trimmed);
+  if (ddmmyyyy) {
+    return `${ddmmyyyy[3]}-${ddmmyyyy[2]}-${ddmmyyyy[1]}`;
+  }
+  return trimmed;
+}
+
+function normalizePayload(body: unknown) {
+  const record = asRecord(body);
+  return {
+    fullName: readString(record, "fullName", "name"),
+    companyName: readString(record, "companyName", "company"),
+    email: readString(record, "email"),
+    countryDial: readString(record, "countryDial") || "+91",
+    countryName: readString(record, "countryName"),
+    phone: readString(record, "phone").replace(/[^\d+\-\s()]/g, ""),
+    fleetSize: readString(record, "fleetSize"),
+    businessType: readString(record, "businessType"),
+    preferredDate: normalizeDate(readString(record, "preferredDate")),
+    preferredTime: readString(record, "preferredTime"),
+    message: readString(record, "message"),
+    sourceUrl: readString(record, "sourceUrl"),
+    website: readString(record, "website")
+  };
+}
 
 function escapeHtml(value: string) {
   return value
@@ -290,10 +332,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const result = schema.safeParse(body);
+  const result = schema.safeParse(normalizePayload(body));
   if (!result.success) {
     const flat = result.error.flatten();
     const firstError = Object.values(flat.fieldErrors).flat()[0] ?? "Validation error.";
+    console.warn("[book-demo] validation failed:", flat.fieldErrors);
     return NextResponse.json({ error: firstError }, { status: 422 });
   }
 
