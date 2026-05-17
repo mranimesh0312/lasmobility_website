@@ -4,8 +4,8 @@ import Link from "next/link";
 import ThemeLogo from "@/components/ThemeLogo";
 import { motion } from "framer-motion";
 import {
-  CheckCircle2, Target, Users, Briefcase, Mail,
-  MapPin, Globe, Zap, Shield, ArrowRight, CalendarCheck,
+  CheckCircle2, Target, Mail,
+  Globe, Zap, Shield, ArrowRight, CalendarCheck, Briefcase,
 } from "lucide-react";
 import CTASection from "@/components/CTASection";
 import SectionHeader from "@/components/SectionHeader";
@@ -19,27 +19,19 @@ const pillars = [
   "Enterprise-grade reliability",
 ];
 
-const team = [
-  { name: "Arjun Mehta",    role: "CEO & Co-Founder",        bio: "15 years in fleet technology and enterprise SaaS. Previously built logistics platforms across South Asia." },
-  { name: "Priya Sharma",   role: "CTO & Co-Founder",        bio: "Full-stack engineering leader with a background in real-time systems, IoT, and AI at scale." },
-  { name: "Rahul Verma",    role: "VP Product",              bio: "Shaped product strategy for 3 fleet management companies. Expert in translating operator pain into intuitive workflows." },
-  { name: "Divya Nair",     role: "Head of Customer Success", bio: "Onboarded 200+ fleets across logistics, school transport, and enterprise. Focused on outcomes, not just deployments." },
-  { name: "Karan Singh",    role: "Head of AI & Analytics",  bio: "Built the intelligence layer that powers route optimisation, risk scoring, and anomaly detection in LAS Mobility." },
-  { name: "Meera Iyer",     role: "Head of Sales",           bio: "Grew fleet tech revenue from zero to ₹10Cr in 18 months. Passionate about helping operators see the ROI clearly." },
-];
-
-const openings = [
-  { title: "Senior Frontend Engineer",    team: "Engineering",      location: "Bangalore / Remote" },
-  { title: "Fleet Operations Specialist", team: "Customer Success", location: "Mumbai" },
-  { title: "AI/ML Engineer",             team: "AI & Analytics",   location: "Bangalore / Remote" },
-  { title: "Enterprise Account Executive", team: "Sales",           location: "Delhi / Mumbai" },
-];
-
 const values = [
   { icon: Target, title: "Clarity over complexity", desc: "We build software that makes fleet operations simpler, not more complex." },
   { icon: Shield, title: "Reliability first",        desc: "99.9% uptime isn't a target — it's the minimum our customers depend on." },
   { icon: Zap,    title: "Speed that matters",       desc: "Alerts in under 5 seconds. Insights in real time. We optimise for what operators actually need fast." },
   { icon: Globe,  title: "Built for scale",          desc: "From a 5-vehicle local fleet to 1,000+ vehicles across multiple countries — LAS Mobility scales with you." },
+];
+
+const aboutLinks = [
+  { href: "/about/mission",           label: "Mission & Vision",    desc: "The purpose that drives every decision we make." },
+  { href: "/about/technology",        label: "Our Technology",      desc: "The platform architecture powering modern fleet ops." },
+  { href: "/about/fleet-intelligence",label: "Fleet Intelligence",  desc: "AI-driven insights that keep fleets ahead." },
+  { href: "/about/why-las-mobility",  label: "Why LAS Mobility",    desc: "What sets us apart in the fleet intelligence space." },
+  { href: "/about/partners",          label: "Partners & Ecosystem",desc: "Our network of technology and channel partners." },
 ];
 
 export default function AboutPage() {
@@ -115,60 +107,54 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team */}
-      <section id="team" className="section-pad" style={{ background: "var(--bg-deep)" }}>
+      {/* Explore About sections */}
+      <section className="section-pad" style={{ background: "var(--bg-deep)" }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeader eyebrow="Team" title="The people building LAS Mobility" description="A team of fleet technology veterans, engineers, and operators who've lived the problem firsthand." />
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {team.map(({ name, role, bio }) => (
-              <motion.div key={name} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }}
-                className="rounded-xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
-                <div className="flex h-12 w-12 items-center justify-center rounded-full text-base font-bold" style={{ background: "var(--accent-glow)", color: "var(--accent-text)", border: "1px solid var(--border-accent)" }}>
-                  {name.split(" ").map(n => n[0]).join("")}
-                </div>
-                <h3 className="mt-4 text-base font-bold" style={{ color: "var(--text-primary)" }}>{name}</h3>
-                <p className="mt-0.5 text-xs font-semibold" style={{ color: "var(--accent-text)" }}>{role}</p>
-                <p className="mt-2 text-sm leading-6" style={{ color: "var(--text-secondary)" }}>{bio}</p>
+          <SectionHeader eyebrow="Learn More" title="Explore what makes LAS Mobility different"
+            description="Dive deeper into our technology, philosophy, and ecosystem." />
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {aboutLinks.map(({ href, label, desc }) => (
+              <motion.div key={href} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}>
+                <Link href={href} className="group flex h-full flex-col rounded-xl p-5 transition hover:border-[var(--border-accent)]"
+                  style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
+                  <p className="font-semibold transition group-hover:text-[var(--accent-text)]" style={{ color: "var(--text-primary)" }}>{label}</p>
+                  <p className="mt-1.5 flex-1 text-sm leading-6" style={{ color: "var(--text-secondary)" }}>{desc}</p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold" style={{ color: "var(--accent-text)" }}>
+                    Learn more <ArrowRight className="h-3 w-3 transition group-hover:translate-x-1" />
+                  </span>
+                </Link>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Careers */}
-      <section id="careers" className="section-pad" style={{ background: "var(--bg-base)" }}>
+      {/* Careers CTA */}
+      <section className="section-pad" style={{ background: "var(--bg-base)" }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeader eyebrow="Careers" title="Join the LAS Mobility team" description="We're building the future of fleet intelligence. If you want to work on hard problems that affect how millions of vehicles are managed, we'd love to meet you." />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2">
-            {openings.map(({ title, team: t, location }) => (
-              <motion.div key={title} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
-                className="flex items-center gap-5 rounded-xl p-5" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl" style={{ background: "var(--accent-glow)" }}>
-                  <Briefcase className="h-5 w-5" style={{ color: "var(--accent-text)" }} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold" style={{ color: "var(--text-primary)" }}>{title}</p>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <span className="text-xs" style={{ color: "var(--text-muted)" }}>{t}</span>
-                    <span className="flex items-center gap-1 text-xs" style={{ color: "var(--text-muted)" }}><MapPin className="h-3 w-3" />{location}</span>
-                  </div>
-                </div>
-                <Link href="/contact" className="shrink-0 rounded-lg px-3 py-2 text-xs font-semibold transition hover:opacity-80" style={{ background: "var(--accent-glow)", border: "1px solid var(--border-accent)", color: "var(--accent-text)" }}>
-                  Apply
-                </Link>
-              </motion.div>
-            ))}
+          <div className="flex flex-col items-center justify-between gap-6 rounded-2xl p-8 text-center sm:flex-row sm:text-left"
+            style={{ background: "var(--bg-card)", border: "1px solid var(--border-accent)" }}>
+            <div className="flex items-center gap-4">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl" style={{ background: "var(--accent-glow)" }}>
+                <Briefcase className="h-6 w-6" style={{ color: "var(--accent-text)" }} />
+              </span>
+              <div>
+                <p className="font-bold" style={{ color: "var(--text-primary)" }}>Join our team</p>
+                <p className="text-sm" style={{ color: "var(--text-secondary)" }}>We&apos;re hiring across engineering, sales, and customer success.</p>
+              </div>
+            </div>
+            <Link href="/careers" className="btn-primary shrink-0 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm">
+              <Briefcase className="h-4 w-4" /> View Open Roles
+            </Link>
           </div>
-          <p className="mt-6 text-sm" style={{ color: "var(--text-muted)" }}>
-            Don&apos;t see a fit? Send your CV to <a href="mailto:careers@lasmobility.com" className="font-semibold transition hover:opacity-70" style={{ color: "var(--accent-text)" }}>careers@lasmobility.com</a>
-          </p>
         </div>
       </section>
 
       {/* Contact strip */}
       <section className="section-pad" style={{ background: "var(--bg-deep)" }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center justify-between gap-6 rounded-2xl p-8 text-center sm:flex-row sm:text-left" style={{ background: "var(--bg-card)", border: "1px solid var(--border-accent)" }}>
+          <div className="flex flex-col items-center justify-between gap-6 rounded-2xl p-8 text-center sm:flex-row sm:text-left"
+            style={{ background: "var(--bg-card)", border: "1px solid var(--border-accent)" }}>
             <div className="flex items-center gap-4">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl" style={{ background: "var(--accent-glow)" }}>
                 <Mail className="h-6 w-6" style={{ color: "var(--accent-text)" }} />

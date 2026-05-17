@@ -11,7 +11,7 @@ import {
   Truck, Building2, Zap, PackageCheck, School, UsersRound,
   Thermometer, Fingerprint, Video, Clock,
   Package, Bus, Factory, Landmark, Ambulance, Wrench,
-  BarChart3, Sparkles, Users, Briefcase, Mail, Target,
+  BarChart3, Sparkles, Users, Briefcase, Mail, Target, Globe,
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import ThemeLogo from "@/components/ThemeLogo";
@@ -120,11 +120,13 @@ const aiNav = [
 ];
 
 const aboutNav = [
-  { icon: Building2, label: "Our Company",   desc: "Who we are and what we build",              href: "/about" },
-  { icon: Target,    label: "Our Mission",   desc: "The problem we exist to solve",              href: "/about#mission" },
-  { icon: Users,     label: "Team",          desc: "The people building LAS Mobility",           href: "/about#team" },
-  { icon: Briefcase, label: "Careers",       desc: "Join us and help shape fleet intelligence",  href: "/about#careers" },
-  { icon: Mail,      label: "Contact Us",    desc: "Talk to our team or book a demo",            href: "/contact" },
+  { icon: Building2, label: "Our Company",        desc: "Who we are and what we build",                    href: "/about" },
+  { icon: Target,    label: "Mission & Vision",   desc: "The purpose and direction behind everything we do", href: "/about/mission" },
+  { icon: Zap,       label: "Our Technology",     desc: "The platform powering modern fleet operations",    href: "/about/technology" },
+  { icon: BrainCircuit, label: "Fleet Intelligence", desc: "AI-driven insights that keep fleets ahead",    href: "/about/fleet-intelligence" },
+  { icon: Globe,     label: "Why LAS Mobility",   desc: "Why operators choose LAS Mobility",               href: "/about/why-las-mobility" },
+  { icon: Briefcase, label: "Partners",           desc: "Our ecosystem of technology and channel partners", href: "/about/partners" },
+  { icon: Mail,      label: "Contact Us",         desc: "Talk to our team or book a demo",                 href: "/contact" },
 ];
 
 const navLinks = [
@@ -133,6 +135,7 @@ const navLinks = [
   { label: "Industries",     href: "/industries",      dropdown: "industries" },
   { label: "AI Intelligence",href: "/ai-intelligence", dropdown: "ai" },
   { label: "About",          href: "/about",           dropdown: "about" },
+  { label: "Careers",        href: "/careers",         dropdown: null },
   { label: "Coming Soon",    href: "/coming-soon",     dropdown: "coming-soon" },
 ];
 

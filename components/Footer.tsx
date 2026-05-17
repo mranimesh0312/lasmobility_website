@@ -10,6 +10,7 @@ const platform = [
   { href: "/industries",     label: "Industries" },
   { href: "/ai-intelligence",label: "AI Intelligence" },
   { href: "/about",          label: "About Us" },
+  { href: "/careers",        label: "Careers" },
   { href: "/contact",        label: "Contact" },
 ];
 
