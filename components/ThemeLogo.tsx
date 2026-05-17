@@ -1,16 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
 
 interface ThemeLogoProps {
-  /** Rendered width in px (passed to next/image) */
   width?: number;
-  /** Rendered height in px (passed to next/image) */
   height?: number;
-  /** Extra Tailwind / CSS class applied to both <img> elements */
   className?: string;
-  /** Priority-load (set true for above-the-fold logos) */
   priority?: boolean;
   /**
    * Force the dark-background version regardless of active theme.
@@ -21,12 +18,12 @@ interface ThemeLogoProps {
 }
 
 /**
- * Renders theme-aware LAS Mobility logos with a smooth crossfade
- * when the user switches between light and dark mode.
+ * Theme-aware logo that crossfades between:
+ *   /public/logo-light.png  (dark-navy text, for light backgrounds)
+ *   /public/logo-dark.png   (white text, for dark backgrounds)
  *
- * Required files in /public:
- *   logo-light.png  →  dark-navy logo on white/light background
- *   logo-dark.png   →  white logo on transparent/dark background
+ * If either PNG is missing it automatically falls back to /logo.svg
+ * so local dev works out of the box before the PNGs are added.
  */
 export default function ThemeLogo({
   width = 220,
@@ -38,8 +35,14 @@ export default function ThemeLogo({
   const { theme } = useTheme();
   const useDark = forceDark || theme === "dark";
 
-  // We render both images stacked; CSS opacity transitions create
-  // a smooth crossfade without unmounting either element.
+  // Graceful fallback: if PNG files haven't been added yet, use the SVG
+  const [lightErr, setLightErr] = useState(false);
+  const [darkErr, setDarkErr]   = useState(false);
+  const lightSrc = lightErr ? "/logo.svg" : "/logo-light.png";
+  const darkSrc  = darkErr  ? "/logo.svg" : "/logo-dark.png";
+
+  // Both images are rendered simultaneously; CSS opacity crossfades between
+  // them when the theme changes — no unmount/remount flicker.
   return (
     <span
       style={{
@@ -51,14 +54,15 @@ export default function ThemeLogo({
       }}
       aria-label="LAS Mobility"
     >
-      {/* Light logo */}
+      {/* Light logo — visible in light mode */}
       <Image
-        src="/logo-light.png"
+        src={lightSrc}
         width={width}
         height={height}
         alt="LAS Mobility"
         className={className}
         priority={priority}
+        onError={() => setLightErr(true)}
         style={{
           position: "absolute",
           inset: 0,
@@ -67,15 +71,16 @@ export default function ThemeLogo({
           objectFit: "contain",
         }}
       />
-      {/* Dark logo */}
+      {/* Dark logo — visible in dark mode */}
       <Image
-        src="/logo-dark.png"
+        src={darkSrc}
         width={width}
         height={height}
         alt=""
         aria-hidden
         className={className}
         priority={priority}
+        onError={() => setDarkErr(true)}
         style={{
           position: "absolute",
           inset: 0,
