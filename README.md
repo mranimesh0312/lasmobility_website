@@ -50,3 +50,23 @@ Recommended production checks before launch:
 - Replace placeholder legal pages after counsel review.
 - Add a final OpenGraph image and favicon package.
 - Configure analytics and conversion tracking if needed.
+
+## Book Demo Email Setup
+
+The Book Demo form sends email using Microsoft Graph.
+
+Create `.env.local` locally, and add the same variables in Vercel Project Settings > Environment Variables:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://lasmobility.com
+MICROSOFT_GRAPH_TENANT_ID=your-tenant-id
+MICROSOFT_GRAPH_CLIENT_ID=your-client-id
+MICROSOFT_GRAPH_CLIENT_SECRET=your-client-secret
+MICROSOFT_GRAPH_FROM_EMAIL=support@lasmobility.com
+```
+
+The Azure app registration must have Microsoft Graph Application permission `Mail.Send`, with admin consent granted. Demo notifications are sent to:
+
+- animesh@lasmobility.com
+- lokesh@lasmobility.com
+- ashish@lasmobility.com

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Mail, MapPin, Twitter, Linkedin, Github, ArrowRight } from "lucide-react";
+import { Mail, MapPin, Instagram, Linkedin, ArrowRight } from "lucide-react";
 import ThemeLogo from "@/components/ThemeLogo";
 
 const platform = [
@@ -25,6 +25,19 @@ const features = [
   { href: "/features#fuel",     label: "Fuel Monitoring" },
   { href: "/features#routes",   label: "Route Analytics" },
   { href: "/features#alerts",   label: "Smart Alerts" },
+];
+
+const socialLinks = [
+  {
+    href: "https://www.instagram.com/lasmobility?igsh=MWptcjhza25udmgzbw%3D%3D&utm_source=qr",
+    label: "Instagram",
+    icon: Instagram
+  },
+  {
+    href: "https://www.linkedin.com/company/lasmobility/",
+    label: "LinkedIn",
+    icon: Linkedin
+  }
 ];
 
 export default function Footer() {
@@ -59,14 +72,17 @@ export default function Footer() {
               </div>
             </div>
             <div className="mt-6 flex items-center gap-3">
-              {[Twitter, Linkedin, Github].map((Icon, i) => (
+              {socialLinks.map(({ href, label, icon: Icon }) => (
                 <a
-                  key={i}
-                  href="#"
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`LAS Mobility on ${label}`}
                   className="flex h-9 w-9 items-center justify-center rounded-lg border transition hover:opacity-80"
                   style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-4 w-4" aria-hidden="true" />
                 </a>
               ))}
             </div>

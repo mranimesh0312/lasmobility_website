@@ -4,6 +4,8 @@ out
 dist
 .env
 .env.local
+.env
+import.env
 .env.*.local
 npm-debug.log*
 yarn-debug.log*
