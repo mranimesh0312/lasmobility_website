@@ -6,12 +6,56 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, Briefcase, CheckCircle2, ChevronDown, Code2,
-  Globe, Loader2, Mail, MapPin, Rocket, Shield, Star,
+  Globe, Loader2, Mail, MapPin, Rocket, Search, Shield, Star,
   TrendingUp, Upload, Users, X, Zap,
 } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
 import CTASection from "@/components/CTASection";
+import EmailInput from "@/components/EmailInput";
 import { useToast } from "@/context/ToastContext";
+
+/* ─────────────────────────────────────────
+   PHONE INPUT DATA
+───────────────────────────────────────── */
+
+const COUNTRIES = [
+  { code:"IN",dial:"+91",  name:"India" },
+  { code:"US",dial:"+1",   name:"United States" },
+  { code:"GB",dial:"+44",  name:"United Kingdom" },
+  { code:"AE",dial:"+971", name:"United Arab Emirates" },
+  { code:"SA",dial:"+966", name:"Saudi Arabia" },
+  { code:"AU",dial:"+61",  name:"Australia" },
+  { code:"SG",dial:"+65",  name:"Singapore" },
+  { code:"MY",dial:"+60",  name:"Malaysia" },
+  { code:"DE",dial:"+49",  name:"Germany" },
+  { code:"FR",dial:"+33",  name:"France" },
+  { code:"CA",dial:"+1",   name:"Canada" },
+  { code:"BR",dial:"+55",  name:"Brazil" },
+  { code:"ZA",dial:"+27",  name:"South Africa" },
+  { code:"NG",dial:"+234", name:"Nigeria" },
+  { code:"KE",dial:"+254", name:"Kenya" },
+  { code:"PK",dial:"+92",  name:"Pakistan" },
+  { code:"BD",dial:"+880", name:"Bangladesh" },
+  { code:"LK",dial:"+94",  name:"Sri Lanka" },
+  { code:"NP",dial:"+977", name:"Nepal" },
+  { code:"PH",dial:"+63",  name:"Philippines" },
+  { code:"ID",dial:"+62",  name:"Indonesia" },
+  { code:"TH",dial:"+66",  name:"Thailand" },
+  { code:"VN",dial:"+84",  name:"Vietnam" },
+  { code:"JP",dial:"+81",  name:"Japan" },
+  { code:"KR",dial:"+82",  name:"South Korea" },
+  { code:"CN",dial:"+86",  name:"China" },
+  { code:"QA",dial:"+974", name:"Qatar" },
+  { code:"KW",dial:"+965", name:"Kuwait" },
+  { code:"BH",dial:"+973", name:"Bahrain" },
+  { code:"OM",dial:"+968", name:"Oman" },
+].sort((a, b) => a.name.localeCompare(b.name));
+
+function flagEmoji(code: string) {
+  return code.toUpperCase().replace(/./g, (c) =>
+    String.fromCodePoint(0x1f1e6 - 65 + c.charCodeAt(0))
+  );
+}
 
 /* ─────────────────────────────────────────
    DATA
@@ -30,8 +74,8 @@ const benefits = [
   },
   {
     icon: Star,
-    title: "Equity + Growth",
-    desc: "Competitive compensation benchmarked to market rates, with meaningful equity that grows as LAS Mobility grows. We invest in learning budgets and internal mobility so your career accelerates here.",
+    title: "Growth & Development",
+    desc: "Competitive compensation benchmarked to market rates. We invest in learning budgets and internal mobility so your career accelerates here.",
   },
   {
     icon: Zap,
@@ -47,7 +91,6 @@ interface Job {
   location: string;
   type: string;
   experience: string;
-  salary: string;
   overview: string;
   responsibilities: string[];
   required: string[];
@@ -63,7 +106,6 @@ const jobs: Job[] = [
     location: "Bangalore / Remote",
     type: "Full-time",
     experience: "3–6 years",
-    salary: "₹18–28 LPA",
     overview:
       "Build pixel-perfect, accessible, performant UIs for our fleet intelligence platform used by operators in 50+ countries. You will own the design system, set the bar for component quality, and work directly with product and design to translate Figma mocks into production-grade React components.",
     responsibilities: [
@@ -94,7 +136,6 @@ const jobs: Job[] = [
     benefits: [
       "Remote-first with async collaboration culture",
       "Comprehensive health insurance (self + family)",
-      "Meaningful equity with a 4-year vest schedule",
       "₹50,000 annual learning & conference budget",
       "Flexible working hours (no rigid 9–5)",
     ],
@@ -106,7 +147,6 @@ const jobs: Job[] = [
     location: "Bangalore / Remote",
     type: "Full-time",
     experience: "4–8 years",
-    salary: "₹22–38 LPA",
     overview:
       "Own end-to-end features across our Next.js frontend and Node.js/Go backend, integrating real-time GPS data, AI services, and third-party fleet APIs. You will design APIs, write robust server-side logic, and ship full features from database schema to polished UI.",
     responsibilities: [
@@ -137,7 +177,6 @@ const jobs: Job[] = [
     benefits: [
       "Remote-first with annual team retreats",
       "Comprehensive health insurance (self + family)",
-      "Meaningful equity stake",
       "Annual learning budget",
       "Flexible working hours",
     ],
@@ -149,7 +188,6 @@ const jobs: Job[] = [
     location: "Bangalore / Remote",
     type: "Full-time",
     experience: "3–7 years",
-    salary: "₹24–40 LPA",
     overview:
       "Build the high-throughput backend services that process millions of GPS telemetry events per day, power real-time alerting, and serve our AI analytics pipeline. You will design mission-critical microservices where correctness and performance are non-negotiable.",
     responsibilities: [
@@ -180,7 +218,6 @@ const jobs: Job[] = [
     benefits: [
       "Remote-first",
       "Comprehensive health insurance",
-      "Meaningful equity",
       "Conference and travel budget",
       "Flexible working hours",
     ],
@@ -192,7 +229,6 @@ const jobs: Job[] = [
     location: "Singapore / Remote",
     type: "Full-time",
     experience: "4–8 years",
-    salary: "SGD 80,000–120,000 + Commission",
     overview:
       "Own new business development and strategic account expansion across Southeast Asia, Australia, and East Asia for our fleet intelligence SaaS platform. You will build a territory from prospecting through close, managing complex multi-stakeholder deals with logistics and transport operators.",
     responsibilities: [
@@ -220,7 +256,6 @@ const jobs: Job[] = [
     ],
     benefits: [
       "Uncapped commission structure — no ceiling on earnings",
-      "Equity in a growing Series A-stage company",
       "Travel and entertainment allowance",
       "Comprehensive health insurance",
       "Regional sales conference attendance",
@@ -233,7 +268,6 @@ const jobs: Job[] = [
     location: "Dubai / Remote",
     type: "Full-time",
     experience: "4–8 years",
-    salary: "AED 120,000–180,000 + Commission",
     overview:
       "Drive revenue growth across the Middle East and North Africa by selling LAS Mobility's fleet intelligence platform to logistics operators, government fleets, and enterprise transport organisations. You will navigate complex enterprise and government procurement processes while building a scalable partner ecosystem.",
     responsibilities: [
@@ -261,7 +295,6 @@ const jobs: Job[] = [
     ],
     benefits: [
       "Uncapped commission",
-      "Equity stake",
       "Visa sponsorship for Dubai-based candidates",
       "Comprehensive health insurance",
       "Travel and entertainment allowance",
@@ -274,7 +307,6 @@ const jobs: Job[] = [
     location: "Remote",
     type: "Full-time",
     experience: "3–6 years",
-    salary: "₹20–32 LPA",
     overview:
       "Own our cloud infrastructure, CI/CD pipelines, and platform reliability. We run on AWS and process millions of GPS telemetry events daily — uptime is everything. You will ensure the platform scales gracefully under load, recovers automatically from failure, and costs less than yesterday.",
     responsibilities: [
@@ -304,7 +336,6 @@ const jobs: Job[] = [
     ],
     benefits: [
       "Fully remote",
-      "Equity",
       "Annual learning and certification budget",
       "Comprehensive health insurance",
     ],
@@ -316,7 +347,6 @@ const jobs: Job[] = [
     location: "Bangalore / Remote",
     type: "Full-time",
     experience: "4–7 years",
-    salary: "₹25–40 LPA",
     overview:
       "Own the product roadmap for our fleet intelligence platform, working closely with engineering, sales, and customer success to ship features that operators love. You will be the connective tissue between customer insight and production code — setting context, unblocking teams, and measuring outcomes.",
     responsibilities: [
@@ -344,7 +374,6 @@ const jobs: Job[] = [
     ],
     benefits: [
       "Remote-first",
-      "Equity",
       "Annual learning budget",
       "Comprehensive health insurance",
     ],
@@ -356,7 +385,6 @@ const jobs: Job[] = [
     location: "Mumbai / Remote",
     type: "Full-time",
     experience: "3–6 years",
-    salary: "₹15–24 LPA",
     overview:
       "Own the post-sale relationship for a portfolio of fleet operator accounts, driving adoption, expansion, and renewal for LAS Mobility's platform. You will be the strategic partner our customers call first — proactively identifying risk, celebrating wins, and connecting operator outcomes to platform value.",
     responsibilities: [
@@ -382,7 +410,6 @@ const jobs: Job[] = [
     ],
     benefits: [
       "Remote-friendly",
-      "Equity",
       "Comprehensive health insurance",
       "Quarterly performance bonus",
     ],
@@ -425,6 +452,10 @@ function ApplyModal({
   const { addToast } = useToast();
   const [fullName, setFullName] = useState("");
   const [email, setEmail]       = useState("");
+  const [countryDial, setCountryDial] = useState("+91");
+  const [countryCode, setCountryCode] = useState("IN");
+  const [countrySearch, setCountrySearch] = useState("");
+  const [countryOpen, setCountryOpen] = useState(false);
   const [phone, setPhone]       = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [portfolio, setPortfolio] = useState("");
@@ -435,6 +466,29 @@ function ApplyModal({
   const [status, setStatus]     = useState<"idle" | "loading" | "success">("idle");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
+  const countryRef   = useRef<HTMLDivElement>(null);
+  const countrySearchRef = useRef<HTMLInputElement>(null);
+
+  const selectedCountry = COUNTRIES.find((c) => c.code === countryCode && c.dial === countryDial)
+    ?? COUNTRIES.find((c) => c.code === "IN")!;
+  const filteredCountries = COUNTRIES.filter(
+    (c) =>
+      c.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
+      c.dial.includes(countrySearch)
+  );
+
+  useEffect(() => { if (countryOpen) countrySearchRef.current?.focus(); }, [countryOpen]);
+
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (countryRef.current && !countryRef.current.contains(e.target as Node)) {
+        setCountryOpen(false);
+        setCountrySearch("");
+      }
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   // Focus trap & Escape key
   useEffect(() => {
@@ -589,11 +643,10 @@ function ApplyModal({
               <label className="block text-sm font-semibold mb-1.5" style={{ color: "var(--text-primary)" }}>
                 Email Address <span style={{ color: "var(--accent-text)" }}>*</span>
               </label>
-              <input
-                type="email"
+              <EmailInput
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={setEmail}
                 placeholder="jane@company.com"
                 className="w-full rounded-xl px-4 py-2.5 text-sm outline-none transition focus:ring-2"
                 style={{ background: "var(--bg-base)", border: "1px solid var(--border)", color: "var(--text-primary)" }}
@@ -605,15 +658,101 @@ function ApplyModal({
               <label className="block text-sm font-semibold mb-1.5" style={{ color: "var(--text-primary)" }}>
                 Phone Number <span style={{ color: "var(--accent-text)" }}>*</span>
               </label>
-              <input
-                type="tel"
-                required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+91 98765 43210"
-                className="w-full rounded-xl px-4 py-2.5 text-sm outline-none transition focus:ring-2"
-                style={{ background: "var(--bg-base)", border: "1px solid var(--border)", color: "var(--text-primary)" }}
-              />
+              <div className="flex gap-2">
+                {/* Country picker */}
+                <div className="relative shrink-0" ref={countryRef}>
+                  <button
+                    type="button"
+                    onClick={() => setCountryOpen((v) => !v)}
+                    className="flex h-full min-h-[42px] items-center gap-1.5 rounded-xl px-3 text-sm outline-none transition"
+                    style={{
+                      background: "var(--bg-base)",
+                      border: `1px solid ${countryOpen ? "var(--accent)" : "var(--border)"}`,
+                      color: "var(--text-primary)",
+                      minWidth: "90px",
+                    }}
+                  >
+                    <span className="text-base leading-none">{flagEmoji(selectedCountry.code)}</span>
+                    <span className="text-xs font-semibold" style={{ color: "var(--text-secondary)" }}>
+                      {selectedCountry.dial}
+                    </span>
+                    <ChevronDown
+                      className="h-3 w-3 shrink-0"
+                      style={{
+                        color: "var(--text-muted)",
+                        transform: countryOpen ? "rotate(180deg)" : "none",
+                        transition: "transform 0.2s",
+                      }}
+                    />
+                  </button>
+                  {countryOpen && (
+                    <div
+                      className="absolute left-0 top-full z-50 mt-1 w-64 overflow-hidden rounded-xl shadow-2xl"
+                      style={{ background: "var(--bg-deep)", border: "1px solid var(--border-accent)" }}
+                    >
+                      <div className="p-2" style={{ borderBottom: "1px solid var(--border)" }}>
+                        <div className="flex items-center gap-2 rounded-lg px-3 py-2" style={{ background: "var(--bg-card)" }}>
+                          <Search className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--text-muted)" }} />
+                          <input
+                            ref={countrySearchRef}
+                            type="text"
+                            placeholder="Search country or code…"
+                            value={countrySearch}
+                            onChange={(e) => setCountrySearch(e.target.value)}
+                            className="flex-1 bg-transparent text-xs outline-none"
+                            style={{ color: "var(--text-primary)" }}
+                          />
+                        </div>
+                      </div>
+                      <ul className="max-h-48 overflow-y-auto py-1">
+                        {filteredCountries.map((c) => (
+                          <li key={c.code + c.dial}>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setCountryDial(c.dial);
+                                setCountryCode(c.code);
+                                setCountryOpen(false);
+                                setCountrySearch("");
+                              }}
+                              className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition hover:opacity-80"
+                              style={{
+                                background:
+                                  c.code === countryCode && c.dial === countryDial
+                                    ? "var(--accent-glow)"
+                                    : "transparent",
+                                color: "var(--text-primary)",
+                              }}
+                            >
+                              <span className="w-5 shrink-0 text-base">{flagEmoji(c.code)}</span>
+                              <span className="flex-1 truncate text-xs" style={{ color: "var(--text-secondary)" }}>
+                                {c.name}
+                              </span>
+                              <span className="shrink-0 text-xs font-bold" style={{ color: "var(--accent-text)" }}>
+                                {c.dial}
+                              </span>
+                            </button>
+                          </li>
+                        ))}
+                        {filteredCountries.length === 0 && (
+                          <li className="px-4 py-3 text-xs" style={{ color: "var(--text-muted)" }}>
+                            No results
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                <input
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="00000 00000"
+                  className="min-w-0 flex-1 rounded-xl px-4 py-2.5 text-sm outline-none transition focus:ring-2"
+                  style={{ background: "var(--bg-base)", border: "1px solid var(--border)", color: "var(--text-primary)" }}
+                />
+              </div>
             </div>
 
             {/* LinkedIn */}
@@ -798,9 +937,6 @@ function JobCard({ job, onApply }: { job: Job; onApply: (job: Job) => void }) {
                 <Users className="h-3.5 w-3.5" /> {job.experience}
               </span>
             </div>
-            <p className="mt-2 text-sm font-semibold" style={{ color: "var(--accent-text)" }}>
-              {job.salary}
-            </p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
             <button

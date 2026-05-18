@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import ThemeLogo from "@/components/ThemeLogo";
+import AnnouncementBar from "@/components/AnnouncementBar";
 import { useBookDemo } from "@/context/BookDemoContext";
 
 const features = [
@@ -165,6 +166,7 @@ export default function Navbar() {
         boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.12)" : "none",
       }}
     >
+      <AnnouncementBar />
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
         aria-label="Primary navigation"
@@ -249,7 +251,7 @@ export default function Navbar() {
           <ThemeSwitcher />
           <Link
             href="/login"
-            className="rounded-lg px-4 py-2 text-sm font-semibold transition-all hover:opacity-90"
+            className="inline-flex items-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-all hover:opacity-90"
             style={{
               color: "var(--text-primary)",
               border: "1px solid var(--border)",
@@ -261,7 +263,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => openBookDemo("navbar")}
-            className="btn-primary rounded-lg px-4 py-2.5 text-sm"
+            className="btn-primary inline-flex items-center rounded-lg px-4 py-2.5 text-sm font-semibold"
           >
             Book a Demo
           </button>
