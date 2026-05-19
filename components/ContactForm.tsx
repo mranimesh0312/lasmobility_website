@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Send, CheckCircle2, X, ChevronDown, Search } from "lucide-react";
+import EmailInput from "@/components/EmailInput";
 
 const countries = [
   { code: "AF", name: "Afghanistan",            dial: "+93" },
@@ -244,6 +245,7 @@ export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [selectedFleet, setSelectedFleet] = useState<typeof fleetSizes[0] | null>(null);
   const [fleetOpen, setFleetOpen] = useState(false);
+  const [emailValue, setEmailValue] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const fleetRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
@@ -318,9 +320,18 @@ export default function ContactForm() {
           {/* Email */}
           <div>
             <label htmlFor="email" className="mb-2 block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Email</label>
-            <input id="email" name="email" type="email" placeholder="you@company.com" required
-              className="w-full rounded-xl px-4 py-3 text-sm outline-none transition" style={inputStyle}
-              onFocus={focusBorder} onBlur={blurBorder} />
+            <EmailInput
+              id="email"
+              name="email"
+              required
+              placeholder="you@company.com"
+              value={emailValue}
+              onChange={setEmailValue}
+              className="w-full rounded-xl px-4 py-3 text-sm outline-none transition"
+              style={inputStyle}
+              onFocus={focusBorder}
+              onBlur={blurBorder}
+            />
           </div>
 
           {/* Phone with country dropdown */}

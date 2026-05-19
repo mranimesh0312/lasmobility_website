@@ -8,6 +8,7 @@ import {
   Calendar, Clock, Building2, Users, Truck,
 } from "lucide-react";
 import ThemeLogo from "@/components/ThemeLogo";
+import EmailInput from "@/components/EmailInput";
 import { useBookDemo } from "@/context/BookDemoContext";
 import { useToast }     from "@/context/ToastContext";
 
@@ -379,7 +380,12 @@ export default function BookDemoModal() {
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div>
                         <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Email Address <span style={{ color: "#EF4444" }}>*</span></label>
-                        <input {...inp("email")} type="email" placeholder="you@company.com" value={form.email} onChange={e => set("email", e.target.value)} />
+                        <EmailInput
+                          {...inp("email")}
+                          placeholder="you@company.com"
+                          value={form.email}
+                          onChange={(v) => set("email", v)}
+                        />
                         {errors.email && <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.email}</p>}
                       </div>
                       <div>

@@ -77,7 +77,7 @@ export default function AboutPage() {
       <section style={{ background: "var(--bg-deep)" }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4" style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-            {[{ v:"2019", l:"Founded" }, { v:"50+", l:"Countries with active fleets" }, { v:"1,000+", l:"Vehicles tracked daily" }, { v:"99.9%", l:"Platform uptime SLA" }].map(({v,l},i) => (
+            {[{ v:"2026", l:"Founded" }, { v:"50+", l:"Countries with active fleets" }, { v:"1,000+", l:"Vehicles tracked daily" }, { v:"99.9%", l:"Platform uptime SLA" }].map(({v,l},i) => (
               <div key={l} className="px-8 py-10 text-center" style={{ borderRight: i < 3 ? "1px solid var(--border)" : undefined }}>
                 <p className="text-3xl font-bold" style={{ color: "var(--accent-text)" }}>{v}</p>
                 <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{l}</p>
