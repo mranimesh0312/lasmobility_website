@@ -323,10 +323,10 @@ export default function ContactForm() {
             <EmailInput
               id="email"
               name="email"
-              required
-              placeholder="you@company.com"
               value={emailValue}
               onChange={setEmailValue}
+              placeholder="you@company.com"
+              required
               className="w-full rounded-xl px-4 py-3 text-sm outline-none transition"
               style={inputStyle}
               onFocus={focusBorder}

@@ -7,54 +7,62 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, Briefcase, CheckCircle2, ChevronDown, Code2,
   Globe, Loader2, Mail, MapPin, Rocket, Search, Shield, Star,
-  TrendingUp, Upload, Users, X, Zap,
+  Upload, Users, X, Zap,
 } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
 import CTASection from "@/components/CTASection";
 import EmailInput from "@/components/EmailInput";
+import GlobalHiringMap from "@/components/GlobalHiringMap";
 import { useToast } from "@/context/ToastContext";
 
-/* ─────────────────────────────────────────
-   PHONE INPUT DATA
-───────────────────────────────────────── */
-
-const COUNTRIES = [
-  { code:"IN",dial:"+91",  name:"India" },
-  { code:"US",dial:"+1",   name:"United States" },
-  { code:"GB",dial:"+44",  name:"United Kingdom" },
-  { code:"AE",dial:"+971", name:"United Arab Emirates" },
-  { code:"SA",dial:"+966", name:"Saudi Arabia" },
-  { code:"AU",dial:"+61",  name:"Australia" },
-  { code:"SG",dial:"+65",  name:"Singapore" },
-  { code:"MY",dial:"+60",  name:"Malaysia" },
-  { code:"DE",dial:"+49",  name:"Germany" },
-  { code:"FR",dial:"+33",  name:"France" },
-  { code:"CA",dial:"+1",   name:"Canada" },
-  { code:"BR",dial:"+55",  name:"Brazil" },
-  { code:"ZA",dial:"+27",  name:"South Africa" },
-  { code:"NG",dial:"+234", name:"Nigeria" },
-  { code:"KE",dial:"+254", name:"Kenya" },
-  { code:"PK",dial:"+92",  name:"Pakistan" },
-  { code:"BD",dial:"+880", name:"Bangladesh" },
-  { code:"LK",dial:"+94",  name:"Sri Lanka" },
-  { code:"NP",dial:"+977", name:"Nepal" },
-  { code:"PH",dial:"+63",  name:"Philippines" },
-  { code:"ID",dial:"+62",  name:"Indonesia" },
-  { code:"TH",dial:"+66",  name:"Thailand" },
-  { code:"VN",dial:"+84",  name:"Vietnam" },
-  { code:"JP",dial:"+81",  name:"Japan" },
-  { code:"KR",dial:"+82",  name:"South Korea" },
-  { code:"CN",dial:"+86",  name:"China" },
-  { code:"QA",dial:"+974", name:"Qatar" },
-  { code:"KW",dial:"+965", name:"Kuwait" },
-  { code:"BH",dial:"+973", name:"Bahrain" },
-  { code:"OM",dial:"+968", name:"Oman" },
+/* ─── Country data for phone input ──────────────────────────────── */
+const COUNTRIES_PHONE = [
+  { code: "IN", name: "India",                dial: "+91"  },
+  { code: "US", name: "United States",        dial: "+1"   },
+  { code: "GB", name: "United Kingdom",       dial: "+44"  },
+  { code: "AE", name: "United Arab Emirates", dial: "+971" },
+  { code: "SA", name: "Saudi Arabia",         dial: "+966" },
+  { code: "AU", name: "Australia",            dial: "+61"  },
+  { code: "SG", name: "Singapore",            dial: "+65"  },
+  { code: "MY", name: "Malaysia",             dial: "+60"  },
+  { code: "DE", name: "Germany",              dial: "+49"  },
+  { code: "FR", name: "France",               dial: "+33"  },
+  { code: "CA", name: "Canada",               dial: "+1"   },
+  { code: "BR", name: "Brazil",               dial: "+55"  },
+  { code: "ZA", name: "South Africa",         dial: "+27"  },
+  { code: "NG", name: "Nigeria",              dial: "+234" },
+  { code: "KE", name: "Kenya",                dial: "+254" },
+  { code: "PK", name: "Pakistan",             dial: "+92"  },
+  { code: "BD", name: "Bangladesh",           dial: "+880" },
+  { code: "LK", name: "Sri Lanka",            dial: "+94"  },
+  { code: "PH", name: "Philippines",          dial: "+63"  },
+  { code: "ID", name: "Indonesia",            dial: "+62"  },
+  { code: "TH", name: "Thailand",             dial: "+66"  },
+  { code: "VN", name: "Vietnam",              dial: "+84"  },
+  { code: "JP", name: "Japan",                dial: "+81"  },
+  { code: "KR", name: "South Korea",          dial: "+82"  },
+  { code: "CN", name: "China",                dial: "+86"  },
+  { code: "QA", name: "Qatar",                dial: "+974" },
+  { code: "KW", name: "Kuwait",               dial: "+965" },
+  { code: "BH", name: "Bahrain",              dial: "+973" },
+  { code: "OM", name: "Oman",                 dial: "+968" },
+  { code: "EG", name: "Egypt",                dial: "+20"  },
+  { code: "TR", name: "Turkey",               dial: "+90"  },
+  { code: "PL", name: "Poland",               dial: "+48"  },
+  { code: "NL", name: "Netherlands",          dial: "+31"  },
+  { code: "IT", name: "Italy",                dial: "+39"  },
+  { code: "ES", name: "Spain",                dial: "+34"  },
+  { code: "NZ", name: "New Zealand",          dial: "+64"  },
+  { code: "HK", name: "Hong Kong",            dial: "+852" },
+  { code: "TW", name: "Taiwan",               dial: "+886" },
+  { code: "MA", name: "Morocco",              dial: "+212" },
+  { code: "NP", name: "Nepal",                dial: "+977" },
 ].sort((a, b) => a.name.localeCompare(b.name));
 
-function flagEmoji(code: string) {
-  return code.toUpperCase().replace(/./g, (c) =>
-    String.fromCodePoint(0x1f1e6 - 65 + c.charCodeAt(0))
-  );
+function flagPhone(code: string) {
+  return code
+    .toUpperCase()
+    .replace(/./g, (c) => String.fromCodePoint(0x1f1e6 - 65 + c.charCodeAt(0)));
 }
 
 /* ─────────────────────────────────────────
@@ -74,7 +82,7 @@ const benefits = [
   },
   {
     icon: Star,
-    title: "Growth & Development",
+    title: "Competitive Growth",
     desc: "Competitive compensation benchmarked to market rates. We invest in learning budgets and internal mobility so your career accelerates here.",
   },
   {
@@ -95,7 +103,6 @@ interface Job {
   responsibilities: string[];
   required: string[];
   preferred: string[];
-  benefits: string[];
 }
 
 const jobs: Job[] = [
@@ -133,12 +140,6 @@ const jobs: Job[] = [
       "Experience with Storybook or similar component catalogues",
       "Web performance profiling (Lighthouse, Chrome DevTools)",
     ],
-    benefits: [
-      "Remote-first with async collaboration culture",
-      "Comprehensive health insurance (self + family)",
-      "₹50,000 annual learning & conference budget",
-      "Flexible working hours (no rigid 9–5)",
-    ],
   },
   {
     id: "sde-fullstack",
@@ -173,12 +174,6 @@ const jobs: Job[] = [
       "Kubernetes for orchestration",
       "IoT/GPS integration experience (MQTT, NMEA, OBD-II)",
       "Experience with time-series databases (TimescaleDB, InfluxDB)",
-    ],
-    benefits: [
-      "Remote-first with annual team retreats",
-      "Comprehensive health insurance (self + family)",
-      "Annual learning budget",
-      "Flexible working hours",
     ],
   },
   {
@@ -215,12 +210,6 @@ const jobs: Job[] = [
       "Distributed systems patterns (sagas, outbox, CQRS)",
       "OpenTelemetry for distributed tracing",
     ],
-    benefits: [
-      "Remote-first",
-      "Comprehensive health insurance",
-      "Conference and travel budget",
-      "Flexible working hours",
-    ],
   },
   {
     id: "sales-apac",
@@ -254,12 +243,6 @@ const jobs: Job[] = [
       "Experience selling to enterprise and mid-market in SEA, ANZ, or East Asia",
       "SaaS pricing and packaging negotiation experience",
     ],
-    benefits: [
-      "Uncapped commission structure — no ceiling on earnings",
-      "Travel and entertainment allowance",
-      "Comprehensive health insurance",
-      "Regional sales conference attendance",
-    ],
   },
   {
     id: "sales-mena",
@@ -292,12 +275,6 @@ const jobs: Job[] = [
       "Public sector / government fleet sales in UAE, KSA, Qatar, or Egypt",
       "Existing network within MENA logistics and transport associations",
       "Experience with RFP/RFQ response writing",
-    ],
-    benefits: [
-      "Uncapped commission",
-      "Visa sponsorship for Dubai-based candidates",
-      "Comprehensive health insurance",
-      "Travel and entertainment allowance",
     ],
   },
   {
@@ -334,11 +311,6 @@ const jobs: Job[] = [
       "Full observability stack: OpenTelemetry, Jaeger, Grafana Loki",
       "SOC2 or ISO 27001 compliance implementation",
     ],
-    benefits: [
-      "Fully remote",
-      "Annual learning and certification budget",
-      "Comprehensive health insurance",
-    ],
   },
   {
     id: "product-manager",
@@ -372,11 +344,6 @@ const jobs: Job[] = [
       "Prior experience in a high-growth startup (Series A–C)",
       "Mobile product management experience",
     ],
-    benefits: [
-      "Remote-first",
-      "Annual learning budget",
-      "Comprehensive health insurance",
-    ],
   },
   {
     id: "csm",
@@ -408,27 +375,334 @@ const jobs: Job[] = [
       "Gainsight, ChurnZero, or Totango platform experience",
       "Experience working with distributed fleets or field operations teams",
     ],
-    benefits: [
-      "Remote-friendly",
-      "Comprehensive health insurance",
-      "Quarterly performance bonus",
+  },
+
+  /* ── Human Resources ── */
+  {
+    id: "hr-executive",
+    title: "HR Executive",
+    department: "Human Resources",
+    location: "Bangalore / Remote",
+    type: "Full-time",
+    experience: "2–4 years",
+    overview:
+      "Support day-to-day HR operations for a fast-scaling SaaS company spanning APAC and MENA. You will own employee lifecycle processes, coordinate onboarding, maintain HR records, and help create a culture where every team member feels supported and informed.",
+    responsibilities: [
+      "Manage end-to-end employee lifecycle: onboarding, confirmation, transfers, exits",
+      "Maintain accurate HRIS records and generate monthly HR analytics reports",
+      "Coordinate payroll inputs and liaise with the finance team for monthly processing",
+      "Administer leave, attendance, and compliance tracking across geographies",
+      "Support performance management cycles — goal-setting, mid-year reviews, appraisals",
+      "Organize company-wide engagement initiatives, virtual events, and recognition programmes",
+      "Ensure statutory compliance — PF, ESI, gratuity, and labour law requirements",
+      "Act as the first point of contact for employee queries and grievance escalations",
+    ],
+    required: [
+      "2+ years of generalist HR experience in a technology company",
+      "Working knowledge of Indian labour laws, PF, ESI, and payroll basics",
+      "Proficiency in HRIS tools (Zoho People, Darwinbox, or equivalent)",
+      "Strong interpersonal and communication skills — empathetic and professional",
+      "High attention to detail in documentation and record management",
+    ],
+    preferred: [
+      "Experience supporting distributed or remote-first teams",
+      "Familiarity with ESOP administration",
+      "MBA in Human Resources or equivalent postgraduate qualification",
+      "Experience in a Series A–C stage startup environment",
+    ],
+  },
+  {
+    id: "talent-acquisition",
+    title: "Talent Acquisition Specialist",
+    department: "Human Resources",
+    location: "Bangalore / Remote",
+    type: "Full-time",
+    experience: "3–5 years",
+    overview:
+      "Own the full-cycle recruiting function for a high-growth fleet intelligence SaaS company hiring across engineering, sales, and operations globally. You will build talent pipelines, craft compelling candidate experiences, and partner with hiring managers to close top talent faster than the competition.",
+    responsibilities: [
+      "Manage full-cycle hiring: sourcing, screening, interviewing, offer negotiation, and closure",
+      "Build proactive talent pipelines for critical roles across engineering, sales, and operations",
+      "Partner with hiring managers to define role requirements, interview panels, and evaluation criteria",
+      "Craft compelling job descriptions and employer brand content for LinkedIn and job boards",
+      "Drive structured interview processes with consistent scoring rubrics and bias-reduction practices",
+      "Track and report on recruiting metrics: time-to-fill, offer acceptance rate, pipeline conversion",
+      "Build relationships with hiring partners, universities, and specialist communities",
+      "Coordinate candidate onboarding with the HR Executive to ensure seamless transitions",
+    ],
+    required: [
+      "3+ years of talent acquisition experience — technology or SaaS company preferred",
+      "Proven ability to source and close passive candidates via LinkedIn Recruiter and Boolean search",
+      "ATS proficiency (Greenhouse, Lever, or equivalent)",
+      "Strong stakeholder management — comfortable influencing hiring managers at all levels",
+      "Experience hiring across multiple geographies and time zones",
+    ],
+    preferred: [
+      "Experience recruiting engineering and technical roles at growth-stage startups",
+      "Knowledge of APAC and MENA talent markets",
+      "Employer branding content creation on LinkedIn and social platforms",
+      "Data-driven recruiting: fluency in funnel analytics and pipeline metrics",
+    ],
+  },
+
+  /* ── Operations ── */
+  {
+    id: "fleet-ops-manager",
+    title: "Fleet Operations Manager",
+    department: "Operations",
+    location: "Dubai / Bangalore",
+    type: "Full-time",
+    experience: "5–9 years",
+    overview:
+      "Lead the operational delivery of LAS Mobility's platform for enterprise fleet clients across MENA and APAC. You will bridge the gap between technology and field operations, ensure SLA adherence, and drive continuous process improvement that translates into measurable client outcomes.",
+    responsibilities: [
+      "Own operational delivery metrics: SLA adherence, uptime, response times, and resolution rates",
+      "Develop and maintain Standard Operating Procedures for fleet implementation and support",
+      "Coordinate cross-functional teams — engineering, CS, and field technicians — on client escalations",
+      "Conduct capacity planning and resource allocation for active fleet deployments",
+      "Lead regular operational reviews with enterprise clients and present performance dashboards",
+      "Identify bottlenecks in implementation and support workflows and drive systematic improvements",
+      "Partner with Product on operational requirements and field-reported issues",
+      "Manage third-party vendor relationships: hardware suppliers, telematics integrators, and logistics partners",
+    ],
+    required: [
+      "5+ years in fleet management, telematics operations, or SaaS delivery management",
+      "Strong analytical skills — comfortable building and interpreting operational dashboards",
+      "Experience managing cross-functional teams across multiple time zones",
+      "Proven track record of driving process improvements in a client-facing operations role",
+      "Excellent stakeholder communication — executive reporting and field coordination",
+    ],
+    preferred: [
+      "Deep knowledge of fleet telematics hardware and GPS tracking systems",
+      "Experience with MENA logistics or government fleet operations",
+      "PMP or PRINCE2 project management certification",
+      "Familiarity with IoT protocols and device management platforms",
+    ],
+  },
+  {
+    id: "operations-executive",
+    title: "Operations Executive",
+    department: "Operations",
+    location: "Bangalore / Remote",
+    type: "Full-time",
+    experience: "1–3 years",
+    overview:
+      "Support the smooth execution of platform deployments, client onboarding, and internal operations across LAS Mobility's growing global customer base. You will coordinate between teams, track delivery milestones, and ensure that every client goes live on time and at full scope.",
+    responsibilities: [
+      "Coordinate client onboarding schedules, device installation timelines, and go-live milestones",
+      "Maintain operational trackers and provide daily status updates to the Fleet Operations Manager",
+      "Liaise with customer success, engineering, and field teams to resolve deployment blockers",
+      "Process vendor invoices, purchase orders, and hardware dispatches accurately and on time",
+      "Manage internal tooling: helpdesk tickets, CRM updates, and operations dashboards",
+      "Prepare reports on operational KPIs, client status, and issue resolution progress",
+      "Support RFP responses with operational data, case studies, and process documentation",
+      "Assist with vendor management, contract coordination, and logistics planning",
+    ],
+    required: [
+      "1–3 years of experience in operations, project coordination, or customer delivery",
+      "High proficiency in productivity tools: Google Workspace, Notion, Jira, or Asana",
+      "Strong organisational skills — ability to manage multiple tasks and deadlines simultaneously",
+      "Excellent written and verbal communication skills",
+      "Analytical mindset — comfortable working with spreadsheets and operational data",
+    ],
+    preferred: [
+      "Exposure to fleet management, telematics, or logistics technology",
+      "Experience with CRM tools (HubSpot or Salesforce)",
+      "Prior experience in a fast-paced startup or scale-up environment",
+    ],
+  },
+
+  /* ── KAM ── */
+  {
+    id: "key-account-manager",
+    title: "Key Account Manager",
+    department: "KAM",
+    location: "Dubai / Singapore / Remote",
+    type: "Full-time",
+    experience: "4–7 years",
+    overview:
+      "Own strategic enterprise accounts for LAS Mobility's fleet intelligence platform, driving retention, adoption, and revenue expansion across your portfolio. You will serve as the primary executive relationship holder for named accounts and translate client outcomes into growth opportunities.",
+    responsibilities: [
+      "Manage a portfolio of 15–25 strategic enterprise accounts across MENA and APAC",
+      "Develop and execute joint success plans tied to measurable fleet KPIs for each account",
+      "Lead quarterly business reviews presenting ROI metrics, platform usage, and expansion roadmaps",
+      "Identify upsell and cross-sell opportunities and collaborate with Sales to close expansion revenue",
+      "Negotiate contract renewals and multi-year agreements with C-suite and procurement teams",
+      "Act as the escalation point for critical issues and drive resolution through internal teams",
+      "Provide structured account intelligence to Product, CS, and Sales leadership",
+      "Maintain accurate account health scores, risk flags, and expansion pipeline in CRM",
+    ],
+    required: [
+      "4+ years of key account management or strategic customer success at a SaaS company",
+      "Demonstrated success in driving NRR growth above 110% across an enterprise portfolio",
+      "Strong executive presence — comfortable presenting ROI analysis to C-suite stakeholders",
+      "CRM proficiency: Salesforce or HubSpot account and pipeline management",
+      "Experience managing complex, multi-stakeholder relationships in enterprise accounts",
+    ],
+    preferred: [
+      "Fleet, logistics, telematics, or supply chain SaaS domain experience",
+      "MENA or APAC enterprise account management background",
+      "Multilingual: Arabic, Mandarin, or Bahasa as additional languages",
+      "Experience with account-based marketing collaboration",
+    ],
+  },
+  {
+    id: "enterprise-account-manager",
+    title: "Enterprise Account Manager",
+    department: "KAM",
+    location: "Riyadh / Dubai / Remote",
+    type: "Full-time",
+    experience: "5–9 years",
+    overview:
+      "Lead the commercial and relationship strategy for LAS Mobility's largest enterprise accounts — government fleets, national logistics operators, and multinational transport groups. You will own revenue outcomes, manage executive relationships, and position LAS Mobility as a long-term strategic partner.",
+    responsibilities: [
+      "Own commercial accountability for a defined portfolio of enterprise and government accounts",
+      "Develop multi-year account strategies aligned to client digital transformation agendas",
+      "Lead executive relationship mapping and engagement at Minister, CxO, and VP levels",
+      "Structure and negotiate large-scale contracts, MSAs, and public sector framework agreements",
+      "Collaborate with pre-sales, implementation, and product teams to deliver integrated client solutions",
+      "Run executive business reviews with full P&L visibility and forward-looking expansion proposals",
+      "Identify white-space expansion opportunities across subsidiaries, regions, and use cases",
+      "Represent LAS Mobility at industry councils, fleet associations, and government advisory forums",
+    ],
+    required: [
+      "5+ years of enterprise or strategic account management in technology or SaaS",
+      "Proven track record managing accounts with ACV >$500K and multi-year contract cycles",
+      "Deep understanding of enterprise procurement, RFP, and government tendering processes",
+      "Executive stakeholder management experience — board and C-suite engagement",
+      "Strong commercial acumen: contract structuring, margin analysis, and commercial negotiation",
+    ],
+    preferred: [
+      "Experience with GCC government or public sector technology accounts",
+      "Fleet, transport, or smart city technology background",
+      "Arabic language proficiency for MENA-based accounts",
+      "MBA or equivalent advanced business qualification",
+    ],
+  },
+
+  /* ── Accounts & Finance ── */
+  {
+    id: "accounts-executive",
+    title: "Accounts Executive",
+    department: "Accounts & Finance",
+    location: "Bangalore",
+    type: "Full-time",
+    experience: "2–4 years",
+    overview:
+      "Handle day-to-day accounting operations, ensure compliance with statutory requirements, and maintain accurate financial records for LAS Mobility's India entity and global subsidiaries. You will work closely with the Finance Manager to deliver timely monthly closes and audit-ready books.",
+    responsibilities: [
+      "Process accounts payable and receivable, including vendor invoices, client billing, and collections",
+      "Prepare and post journal entries, bank reconciliations, and intercompany transactions",
+      "Manage GST, TDS, PF, and other statutory filings on schedule",
+      "Assist with monthly, quarterly, and annual financial close processes",
+      "Maintain fixed asset register and manage depreciation schedules",
+      "Liaise with external auditors, tax advisors, and statutory authorities",
+      "Support preparation of MIS reports and financial dashboards for leadership",
+      "Maintain accurate records in accounting software (Zoho Books, Tally, or equivalent)",
+    ],
+    required: [
+      "2–4 years of accounting experience — technology or startup company preferred",
+      "Strong working knowledge of Indian accounting standards (Ind AS) and GST",
+      "Proficiency in Tally ERP, Zoho Books, or equivalent accounting software",
+      "Accurate and detail-oriented — zero tolerance for reconciliation errors",
+      "B.Com or M.Com; CA Inter or CMA Inter preferred",
+    ],
+    preferred: [
+      "Experience with multi-currency accounting and cross-border transactions",
+      "Familiarity with SaaS revenue recognition principles (Ind AS 115)",
+      "Exposure to ERP systems: SAP, Oracle NetSuite, or QuickBooks",
+      "Experience in a Series A–C stage startup with rapid growth",
+    ],
+  },
+  {
+    id: "finance-manager",
+    title: "Finance Manager",
+    department: "Accounts & Finance",
+    location: "Bangalore / Remote",
+    type: "Full-time",
+    experience: "6–10 years",
+    overview:
+      "Lead the finance function for LAS Mobility, owning financial planning, reporting, controls, and fundraising support. You will be a strategic partner to the CEO and leadership team, providing financial insight that drives business decisions and supports the company's growth trajectory.",
+    responsibilities: [
+      "Lead monthly, quarterly, and annual financial close and external audit processes",
+      "Own the annual budgeting process, quarterly reforecast, and board-level financial reporting",
+      "Build and maintain financial models for scenario planning, fundraising, and M&A diligence",
+      "Manage statutory compliance across India, UAE, Singapore, and UK entities",
+      "Establish and maintain financial controls, approval workflows, and audit trails",
+      "Partner with Revenue and Sales Operations on ARR tracking, billings, and collections",
+      "Lead investor relations support — data room management, due diligence, cap table maintenance",
+      "Build and develop the accounting and finance team as the company scales",
+    ],
+    required: [
+      "CA (Chartered Accountant) qualification — mandatory",
+      "6+ years of post-qualification experience, including 2+ years in a managerial role",
+      "Deep expertise in Ind AS, GST, direct tax, and transfer pricing",
+      "Experience managing multi-entity group accounting and consolidation",
+      "Strong financial modelling skills — advanced Excel and/or Google Sheets",
+    ],
+    preferred: [
+      "Prior experience at a SaaS company or high-growth technology startup",
+      "Exposure to Series A–C fundraising processes and investor data rooms",
+      "NetSuite, Xero, or SAP implementation or migration experience",
+      "Working knowledge of UAE VAT, Singapore GST, and UK corporation tax",
+    ],
+  },
+  {
+    id: "financial-analyst",
+    title: "Financial Analyst",
+    department: "Accounts & Finance",
+    location: "Bangalore / Remote",
+    type: "Full-time",
+    experience: "2–5 years",
+    overview:
+      "Build the financial intelligence layer for LAS Mobility's leadership team — delivering actionable analysis on revenue, costs, unit economics, and market opportunity. You will own the FP&A function, maintain financial models, and translate data into strategic recommendations.",
+    responsibilities: [
+      "Build and maintain detailed financial models: P&L, balance sheet, cash flow, and DCF",
+      "Own SaaS metrics reporting: ARR, MRR, churn, LTV, CAC, payback period, and NRR",
+      "Prepare monthly management accounts and variance analysis against budget and forecast",
+      "Conduct market sizing, competitive benchmarking, and commercial opportunity analysis",
+      "Support fundraising and board reporting with investor-grade financial decks",
+      "Partner with Sales and CS teams on deal economics, pricing analysis, and quota modelling",
+      "Automate financial reporting workflows using Python, SQL, or BI tools",
+      "Maintain the company's data warehouse and financial dashboards (Metabase, Looker, or Tableau)",
+    ],
+    required: [
+      "2–5 years of FP&A or financial analysis experience — technology company preferred",
+      "Advanced Excel / Google Sheets financial modelling (three-statement, DCF, scenario analysis)",
+      "Strong understanding of SaaS business model and subscription unit economics",
+      "SQL proficiency — comfortable writing queries against business databases",
+      "Bachelor's in Finance, Economics, or Engineering; MBA/CFA a strong plus",
+    ],
+    preferred: [
+      "Experience with BI tools: Looker, Metabase, Power BI, or Tableau",
+      "Python for financial data analysis and automation",
+      "Prior experience at a SaaS company, investment bank, or venture-backed startup",
+      "Exposure to Series A–C fundraising and investor relations processes",
     ],
   },
 ];
 
 const deptColors: Record<string, string> = {
-  Engineering:       "rgba(14,206,206,0.15)",
-  Sales:             "rgba(99,102,241,0.15)",
-  Infrastructure:    "rgba(245,158,11,0.15)",
-  Product:           "rgba(34,197,94,0.15)",
-  "Customer Success":"rgba(236,72,153,0.15)",
+  Engineering:         "rgba(14,206,206,0.15)",
+  Sales:               "rgba(99,102,241,0.15)",
+  Infrastructure:      "rgba(245,158,11,0.15)",
+  Product:             "rgba(34,197,94,0.15)",
+  "Customer Success":  "rgba(236,72,153,0.15)",
+  "Human Resources":   "rgba(168,85,247,0.15)",
+  Operations:          "rgba(249,115,22,0.15)",
+  KAM:                 "rgba(20,184,166,0.15)",
+  "Accounts & Finance":"rgba(234,179,8,0.15)",
 };
 const deptText: Record<string, string> = {
-  Engineering:       "#0ECECE",
-  Sales:             "#818CF8",
-  Infrastructure:    "#F59E0B",
-  Product:           "#22C55E",
-  "Customer Success":"#EC4899",
+  Engineering:         "#0ECECE",
+  Sales:               "#818CF8",
+  Infrastructure:      "#F59E0B",
+  Product:             "#22C55E",
+  "Customer Success":  "#EC4899",
+  "Human Resources":   "#A855F7",
+  Operations:          "#F97316",
+  KAM:                 "#14B8A6",
+  "Accounts & Finance":"#EAB308",
 };
 
 /* ─────────────────────────────────────────
@@ -452,11 +726,12 @@ function ApplyModal({
   const { addToast } = useToast();
   const [fullName, setFullName] = useState("");
   const [email, setEmail]       = useState("");
-  const [countryDial, setCountryDial] = useState("+91");
-  const [countryCode, setCountryCode] = useState("IN");
-  const [countrySearch, setCountrySearch] = useState("");
-  const [countryOpen, setCountryOpen] = useState(false);
   const [phone, setPhone]       = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(
+    COUNTRIES_PHONE.find((c) => c.code === "IN")!
+  );
+  const [countryOpen, setCountryOpen]   = useState(false);
+  const [countrySearch, setCountrySearch] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [portfolio, setPortfolio] = useState("");
   const [coverLetter, setCoverLetter] = useState("");
@@ -467,18 +742,18 @@ function ApplyModal({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
   const countryRef   = useRef<HTMLDivElement>(null);
-  const countrySearchRef = useRef<HTMLInputElement>(null);
+  const searchRef    = useRef<HTMLInputElement>(null);
 
-  const selectedCountry = COUNTRIES.find((c) => c.code === countryCode && c.dial === countryDial)
-    ?? COUNTRIES.find((c) => c.code === "IN")!;
-  const filteredCountries = COUNTRIES.filter(
+  const filteredCountries = COUNTRIES_PHONE.filter(
     (c) =>
       c.name.toLowerCase().includes(countrySearch.toLowerCase()) ||
       c.dial.includes(countrySearch)
   );
 
-  useEffect(() => { if (countryOpen) countrySearchRef.current?.focus(); }, [countryOpen]);
+  // Focus search when country dropdown opens
+  useEffect(() => { if (countryOpen) searchRef.current?.focus(); }, [countryOpen]);
 
+  // Close country dropdown on outside click
   useEffect(() => {
     function handler(e: MouseEvent) {
       if (countryRef.current && !countryRef.current.contains(e.target as Node)) {
@@ -529,7 +804,7 @@ function ApplyModal({
     const fd = new FormData();
     fd.append("fullName", fullName);
     fd.append("email", email);
-    fd.append("phone", phone);
+    fd.append("phone", `${selectedCountry.dial} ${phone}`.trim());
     fd.append("linkedin", linkedin);
     fd.append("portfolio", portfolio);
     fd.append("coverLetter", coverLetter);
@@ -644,10 +919,10 @@ function ApplyModal({
                 Email Address <span style={{ color: "var(--accent-text)" }}>*</span>
               </label>
               <EmailInput
-                required
                 value={email}
                 onChange={setEmail}
                 placeholder="jane@company.com"
+                required
                 className="w-full rounded-xl px-4 py-2.5 text-sm outline-none transition focus:ring-2"
                 style={{ background: "var(--bg-base)", border: "1px solid var(--border)", color: "var(--text-primary)" }}
               />
@@ -659,7 +934,7 @@ function ApplyModal({
                 Phone Number <span style={{ color: "var(--accent-text)" }}>*</span>
               </label>
               <div className="flex gap-2">
-                {/* Country picker */}
+                {/* Country selector */}
                 <div className="relative shrink-0" ref={countryRef}>
                   <button
                     type="button"
@@ -672,7 +947,7 @@ function ApplyModal({
                       minWidth: "90px",
                     }}
                   >
-                    <span className="text-base leading-none">{flagEmoji(selectedCountry.code)}</span>
+                    <span className="text-base leading-none">{flagPhone(selectedCountry.code)}</span>
                     <span className="text-xs font-semibold" style={{ color: "var(--text-secondary)" }}>
                       {selectedCountry.dial}
                     </span>
@@ -685,16 +960,22 @@ function ApplyModal({
                       }}
                     />
                   </button>
+
                   {countryOpen && (
                     <div
                       className="absolute left-0 top-full z-50 mt-1 w-64 overflow-hidden rounded-xl shadow-2xl"
-                      style={{ background: "var(--bg-deep)", border: "1px solid var(--border-accent)" }}
+                      style={{
+                        background: "var(--bg-deep)",
+                        border: "1px solid var(--border-accent)",
+                        boxShadow: "0 16px 48px rgba(0,0,0,0.5)",
+                      }}
                     >
+                      {/* Search */}
                       <div className="p-2" style={{ borderBottom: "1px solid var(--border)" }}>
                         <div className="flex items-center gap-2 rounded-lg px-3 py-2" style={{ background: "var(--bg-card)" }}>
                           <Search className="h-3.5 w-3.5 shrink-0" style={{ color: "var(--text-muted)" }} />
                           <input
-                            ref={countrySearchRef}
+                            ref={searchRef}
                             type="text"
                             placeholder="Search country or code…"
                             value={countrySearch}
@@ -704,51 +985,47 @@ function ApplyModal({
                           />
                         </div>
                       </div>
+                      {/* List */}
                       <ul className="max-h-48 overflow-y-auto py-1">
+                        {filteredCountries.length === 0 && (
+                          <li className="px-4 py-3 text-xs" style={{ color: "var(--text-muted)" }}>No results</li>
+                        )}
                         {filteredCountries.map((c) => (
                           <li key={c.code + c.dial}>
                             <button
                               type="button"
-                              onClick={() => {
-                                setCountryDial(c.dial);
-                                setCountryCode(c.code);
-                                setCountryOpen(false);
-                                setCountrySearch("");
-                              }}
                               className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition hover:opacity-80"
                               style={{
                                 background:
-                                  c.code === countryCode && c.dial === countryDial
+                                  selectedCountry.code === c.code
                                     ? "var(--accent-glow)"
                                     : "transparent",
                                 color: "var(--text-primary)",
                               }}
+                              onClick={() => {
+                                setSelectedCountry(c);
+                                setCountryOpen(false);
+                                setCountrySearch("");
+                              }}
                             >
-                              <span className="w-5 shrink-0 text-base">{flagEmoji(c.code)}</span>
-                              <span className="flex-1 truncate text-xs" style={{ color: "var(--text-secondary)" }}>
-                                {c.name}
-                              </span>
-                              <span className="shrink-0 text-xs font-bold" style={{ color: "var(--accent-text)" }}>
-                                {c.dial}
-                              </span>
+                              <span className="w-5 shrink-0 text-base leading-none">{flagPhone(c.code)}</span>
+                              <span className="flex-1 truncate text-xs" style={{ color: "var(--text-secondary)" }}>{c.name}</span>
+                              <span className="shrink-0 text-xs font-bold" style={{ color: "var(--accent-text)" }}>{c.dial}</span>
                             </button>
                           </li>
                         ))}
-                        {filteredCountries.length === 0 && (
-                          <li className="px-4 py-3 text-xs" style={{ color: "var(--text-muted)" }}>
-                            No results
-                          </li>
-                        )}
                       </ul>
                     </div>
                   )}
                 </div>
+
+                {/* Number input */}
                 <input
                   type="tel"
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="00000 00000"
+                  placeholder="98765 43210"
                   className="min-w-0 flex-1 rounded-xl px-4 py-2.5 text-sm outline-none transition focus:ring-2"
                   style={{ background: "var(--bg-base)", border: "1px solid var(--border)", color: "var(--text-primary)" }}
                 />
@@ -981,7 +1258,6 @@ function JobCard({ job, onApply }: { job: Job; onApply: (job: Job) => void }) {
               <JDSection title="Responsibilities" items={job.responsibilities} icon={<Code2 className="h-4 w-4" style={{ color: "var(--accent-text)" }} />} />
               <JDSection title="Required Skills" items={job.required} icon={<Shield className="h-4 w-4" style={{ color: "var(--accent-text)" }} />} />
               <JDSection title="Nice to Have" items={job.preferred} icon={<Star className="h-4 w-4" style={{ color: "var(--accent-text)" }} />} />
-              <JDSection title="Benefits" items={job.benefits} icon={<TrendingUp className="h-4 w-4" style={{ color: "var(--accent-text)" }} />} />
             </div>
             <div className="px-6 pb-6">
               <button
@@ -1144,13 +1420,16 @@ export default function CareersPage() {
         </div>
       </section>
 
+      {/* ── Global Hiring Map ── */}
+      <GlobalHiringMap />
+
       {/* ── Open Positions ── */}
       <section id="roles" className="section-pad" style={{ background: "var(--bg-deep)" }}>
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <SectionHeader
             eyebrow="Open Positions"
             title="Join a team building the future of fleet"
-            description={`${jobs.length} open roles across engineering, sales, infrastructure, product, and customer success.`}
+            description={`${jobs.length} open roles across engineering, sales, operations, HR, finance, and more.`}
           />
           <div className="mt-10 space-y-4">
             {jobs.map((job) => (

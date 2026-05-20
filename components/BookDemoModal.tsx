@@ -381,10 +381,14 @@ export default function BookDemoModal() {
                       <div>
                         <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Email Address <span style={{ color: "#EF4444" }}>*</span></label>
                         <EmailInput
-                          {...inp("email")}
-                          placeholder="you@company.com"
                           value={form.email}
                           onChange={(v) => set("email", v)}
+                          placeholder="you@company.com"
+                          required
+                          className={inp("email").className}
+                          style={inp("email").style as React.CSSProperties}
+                          onFocus={inp("email").onFocus as React.FocusEventHandler<HTMLInputElement>}
+                          onBlur={inp("email").onBlur as React.FocusEventHandler<HTMLInputElement>}
                         />
                         {errors.email && <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.email}</p>}
                       </div>

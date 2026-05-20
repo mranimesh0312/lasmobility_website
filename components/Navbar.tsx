@@ -168,90 +168,92 @@ export default function Navbar() {
     >
       <AnnouncementBar />
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-6 xl:px-8"
         aria-label="Primary navigation"
       >
-        {/* Logo */}
+        {/* Logo — never shrinks */}
         <Link href="/" className="flex shrink-0 items-center" aria-label="LAS Mobility home">
-          <ThemeLogo width={180} height={41} className="h-10 w-auto" priority />
+          <ThemeLogo width={160} height={36} className="h-9 w-auto" priority />
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-0.5 lg:flex">
-          {navLinks.map((item) => {
-            const active = pathname === item.href || pathname.startsWith(item.href + "/");
-            const hasDropdown = !!item.dropdown;
-            return (
-              <div
-                key={item.href}
-                className="relative"
-                onMouseEnter={() => hasDropdown && setActiveDropdown(item.label)}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <Link
-                  href={item.href}
-                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
-                    item.label === "Coming Soon"
-                      ? "font-semibold"
-                      : active
-                      ? "text-[var(--accent-text)]"
-                      : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                  }`}
-                  style={item.label === "Coming Soon" ? { color: "#F59E0B" } : undefined}
+        {/* Desktop nav — shown from xl (1280px) upward */}
+        <div className="hidden min-w-0 flex-1 items-center justify-center xl:flex">
+          <div className="flex items-center">
+            {navLinks.map((item) => {
+              const active = pathname === item.href || pathname.startsWith(item.href + "/");
+              const hasDropdown = !!item.dropdown;
+              return (
+                <div
+                  key={item.href}
+                  className="relative"
+                  onMouseEnter={() => hasDropdown && setActiveDropdown(item.label)}
+                  onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  {item.label === "Coming Soon" && <Clock className="h-3.5 w-3.5 mr-0.5" />}
-                  {item.label}
-                  {hasDropdown && (
-                    <ChevronDown
-                      className={`h-3.5 w-3.5 transition-transform duration-200 ${
-                        activeDropdown === item.label ? "rotate-180" : ""
-                      }`}
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-0.5 whitespace-nowrap rounded-lg px-2.5 py-2 text-[13px] font-medium transition-all ${
+                      item.label === "Coming Soon"
+                        ? "font-semibold"
+                        : active
+                        ? "text-[var(--accent-text)]"
+                        : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                    }`}
+                    style={item.label === "Coming Soon" ? { color: "#F59E0B" } : undefined}
+                  >
+                    {item.label === "Coming Soon" && <Clock className="h-3 w-3 mr-0.5 shrink-0" />}
+                    {item.label}
+                    {hasDropdown && (
+                      <ChevronDown
+                        className={`h-3 w-3 shrink-0 transition-transform duration-200 ${
+                          activeDropdown === item.label ? "rotate-180" : ""
+                        }`}
+                      />
+                    )}
+                  </Link>
+                  {active && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute bottom-0 left-2.5 right-2.5 h-0.5 rounded-full"
+                      style={{ background: "var(--accent)" }}
                     />
                   )}
-                </Link>
-                {active && (
-                  <motion.div
-                    layoutId="nav-indicator"
-                    className="absolute bottom-0 left-3 right-3 h-0.5 rounded-full"
-                    style={{ background: "var(--accent)" }}
-                  />
-                )}
 
-                {/* Mega dropdown */}
-                <AnimatePresence>
-                  {hasDropdown && activeDropdown === item.label && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="absolute top-full mt-2"
-                      style={
-                        item.dropdown === "coming-soon"
-                          ? { right: 0 }
-                          : { left: "50%", transform: "translateX(-50%)" }
-                      }
-                    >
-                      {item.dropdown === "features" && <FeaturesMegaMenu />}
-                      {item.dropdown === "solutions" && <SolutionsMegaMenu />}
-                      {item.dropdown === "industries" && <IndustriesMegaMenu />}
-                      {item.dropdown === "ai" && <AiMegaMenu />}
-                      {item.dropdown === "about" && <AboutMegaMenu />}
-                      {item.dropdown === "coming-soon" && <ComingSoonMegaMenu />}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
+                  {/* Mega dropdown */}
+                  <AnimatePresence>
+                    {hasDropdown && activeDropdown === item.label && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.18, ease: "easeOut" }}
+                        className="absolute top-full mt-2"
+                        style={
+                          item.dropdown === "coming-soon"
+                            ? { right: 0 }
+                            : { left: "50%", transform: "translateX(-50%)" }
+                        }
+                      >
+                        {item.dropdown === "features" && <FeaturesMegaMenu />}
+                        {item.dropdown === "solutions" && <SolutionsMegaMenu />}
+                        {item.dropdown === "industries" && <IndustriesMegaMenu />}
+                        {item.dropdown === "ai" && <AiMegaMenu />}
+                        {item.dropdown === "about" && <AboutMegaMenu />}
+                        {item.dropdown === "coming-soon" && <ComingSoonMegaMenu />}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Desktop actions */}
-        <div className="hidden items-center gap-2 lg:flex">
+        {/* Desktop actions — never shrinks, shown from xl upward */}
+        <div className="hidden shrink-0 items-center gap-1.5 xl:flex">
           <ThemeSwitcher />
           <Link
             href="/login"
-            className="inline-flex items-center rounded-lg px-4 py-2.5 text-sm font-semibold transition-all hover:opacity-90"
+            className="inline-flex h-9 items-center whitespace-nowrap rounded-lg px-3.5 text-[13px] font-semibold transition-all hover:opacity-90"
             style={{
               color: "var(--text-primary)",
               border: "1px solid var(--border)",
@@ -263,14 +265,14 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => openBookDemo("navbar")}
-            className="btn-primary inline-flex items-center rounded-lg px-4 py-2.5 text-sm font-semibold"
+            className="btn-primary inline-flex h-9 items-center whitespace-nowrap rounded-lg px-3.5 text-[13px] font-semibold"
           >
             Book a Demo
           </button>
         </div>
 
-        {/* Mobile controls */}
-        <div className="flex items-center gap-2 lg:hidden">
+        {/* Tablet / Mobile controls — visible below xl */}
+        <div className="flex shrink-0 items-center gap-2 xl:hidden">
           <ThemeSwitcher />
           <button
             type="button"
@@ -297,7 +299,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t lg:hidden"
+            className="overflow-hidden border-t xl:hidden"
             style={{
               borderColor: "var(--border)",
               background: "var(--nav-bg)",
