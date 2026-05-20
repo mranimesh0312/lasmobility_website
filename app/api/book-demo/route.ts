@@ -116,7 +116,7 @@ function getSiteUrl() {
 
 function emailShell(content: string) {
   const siteUrl = getSiteUrl();
-  const logoUrl = `${siteUrl}/logo-dark.png`;
+  const logoUrl = `${siteUrl}/brand/logo-dark.png`;
 
   return `<!DOCTYPE html>
 <html>

@@ -268,6 +268,64 @@ a { color: inherit; text-decoration: none; }
     linear-gradient(180deg, #E4EEF8 0%, #F0F6FF 100%);
 }
 
+.hero-route-flow {
+  animation: heroRouteFlow 11s linear infinite;
+}
+
+.hero-route-flow-slow {
+  animation: heroRouteFlow 16s linear infinite reverse;
+}
+
+.hero-gps-dot {
+  animation: heroGpsPulse 4.8s ease-in-out infinite;
+}
+
+.hero-gps-dot-delay {
+  animation-delay: 1.6s;
+}
+
+@keyframes heroRouteFlow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -160;
+  }
+}
+
+@keyframes heroGpsPulse {
+  0%, 100% {
+    opacity: 0.42;
+    transform: scale(0.94);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes heroRadar {
+  0%, 100% {
+    opacity: 0.36;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes heroPulseRing {
+  0%, 100% {
+    opacity: 0.28;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.58;
+    transform: scale(1.12);
+  }
+}
+
 /* Pricing card highlight */
 .pricing-featured {
   border-color: var(--accent) !important;

@@ -27,15 +27,15 @@ npm run build
 npm run start
 ```
 
-## Logo Replacement
+## Brand Assets
 
-The current logo files are placeholders:
+Official LAS Mobility brand assets are committed in:
 
-- `public/logo.svg`
-- `public/favicon.svg`
-- `public/og-image.svg`
+- `public/brand/logo-dark.png`
+- `public/brand/logo-light.png`
+- `public/brand/icon.png`
 
-Replace these files with the official LAS Mobility assets. If you use PNG assets, update the image paths in `components/Navbar.tsx`, `components/Footer.tsx`, `app/about/page.tsx`, and `app/layout.tsx`.
+`ThemeLogo` automatically switches between the light-background and dark-background logo. The browser tab icon uses `public/brand/icon.png`.
 
 ## Deployment on Vercel
 
@@ -51,9 +51,9 @@ Recommended production checks before launch:
 - Add a final OpenGraph image and favicon package.
 - Configure analytics and conversion tracking if needed.
 
-## Book Demo Email Setup
+## Email Setup
 
-The Book Demo form sends email using Microsoft Graph.
+The Book Demo and Career application forms send email using Microsoft Graph.
 
 Create `.env.local` locally, and add the same variables in Vercel Project Settings > Environment Variables:
 
@@ -69,4 +69,9 @@ The Azure app registration must have Microsoft Graph Application permission `Mai
 
 - animesh@lasmobility.com
 - lokesh@lasmobility.com
+- ashish@lasmobility.com
+
+Career application notifications are sent to:
+
+- animesh@lasmobility.com
 - ashish@lasmobility.com

@@ -19,11 +19,8 @@ interface ThemeLogoProps {
 
 /**
  * Theme-aware logo that crossfades between:
- *   /public/logo-light-NoBackground.png  (dark-navy text, for light backgrounds)
- *   /public/logo-dark-NoBackground.png   (white text, for dark backgrounds)
- *
- * If either PNG is missing it automatically falls back to /logo.svg
- * so local dev works out of the box before the PNGs are added.
+ *   /public/brand/logo-light.png  (dark logo for light backgrounds)
+ *   /public/brand/logo-dark.png   (light logo for dark backgrounds)
  */
 export default function ThemeLogo({
   width = 220,
@@ -35,11 +32,11 @@ export default function ThemeLogo({
   const { theme } = useTheme();
   const useDark = forceDark || theme === "dark";
 
-  // Graceful fallback: if PNG files haven't been added yet, use the SVG
+  // Graceful fallback: if brand PNG files haven't been added yet, use the SVG
   const [lightErr, setLightErr] = useState(false);
   const [darkErr, setDarkErr]   = useState(false);
-  const lightSrc = lightErr ? "/logo.svg" : "/logo-light.png";
-  const darkSrc  = darkErr  ? "/logo.svg" : "/logo-dark.png";
+  const lightSrc = lightErr ? "/logo.svg" : "/brand/logo-light.png";
+  const darkSrc  = darkErr  ? "/logo.svg" : "/brand/logo-dark.png";
 
   // Both images are rendered simultaneously; CSS opacity crossfades between
   // them when the theme changes — no unmount/remount flicker.

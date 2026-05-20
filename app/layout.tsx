@@ -46,7 +46,11 @@ export const metadata: Metadata = {
     description:
       "AI-powered fleet management software for tracking, safety, utilization, alerts, and analytics.",
   },
-  icons: { icon: "/favicon.svg", apple: "/logo-dark.png" },
+  icons: {
+    icon: "/brand/icon.png",
+    shortcut: "/brand/icon.png",
+    apple: "/brand/icon.png",
+  },
 };
 
 // Inline script runs synchronously before any paint — eliminates theme flicker.

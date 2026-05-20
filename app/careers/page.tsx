@@ -798,6 +798,7 @@ function ApplyModal({
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status === "loading") return;
     if (!file) { setFileError("Please upload your resume."); return; }
 
     setStatus("loading");
@@ -815,13 +816,13 @@ function ApplyModal({
       const res = await fetch("/api/apply", { method: "POST", body: fd });
       const data = await res.json();
       if (!res.ok) {
-        addToast(data?.error ?? "Something went wrong. Please try again.", "error");
+        addToast(data?.error ?? "We could not submit your application right now. Please try again or contact support@lasmobility.com.", "error");
         setStatus("idle");
       } else {
         setStatus("success");
       }
     } catch {
-      addToast("Network error. Please check your connection and try again.", "error");
+      addToast("We could not submit your application right now. Please try again or contact support@lasmobility.com.", "error");
       setStatus("idle");
     }
   };
@@ -879,9 +880,7 @@ function ApplyModal({
               Application Received!
             </h3>
             <p className="text-sm leading-6" style={{ color: "var(--text-secondary)" }}>
-              Thank you for applying for the <strong style={{ color: "var(--text-primary)" }}>{job.title}</strong> role.
-              Our team will review your application and get back to you within{" "}
-              <strong style={{ color: "var(--text-primary)" }}>5 business days</strong>.
+              Thank you for applying. We have received your application and will get back to you shortly.
             </p>
             <p className="text-xs" style={{ color: "var(--text-muted)" }}>
               A confirmation has been sent to your email address.
