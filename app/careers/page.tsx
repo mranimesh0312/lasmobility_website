@@ -6,8 +6,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, Briefcase, CheckCircle2, ChevronDown, Code2,
-  Globe, Loader2, Mail, MapPin, Rocket, Search, Shield, Star,
-  Upload, Users, X, Zap,
+  Globe, Loader2, Mail, MapPin, Rocket, Search, Shield, SlidersHorizontal,
+  Star, Upload, Users, X, Zap,
 } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
 import CTASection from "@/components/CTASection";
@@ -1305,11 +1305,37 @@ function JDSection({
    PAGE
 ───────────────────────────────────────── */
 
+/* ── Derive unique filter options from job data ── */
+const ALL_DEPTS    = Array.from(new Set(jobs.map((j) => j.department))).sort();
+const ALL_TYPES    = Array.from(new Set(jobs.map((j) => j.type))).sort();
+const ALL_LOCS     = Array.from(new Set(
+  jobs.flatMap((j) => j.location.split(" / "))
+)).sort();
+
 export default function CareersPage() {
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [mounted, setMounted] = useState(false);
 
+  /* Search & filter state */
+  const [searchQuery, setSearchQuery] = useState("");
+  const [deptFilter, setDeptFilter]   = useState("All");
+  const [locFilter,  setLocFilter]    = useState("All");
+  const [typeFilter, setTypeFilter]   = useState("All");
+
   useEffect(() => { setMounted(true); }, []);
+
+  /* Filtered jobs */
+  const q = searchQuery.trim().toLowerCase();
+  const filteredJobs = jobs.filter((job) => {
+    const matchesDept = deptFilter === "All" || job.department === deptFilter;
+    const matchesType = typeFilter === "All" || job.type === typeFilter;
+    const matchesLoc  = locFilter  === "All" || job.location.toLowerCase().includes(locFilter.toLowerCase());
+    const matchesQuery = !q || [
+      job.title, job.department, job.location, job.overview,
+      ...job.responsibilities, ...job.required, ...job.preferred,
+    ].some((s) => s.toLowerCase().includes(q));
+    return matchesDept && matchesType && matchesLoc && matchesQuery;
+  });
 
   return (
     <>
@@ -1431,10 +1457,155 @@ export default function CareersPage() {
             title="Join a team building the future of fleet"
             description={`${jobs.length} open roles across engineering, sales, operations, HR, finance, and more.`}
           />
-          <div className="mt-10 space-y-4">
-            {jobs.map((job) => (
-              <JobCard key={job.id} job={job} onApply={setSelectedJob} />
-            ))}
+
+          {/* ── Search & Filter Bar ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+            className="mt-8 space-y-3"
+          >
+            {/* Search input */}
+            <div
+              className="flex items-center gap-3 rounded-2xl px-4 py-3 transition-shadow focus-within:shadow-lg"
+              style={{
+                background: "var(--bg-card)",
+                border: "1px solid var(--border)",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
+              }}
+            >
+              <Search className="h-4 w-4 shrink-0" style={{ color: "var(--text-muted)" }} />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder='Search by title, skill, department, or location — e.g. "GoLang", "Finance", "Remote"'
+                className="flex-1 bg-transparent text-sm outline-none"
+                style={{ color: "var(--text-primary)" }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="shrink-0 rounded-full p-0.5 opacity-50 transition hover:opacity-100"
+                  style={{ color: "var(--text-muted)" }}
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+
+            {/* Filter dropdowns */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "var(--text-muted)" }}>
+                <SlidersHorizontal className="h-3.5 w-3.5" />
+                Filter:
+              </span>
+
+              {/* Department */}
+              <select
+                value={deptFilter}
+                onChange={(e) => setDeptFilter(e.target.value)}
+                className="rounded-xl px-3 py-1.5 text-xs font-semibold outline-none transition cursor-pointer"
+                style={{
+                  background: deptFilter !== "All" ? "var(--accent-glow)" : "var(--bg-card)",
+                  border: `1px solid ${deptFilter !== "All" ? "var(--border-accent)" : "var(--border)"}`,
+                  color: deptFilter !== "All" ? "var(--accent-text)" : "var(--text-secondary)",
+                }}
+              >
+                <option value="All">All Departments</option>
+                {ALL_DEPTS.map((d) => <option key={d} value={d}>{d}</option>)}
+              </select>
+
+              {/* Location */}
+              <select
+                value={locFilter}
+                onChange={(e) => setLocFilter(e.target.value)}
+                className="rounded-xl px-3 py-1.5 text-xs font-semibold outline-none transition cursor-pointer"
+                style={{
+                  background: locFilter !== "All" ? "var(--accent-glow)" : "var(--bg-card)",
+                  border: `1px solid ${locFilter !== "All" ? "var(--border-accent)" : "var(--border)"}`,
+                  color: locFilter !== "All" ? "var(--accent-text)" : "var(--text-secondary)",
+                }}
+              >
+                <option value="All">All Locations</option>
+                {ALL_LOCS.map((l) => <option key={l} value={l}>{l}</option>)}
+              </select>
+
+              {/* Type */}
+              <select
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value)}
+                className="rounded-xl px-3 py-1.5 text-xs font-semibold outline-none transition cursor-pointer"
+                style={{
+                  background: typeFilter !== "All" ? "var(--accent-glow)" : "var(--bg-card)",
+                  border: `1px solid ${typeFilter !== "All" ? "var(--border-accent)" : "var(--border)"}`,
+                  color: typeFilter !== "All" ? "var(--accent-text)" : "var(--text-secondary)",
+                }}
+              >
+                <option value="All">All Types</option>
+                {ALL_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+              </select>
+
+              {/* Active filter count + clear */}
+              {(deptFilter !== "All" || locFilter !== "All" || typeFilter !== "All" || searchQuery) && (
+                <button
+                  onClick={() => { setDeptFilter("All"); setLocFilter("All"); setTypeFilter("All"); setSearchQuery(""); }}
+                  className="rounded-xl px-3 py-1.5 text-xs font-semibold transition hover:opacity-80"
+                  style={{ background: "var(--bg-card)", border: "1px solid var(--border)", color: "var(--text-muted)" }}
+                >
+                  Clear all
+                </button>
+              )}
+
+              {/* Results count */}
+              <span className="ml-auto text-xs font-medium" style={{ color: "var(--text-muted)" }}>
+                {filteredJobs.length} {filteredJobs.length === 1 ? "role" : "roles"} found
+              </span>
+            </div>
+          </motion.div>
+
+          {/* Job list */}
+          <div className="mt-6 space-y-4">
+            <AnimatePresence mode="popLayout">
+              {filteredJobs.length > 0 ? (
+                filteredJobs.map((job) => (
+                  <motion.div
+                    key={job.id}
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.25 }}
+                  >
+                    <JobCard job={job} onApply={setSelectedJob} />
+                  </motion.div>
+                ))
+              ) : (
+                <motion.div
+                  key="no-results"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex flex-col items-center justify-center gap-3 rounded-2xl py-16 text-center"
+                  style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}
+                >
+                  <Search className="h-8 w-8" style={{ color: "var(--text-muted)" }} />
+                  <p className="text-base font-semibold" style={{ color: "var(--text-primary)" }}>
+                    No roles match your search
+                  </p>
+                  <p className="text-sm" style={{ color: "var(--text-muted)" }}>
+                    Try different keywords or clear the filters
+                  </p>
+                  <button
+                    onClick={() => { setDeptFilter("All"); setLocFilter("All"); setTypeFilter("All"); setSearchQuery(""); }}
+                    className="btn-primary mt-2 rounded-xl px-5 py-2 text-xs font-semibold"
+                  >
+                    Clear filters
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </section>
@@ -1467,11 +1638,11 @@ export default function CareersPage() {
               </div>
             </div>
             <a
-              href="mailto:careers@lasmobility.com"
+              href="mailto:support@lasmobility.com"
               className="btn-primary shrink-0 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold"
             >
               <Mail className="h-4 w-4" />
-              careers@lasmobility.com
+              support@lasmobility.com
             </a>
           </motion.div>
         </div>

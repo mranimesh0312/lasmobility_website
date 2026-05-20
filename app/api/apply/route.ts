@@ -131,7 +131,7 @@ function confirmationEmailHtml(fields: {
         In the meantime, feel free to explore more about us at
         <a href="https://lasmobility.com" style="color:#0AABAB;text-decoration:none">lasmobility.com</a>
         or reach out to us at
-        <a href="mailto:careers@lasmobility.com" style="color:#0AABAB;text-decoration:none">careers@lasmobility.com</a>
+        <a href="mailto:support@lasmobility.com" style="color:#0AABAB;text-decoration:none">support@lasmobility.com</a>
         if you have any questions.
       </p>
       <div style="padding:16px 20px;border-radius:8px;background:#f0fafa;border:1px solid #0AABAB33">
@@ -153,7 +153,7 @@ function confirmationEmailHtml(fields: {
       </p>
       <p style="margin:6px 0 0;font-size:11px;color:#d1d5db">
         You received this email because you applied for a role at LAS Mobility.
-        If this was in error, please contact <a href="mailto:careers@lasmobility.com" style="color:#9ca3af">careers@lasmobility.com</a>.
+        If this was in error, please contact <a href="mailto:support@lasmobility.com" style="color:#9ca3af">support@lasmobility.com</a>.
       </p>
     </td>
   </tr>

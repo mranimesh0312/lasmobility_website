@@ -94,8 +94,8 @@ const CITIES: City[] = [
   {
     id: "remote",
     name: "Remote",
-    country: "Global",
-    coordinates: [0, 20],
+    country: "Global · Antarctica",
+    coordinates: [20, -78],
     accent: "#A855F7",
     jobs: [
       { title: "DevOps / Platform Engineer", department: "Infrastructure" },
