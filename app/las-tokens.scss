@@ -1,0 +1,29 @@
+// Global entry for the LAS Mobility app design tokens.
+// SCSS variables live in styles/las/_variables.scss (verbatim app copy);
+// this file only emits the matching CSS custom properties once, globally.
+@use "../styles/las/theme-properties";
+
+// The app's --font-family names plain 'Inter'; on the website Inter is served
+// by next/font under a hashed family exposed as --font-inter on <body>.
+body {
+  --font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+// Lenis drives scrolling on the home experience; native smooth scrolling
+// would fight it (globals.css sets scroll-behavior: smooth on <html>).
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

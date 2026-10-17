@@ -1,0 +1,272 @@
+// Copied verbatim from Fleet_Management_Lasmobility/frontend-angular/src/styles/_variables.scss
+// (source commit c47f85ad, 2026-10-12). Do not edit here; re-copy when the app changes.
+
+// ============================================================
+// Accent / Status Colors  (fixed across all themes)
+// ============================================================
+$palette-navy-950: #050B16;
+$palette-navy-900: #071422;
+$palette-navy-850: #0B1B2D;
+$palette-navy-800: #10233A;
+$palette-sky-100:  #EAF2FB;
+$palette-sky-50:   #F6FAFE;
+$palette-cyan:     #18C7CC;
+$palette-cyan-600: #0EA5A8;
+$palette-cyan-700: #087F83;
+
+$color-primary:        $palette-cyan;
+$color-primary-light:  #67E8F9;
+$color-primary-dark:   $palette-cyan-700;
+$color-primary-bg:     rgba(24, 199, 204, 0.12);
+
+$color-success:        #10B981;
+$color-success-light:  #34D399;
+$color-success-bg:     rgba(16, 185, 129, 0.08);
+
+$color-warning:        #F59E0B;
+$color-warning-light:  #FCD34D;
+$color-warning-bg:     rgba(245, 158, 11, 0.08);
+
+$color-danger:         #EF4444;
+$color-danger-light:   #F87171;
+$color-danger-bg:      rgba(239, 68, 68, 0.08);
+
+$color-info:           #06B6D4;
+$color-info-light:     #67E8F9;
+$color-info-bg:        rgba(6, 182, 212, 0.1);
+
+$color-white:  #FFFFFF;
+
+// ============================================================
+// Extended palette — the app accumulated ad-hoc colors from both Ant
+// Design's default palette and Tailwind's default palette, re-typed as
+// literals in dozens of files instead of referencing a token. These name
+// the ~30 most-repeated ones so a color can be changed in one place; each
+// also has a matching CSS custom property in _themes.scss :root for the
+// handful of components that set styles from a TS template literal /
+// inline HTML style (outside the Sass pipeline).
+// ============================================================
+$palette-blue:         #3B82F6;
+$palette-blue-dark:    #2563EB;
+$palette-blue-ant:     #1677FF;
+$palette-green:        #22C55E;
+$palette-green-dark:   #16A34A;
+$palette-green-ant:    #52C41A;
+$palette-red-dark:     #DC2626;
+$palette-red-ant:      #FF4D4F;
+$palette-orange:       #F97316;
+$palette-orange-ant:   #FA8C16;
+$palette-amber-dark:   #D97706;
+$palette-indigo:       #4F46E5;
+$palette-indigo-light: #6366F1;
+$palette-violet:       #8B5CF6;
+$palette-violet-dark:  #7C3AED;
+$palette-teal:         #14B8A6;
+$palette-teal-deep:    #0F766E;
+$palette-sky:          #0EA5E9;
+$palette-navy-ink:     #0F172A;
+$palette-slate-50:     #F8FAFC;
+$palette-slate-200:    #E2E8F0;
+$palette-slate-400:    #94A3B8;
+$palette-slate-500:    #64748B;
+$palette-slate-600:    #475569;
+$palette-gray-500:     #6B7280;
+
+// Status
+$color-running: $color-success;
+$color-idle:    $color-warning;
+$color-stopped: $color-danger;
+$color-offline: #94A3B8;
+
+// ============================================================
+// Theme-aware colors — reference CSS custom properties
+// These compile to var(--xxx) allowing runtime theme switching
+// ============================================================
+$color-bg:              var(--bg-page);
+$color-surface:         var(--bg-card);
+$color-surface-raised:  var(--bg-card-elevated);
+$color-bg-input:        var(--bg-input);
+$color-header-bg:       var(--header-bg);
+$color-border:          var(--border-color);
+$color-border-light:    var(--border-subtle);
+$color-border-medium:   var(--border-medium);
+
+$color-text-primary:    var(--text-primary);
+$color-text-secondary:  var(--text-secondary);
+$color-text-muted:      var(--text-tertiary);
+$color-text-tertiary:   var(--text-tertiary);
+$color-text-faint:      var(--text-muted);
+$color-text-inverse:    var(--text-inverse);
+
+$color-sidebar-bg:            var(--sidebar-bg);
+$color-sidebar-border:        var(--sidebar-border);
+$color-sidebar-hover:         var(--sidebar-hover);
+$color-sidebar-hover-text:    var(--sidebar-hover-text);
+$color-sidebar-active:        var(--sidebar-active);
+$color-sidebar-text:          var(--sidebar-text);
+$color-sidebar-active-text:   var(--sidebar-active-text);
+
+// ============================================================
+// Brand / Partner dynamic overrides
+// Set at runtime by PartnerBrandingService — fall back to theme defaults
+// ============================================================
+$color-brand-primary:        var(--brand-primary);
+$color-brand-primary-hover:  var(--brand-primary-hover);
+$color-brand-primary-soft:   var(--brand-primary-soft);
+$color-brand-primary-strong: var(--brand-primary-strong);
+$color-partner-accent:       var(--partner-accent-color);
+$color-bg-hover:             var(--bg-hover);
+$color-sidebar-hover-bg:     var(--sidebar-hover);
+$color-sidebar-active-bg:    var(--sidebar-active);
+
+// Theme-aware banner treatment
+$gradient-banner:             var(--banner-gradient);
+$color-banner-text:           var(--banner-text);
+$color-banner-text-muted:     var(--banner-text-muted);
+$color-banner-border:         var(--banner-border);
+$color-banner-control-bg:     var(--banner-control-bg);
+$color-banner-control-text:   var(--banner-control-text);
+$color-banner-control-border: var(--banner-control-border);
+$color-banner-secondary-bg:   var(--banner-secondary-bg);
+$color-banner-secondary-text: var(--banner-secondary-text);
+$color-banner-secondary-border: var(--banner-secondary-border);
+
+// ============================================================
+// Spacing
+// Scaled globally by --spacing-scale (TypographyService). Any SCSS-level
+// arithmetic on these tokens must interpolate them: #{$spacing-x}.
+// ============================================================
+$spacing-scale: var(--spacing-scale, 1);
+$spacing-0:   0;
+$spacing-1:   calc(4px  * #{$spacing-scale});
+$spacing-2:   calc(8px  * #{$spacing-scale});
+$spacing-3:   calc(12px * #{$spacing-scale});
+$spacing-4:   calc(16px * #{$spacing-scale});
+$spacing-5:   calc(20px * #{$spacing-scale});
+$spacing-6:   calc(24px * #{$spacing-scale});
+$spacing-8:   calc(32px * #{$spacing-scale});
+$spacing-10:  calc(40px * #{$spacing-scale});
+$spacing-12:  calc(48px * #{$spacing-scale});
+$spacing-16:  calc(64px * #{$spacing-scale});
+$spacing-20:  calc(80px * #{$spacing-scale});
+
+// ============================================================
+// Typography
+// Font family + size/line-height scale multipliers are driven at runtime by
+// TypographyService via CSS custom properties (see styles/_themes.scss).
+// ============================================================
+$font-scale:       var(--font-scale, 1);
+$line-height-scale: var(--line-height-scale, 1);
+$font-family-avenir-light: 'Avenir-Light', 'Avenir-Book', Arial, sans-serif;
+$font-family-avenir-book:  'Avenir-Book', 'Avenir-Roman', Arial, sans-serif;
+$font-family-avenir-roman: 'Avenir-Roman', 'Avenir-Book', Arial, sans-serif;
+$font-family-avenir-medium: 'Avenir-Medium', 'Avenir-Book', Arial, sans-serif;
+$font-family-avenir-heavy: 'Avenir-Heavy', 'Avenir-Book', Arial, sans-serif;
+$font-family-avenir-black: 'Avenir-Black', 'Avenir-Book', Arial, sans-serif;
+$font-family:       var(--font-family, 'Inter', 'Avenir-Book', 'Avenir-Roman', 'Avenir', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+$font-size-xs:      calc(11px * #{$font-scale});
+$font-size-sm:      calc(12px * #{$font-scale});
+$font-size-base:    calc(13px * #{$font-scale});
+$font-size-md:      calc(14px * #{$font-scale});
+$font-size-lg:      calc(16px * #{$font-scale});
+$font-size-xl:      calc(18px * #{$font-scale});
+$font-size-2xl:     calc(20px * #{$font-scale});
+$font-size-3xl:     calc(24px * #{$font-scale});
+$font-size-4xl:     calc(30px * #{$font-scale});
+$font-size-5xl:     calc(36px * #{$font-scale});
+
+$font-weight-light:    300;
+$font-weight-normal:   var(--font-weight-base, 400);
+$font-weight-medium:   500;
+$font-weight-semibold: 600;
+$font-weight-bold:     700;
+
+$line-height-tight:   calc(1.25  * #{$line-height-scale});
+$line-height-snug:    calc(1.375 * #{$line-height-scale});
+$line-height-normal:  calc(1.5   * #{$line-height-scale});
+$line-height-relaxed: calc(1.625 * #{$line-height-scale});
+
+// ============================================================
+// Border Radius — small, restrained curve (not square, not the big
+// 20-24px soft-app rounding either). Scaled globally by --radius-scale
+// (TypographyService), runtime-adjustable same as the spacing scale
+// above. Any SCSS-level arithmetic on these tokens must interpolate
+// them: #{$radius-x}.
+// ============================================================
+$radius-scale: var(--radius-scale, 1);
+$radius-none: 0;
+$radius-sm:   calc(6px  * #{$radius-scale});
+$radius-md:   calc(8px  * #{$radius-scale});
+$radius-base: calc(10px * #{$radius-scale});
+$radius-lg:   calc(14px * #{$radius-scale});
+$radius-xl:   calc(20px * #{$radius-scale});
+$radius-2xl:  calc(24px * #{$radius-scale});
+$radius-full: 9999px;
+
+// ============================================================
+// Shadows — flat: thin borders carry separation, shadows are only
+// used where a true overlay (modal/dropdown) must float above content.
+// ============================================================
+$shadow-xs:   none;
+$shadow-sm:   0 1px 2px 0 rgba(0,0,0,0.06);
+$shadow-md:   0 1px 3px 0 rgba(0,0,0,0.08);
+$shadow-lg:   0 2px 6px 0 rgba(0,0,0,0.1);
+$shadow-xl:   0 4px 10px 0 rgba(0,0,0,0.12);
+$shadow-2xl:  0 6px 16px 0 rgba(0,0,0,0.16);
+$shadow-card: none;
+$shadow-card-hover: 0 1px 3px 0 rgba(0,0,0,0.08);
+
+// ============================================================
+// Z-Index
+// ============================================================
+$z-base:     1;
+$z-dropdown: 100;
+$z-sticky:   200;
+$z-fixed:    300;
+$z-modal-bg: 400;
+$z-modal:    500;
+$z-popover:  600;
+$z-tooltip:  700;
+$z-toast:    800;
+
+// ============================================================
+// Breakpoints
+// ============================================================
+$breakpoint-xs:  480px;
+$breakpoint-sm:  576px;
+$breakpoint-md:  768px;
+$breakpoint-lg:  992px;
+$breakpoint-xl:  1200px;
+$border-width-hairline: 1px;
+$motion-duration-fast: 150ms;
+
+// ============================================================
+// Shared LAS data visualization sizing
+// ============================================================
+$las-kpi-min-width: 180px;
+$las-filter-min-width: 160px;
+$las-chart-height: 320px;
+$las-chart-expanded-height: calc(100vh - 240px);
+$las-grid-height: 480px;
+$las-toolbar-button-size: 32px;
+$breakpoint-2xl: 1600px;
+
+// ============================================================
+// Layout Dimensions
+// ============================================================
+$sidebar-width:           240px;
+$sidebar-collapsed-width: 64px;
+$header-height:           52px;
+$top-menu-height:         42px;
+// Between the shell header (720) and the page header (710), so the top menu's
+// dropdown triggers sit above the page header but under the header's popovers.
+$z-top-menu:              715;
+$content-max-width:       1440px;
+
+// ============================================================
+// Transitions
+// ============================================================
+$transition-fast:   0.15s ease;
+$transition-base:   0.2s ease;
+$transition-slow:   0.3s ease;
+$transition-layout: 0.25s cubic-bezier(0.4, 0, 0.2, 1);

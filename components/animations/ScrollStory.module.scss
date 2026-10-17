@@ -1,0 +1,915 @@
+@use "../../styles/las/variables" as *;
+@use "../../styles/las/mixins" as *;
+
+// The story stage is a dark, cinematic "studio" in both site themes, like an
+// automotive configurator; sections after it follow the site theme.
+
+.story {
+  position: relative;
+  background: $palette-navy-950;
+
+  // Desktop: the full-screen stage starts under the sticky header, so the
+  // first frame (and the story navigation at its bottom) fits the viewport.
+  @media (min-width: 1024px) {
+    margin-top: calc(-1 * var(--site-header-h, 100px));
+  }
+}
+
+.stage {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  color: $color-white;
+}
+
+.canvas {
+  position: absolute !important;
+  inset: 0;
+  // Own stacking context: drei Html anchors (z up to 20) stay under the overlay UI.
+  z-index: 0;
+}
+
+.heroCopyWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: opacity $transition-slow, transform $transition-slow;
+}
+
+// While a hotspot is inspected the copy steps aside for the inspector.
+.heroCopyHidden {
+  opacity: 0;
+  transform: translateX(-16px);
+  pointer-events: none;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(5, 11, 22, 0.86) 0%, rgba(5, 11, 22, 0.5) 34%, rgba(5, 11, 22, 0) 58%),
+    linear-gradient(0deg, rgba(5, 11, 22, 0.7) 0%, rgba(5, 11, 22, 0) 22%);
+}
+
+// Hero atmosphere: a soft teal pool of light behind the car, screened over the canvas.
+.heroGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 38% 34% at 72% 58%, rgba(24, 199, 204, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 22% at 70% 82%, rgba(24, 199, 204, 0.1), transparent 70%);
+}
+
+.scrimRight,
+.scrimBottom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scrimRight {
+  background: linear-gradient(270deg, rgba(5, 11, 22, 0.88) 0%, rgba(5, 11, 22, 0.55) 34%, rgba(5, 11, 22, 0) 60%);
+}
+
+.scrimBottom {
+  background: linear-gradient(0deg, rgba(5, 11, 22, 0.92) 0%, rgba(5, 11, 22, 0.6) 30%, rgba(5, 11, 22, 0) 55%);
+}
+
+.panel {
+  position: absolute;
+  z-index: 2;
+  will-change: opacity, transform;
+}
+
+// ---------- hero ----------
+// Panels are centred with flex, not transforms: the scroll handler owns the
+// inline transform (fade offset).
+%vcenter {
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero {
+  @extend %vcenter;
+  left: max(#{$spacing-6}, calc((100vw - 1280px) / 2 + #{$spacing-8}));
+  align-items: flex-start;
+  width: min(560px, 44vw);
+  // The column is click-through; only its content takes pointer events,
+  // so the car behind stays draggable and its hotspots clickable.
+  pointer-events: none;
+
+  .heroCopyWrap:not(.heroCopyHidden),
+  .controls {
+    pointer-events: auto;
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin: 0 0 $spacing-5;
+  padding: $spacing-1 $spacing-3;
+  border: 1px solid rgba(24, 199, 204, 0.5);
+  border-radius: $radius-full;
+  background: rgba(24, 199, 204, 0.1);
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $color-primary-light;
+}
+
+.heroLogo {
+  display: block;
+  width: auto;
+  height: 56px;
+}
+
+.heroTitle {
+  margin: $spacing-5 0 0;
+  font-size: clamp(2.25rem, 3.6vw, 3.6rem);
+  font-weight: $font-weight-bold;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+}
+
+.accent {
+  color: $color-primary;
+}
+
+.heroBody {
+  margin: $spacing-5 0 0;
+  max-width: 34rem;
+  font-size: $font-size-lg;
+  line-height: $line-height-relaxed;
+  color: rgba(233, 236, 241, 0.82);
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-3;
+  margin-top: $spacing-8;
+}
+
+.ctaCenter {
+  justify-content: center;
+}
+
+%cta {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: $spacing-3 $spacing-6;
+  border-radius: $radius-lg;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: transform $transition-base, background $transition-base, border-color $transition-base;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary-light;
+    outline-offset: 3px;
+  }
+}
+
+.ctaPrimary {
+  @extend %cta;
+  border: 0;
+  background: $color-primary;
+  color: $palette-navy-950;
+
+  &:hover {
+    background: $color-primary-light;
+  }
+}
+
+.ctaGhost {
+  @extend %cta;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.06);
+  color: $color-white;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.hint {
+  margin: $spacing-4 0 0;
+  font-size: $font-size-sm;
+  color: $palette-slate-400;
+}
+
+// ---------- configurator ----------
+.controls {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-2;
+  margin-top: $spacing-8;
+  padding: $spacing-2;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: $radius-xl;
+  background: rgba(5, 11, 22, 0.55);
+  backdrop-filter: blur(10px);
+}
+
+.swatches {
+  display: flex;
+  gap: $spacing-2;
+  padding: 0 $spacing-1;
+}
+
+.swatch {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: transform $transition-fast, border-color $transition-fast;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary-light;
+    outline-offset: 2px;
+  }
+}
+
+.swatchActive {
+  border-color: $color-white;
+  box-shadow: 0 0 0 2px rgba(24, 199, 204, 0.6);
+}
+
+.divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.iconBtn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  background: transparent;
+  color: rgba(233, 236, 241, 0.86);
+  cursor: pointer;
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.08);
+    color: $color-white;
+  }
+
+  &[aria-pressed="true"] {
+    border-color: rgba(24, 199, 204, 0.5);
+    background: rgba(24, 199, 204, 0.16);
+    color: $color-primary-light;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary-light;
+    outline-offset: 1px;
+  }
+}
+
+// ---------- chapters ----------
+.chapter {
+  @extend %vcenter;
+  left: max(#{$spacing-6}, calc((100vw - 1280px) / 2 + #{$spacing-8}));
+  width: min(470px, 40vw);
+  pointer-events: none;
+
+  a,
+  button {
+    pointer-events: auto;
+  }
+}
+
+.right {
+  left: auto;
+  right: max(#{$spacing-16}, calc((100vw - 1280px) / 2 + #{$spacing-16}));
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  margin: 0 0 $spacing-4;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-primary;
+}
+
+.chapterTitle {
+  margin: 0;
+  font-size: clamp(1.9rem, 2.8vw, 2.9rem);
+  font-weight: $font-weight-bold;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.chapterBody {
+  margin: $spacing-4 0 0;
+  font-size: $font-size-lg;
+  line-height: $line-height-relaxed;
+  color: rgba(233, 236, 241, 0.8);
+}
+
+.points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2;
+  margin: $spacing-5 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: $spacing-1 $spacing-3;
+    border: 1px solid rgba(24, 199, 204, 0.35);
+    border-radius: $radius-full;
+    font-size: $font-size-sm;
+    color: $color-primary-light;
+  }
+}
+
+.sample {
+  margin: $spacing-3 0 0;
+  font-size: $font-size-xs;
+  letter-spacing: 0.04em;
+  color: $palette-slate-400;
+}
+
+.screenList {
+  display: grid;
+  gap: $spacing-2;
+  margin: $spacing-6 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: screen;
+
+  li {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-3;
+    padding: $spacing-2 $spacing-3;
+    border-left: 2px solid rgba(255, 255, 255, 0.12);
+    color: rgba(233, 236, 241, 0.55);
+    transition: color $transition-slow, border-color $transition-slow;
+    counter-increment: screen;
+
+    &::before {
+      content: counter(screen, decimal-leading-zero);
+      font-size: $font-size-xs;
+      font-variant-numeric: tabular-nums;
+    }
+
+    em {
+      margin-left: auto;
+      font-size: $font-size-xs;
+      font-style: normal;
+      color: $palette-slate-500;
+    }
+  }
+
+  .screenActive {
+    border-color: $color-primary;
+    color: $color-white;
+  }
+}
+
+// ---------- CTA ----------
+.cta {
+  left: 50%;
+  bottom: 12vh;
+  width: min(680px, 90vw);
+  margin-left: max(-340px, -45vw);
+  text-align: center;
+}
+
+.ctaTitle {
+  margin: 0;
+  font-size: clamp(2.2rem, 3.8vw, 3.8rem);
+  font-weight: $font-weight-bold;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+// ---------- hotspot inspector ----------
+.inspector {
+  position: absolute;
+  z-index: 3;
+  top: 18%;
+  left: max(#{$spacing-6}, calc((100vw - 1280px) / 2 + #{$spacing-8}));
+  width: min(380px, 36vw);
+  padding: $spacing-5;
+  border: 1px solid rgba(24, 199, 204, 0.3);
+  border-radius: $radius-lg;
+  background: rgba(5, 11, 22, 0.86);
+  backdrop-filter: blur(12px);
+  animation: inspectorIn 0.35s ease both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes inspectorIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}
+
+.inspectorClose {
+  position: absolute;
+  top: $spacing-3;
+  right: $spacing-3;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: $palette-slate-400;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: $color-white;
+  }
+}
+
+.inspectorTitle {
+  margin: 0;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+}
+
+.inspectorBody {
+  margin: $spacing-2 0 0;
+  font-size: $font-size-md;
+  line-height: $line-height-normal;
+  color: rgba(233, 236, 241, 0.78);
+}
+
+.readings {
+  display: grid;
+  gap: $spacing-2;
+  margin: $spacing-4 0 0;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    padding-top: $spacing-2;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  dt {
+    font-size: $font-size-sm;
+    color: $palette-slate-400;
+  }
+
+  dd {
+    margin: 0;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ---------- chapter rail ----------
+.rail {
+  --story-progress: 0;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  right: $spacing-6;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+  transform: translateY(-50%);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 6px;
+    bottom: 6px;
+    right: 5px;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      $color-primary calc(var(--story-progress) * 100%),
+      rgba(255, 255, 255, 0.16) calc(var(--story-progress) * 100%)
+    );
+  }
+}
+
+.railDot {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 120px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &::after {
+    content: "";
+    width: 11px;
+    height: 11px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: $radius-full;
+    background: $palette-navy-950;
+    transition: background $transition-base, border-color $transition-base, transform $transition-base;
+  }
+
+  &:hover .railLabel,
+  &:focus-visible .railLabel {
+    opacity: 1;
+    transform: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      box-shadow: 0 0 0 3px rgba(24, 199, 204, 0.5);
+    }
+  }
+}
+
+.railActive::after {
+  border-color: $color-primary;
+  background: $color-primary;
+  transform: scale(1.15);
+}
+
+.railLabel {
+  margin-right: $spacing-3;
+  font-size: $font-size-xs;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(233, 236, 241, 0.75);
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity $transition-base, transform $transition-base;
+
+  .railActive & {
+    opacity: 1;
+    transform: none;
+    color: $color-white;
+  }
+
+  // Hovering the rail reveals every chapter name, so it reads as a menu.
+  .rail:hover & {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// ---------- hero product layer ----------
+.heroLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.heroDock {
+  position: absolute;
+  right: 72px;
+  bottom: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: auto;
+
+  .controls {
+    margin-top: 0;
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .hint {
+    margin-top: $spacing-2;
+    font-size: $font-size-xs;
+  }
+}
+
+.heroCards {
+  position: absolute;
+  inset: 0;
+}
+
+.heroCard {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: $spacing-3;
+  min-width: 170px;
+  padding: 12px 16px 12px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(20, 30, 44, 0.72), rgba(8, 14, 24, 0.66));
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: heroFloat 7s ease-in-out infinite;
+
+  small {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: rgba(233, 236, 241, 0.6);
+  }
+
+  b {
+    display: block;
+    margin-top: 2px;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: $color-white;
+    font-variant-numeric: tabular-nums;
+
+    em {
+      font-style: normal;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(233, 236, 241, 0.6);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.heroCardText {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+.heroCardIcon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(24, 199, 204, 0.14);
+  color: $color-primary;
+}
+
+.liveDot {
+  width: 10px;
+  height: 10px;
+  margin: 0 6px 0 4px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+  animation: livePulse 1.8s infinite;
+}
+
+.heroMeter {
+  display: block;
+  width: 110px;
+  height: 4px;
+  margin-top: 6px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+
+  span {
+    display: block;
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #18c7cc, #10b981);
+  }
+}
+
+// Positions are tuned to the hero camera: the car sits in the right half.
+.heroCardA {
+  left: 53%;
+  top: 22%;
+}
+.heroCardB {
+  right: 9%;
+  top: 17%;
+  animation-delay: -2s;
+}
+.heroCardC {
+  right: 12%;
+  top: 74%;
+  animation-delay: -4s;
+}
+.heroCardD {
+  left: 51%;
+  top: 70%;
+  animation-delay: -5.5s;
+}
+
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes livePulse {
+  70% {
+    box-shadow: 0 0 0 9px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+@media (max-width: 1279px) {
+  .heroCardB,
+  .heroCardD {
+    display: none;
+  }
+}
+
+// ---------- bottom story navigation ----------
+.storyNav {
+  --story-progress: 0;
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: $spacing-6;
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: 6px 6px 6px $spacing-4;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: $radius-full;
+  background: rgba(5, 11, 22, 0.62);
+  backdrop-filter: blur(14px);
+  transform: translateX(-50%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+// On the closing CTA the story navigation steps aside for the CTA buttons.
+.storyNavDone {
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  pointer-events: none;
+}
+
+.storyNav {
+  transition: opacity $transition-base, transform $transition-base;
+}
+
+.storyCount {
+  min-width: 128px;
+  font-size: $font-size-xs;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(233, 236, 241, 0.7);
+  white-space: nowrap;
+
+  b {
+    color: $color-white;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.storyTrack {
+  position: relative;
+  width: 120px;
+  height: 3px;
+  margin-right: $spacing-2;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: $color-primary;
+    transform-origin: left;
+    transform: scaleX(var(--story-progress));
+  }
+}
+
+.storyBtn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: $radius-full;
+  background: transparent;
+  color: $color-white;
+  cursor: pointer;
+  transition: border-color $transition-base, background $transition-base;
+
+  &:hover:not(:disabled) {
+    border-color: $color-primary;
+    background: rgba(24, 199, 204, 0.12);
+  }
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+}
+
+.storySkip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 $spacing-4;
+  border: 0;
+  border-radius: $radius-full;
+  background: $color-primary;
+  color: #031012;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-primary-light;
+  }
+}
+
+// ---------- hero proof row ----------
+.proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-2 $spacing-5;
+  margin: $spacing-6 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding-left: 18px;
+    font-size: $font-size-sm;
+    color: rgba(233, 236, 241, 0.72);
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: $color-primary;
+      box-shadow: 0 0 10px rgba(24, 199, 204, 0.7);
+      transform: translateY(-50%);
+    }
+  }
+}
+
+@include respond-to("xl") {
+  .hero {
+    width: min(470px, 45vw);
+  }
+
+  .rail {
+    right: $spacing-3;
+  }
+
+  .railLabel {
+    display: none;
+  }
+}

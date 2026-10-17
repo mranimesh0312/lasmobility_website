@@ -30,7 +30,7 @@ const ToastContext = createContext<ToastContextValue>({
 });
 
 function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: (id: string) => void }) {
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   useEffect(() => {
     timerRef.current = setTimeout(() => onRemove(toast.id), 4500);

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Hero from "@/components/Hero";
+import HomeExperience from "@/components/animations/HomeExperience";
 import StatsBar from "@/components/StatsBar";
+import AppReplica from "@/components/replica/AppReplica";
 import FeaturesSection from "@/components/FeaturesSection";
-import LiveDashboardPreview from "@/components/LiveDashboardPreview";
 import MobileAppPreview from "@/components/MobileAppPreview";
 import AIIntelligenceSection from "@/components/AIIntelligenceSection";
 import IndustryCarousel from "@/components/IndustryCarousel";
@@ -18,12 +18,12 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Hero />
+      <HomeExperience />
       <StatsBar />
+      <AppReplica />
       <FeaturesSection />
-      <LiveDashboardPreview />
-      <MobileAppPreview />
       <AIIntelligenceSection />
+      <MobileAppPreview />
       <IndustryCarousel />
       <FAQSection />
       <CTASection />

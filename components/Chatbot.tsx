@@ -109,6 +109,7 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.95 }}
             transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            data-lenis-prevent
             className="fixed bottom-24 right-6 z-50 flex w-[340px] flex-col overflow-hidden rounded-2xl"
             style={{
               background: isDark ? "#0B1628" : "#FFFFFF",

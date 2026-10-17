@@ -1,0 +1,35 @@
+@use "../../styles/las/variables" as *;
+
+.stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: $radius-xl;
+  background: $palette-navy-950;
+}
+
+.canvas {
+  position: absolute !important;
+  inset: 0;
+  touch-action: pan-y;
+}
+
+.touchToggle {
+  position: absolute;
+  right: $spacing-3;
+  bottom: $spacing-3;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-1;
+  padding: $spacing-2 $spacing-3;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: $radius-full;
+  background: rgba(5, 11, 22, 0.7);
+  font-size: $font-size-sm;
+  color: $color-white;
+  cursor: pointer;
+
+  &[aria-pressed="true"] {
+    border-color: $color-primary;
+    color: $color-primary-light;
+  }
+}

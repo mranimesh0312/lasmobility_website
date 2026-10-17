@@ -4,12 +4,21 @@ Professional marketing website for LAS Mobility, an AI-powered fleet management 
 
 ## Tech Stack
 
-- Next.js App Router
+- Next.js App Router (React 19)
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS + SCSS modules using the LAS Mobility app's design tokens
 - Framer Motion
+- three.js, React Three Fiber, drei, GSAP ScrollTrigger, Lenis, MapLibre
 - lucide-react icons
 - SEO metadata, sitemap, and robots routes
+
+## 3D homepage
+
+The homepage runs a scroll-driven WebGL story and interactive product demos
+(three.js / React Three Fiber, GSAP ScrollTrigger, Lenis, MapLibre). Architecture,
+the production vehicle-model requirement and the product-screenshot workflow
+(`npm run screenshots:ingest`, `npm run screenshots:capture`) are documented in
+[`docs/3D-EXPERIENCE.md`](docs/3D-EXPERIENCE.md).
 
 ## Getting Started
 

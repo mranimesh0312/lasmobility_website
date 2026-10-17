@@ -1,0 +1,109 @@
+@use "../../styles/las/variables" as *;
+
+.hotspotWrap {
+  transition: opacity $transition-base;
+}
+
+.hotspot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: $radius-full;
+  background: rgba(5, 11, 22, 0.35);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: transform $transition-base, border-color $transition-base, background $transition-base;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: inherit;
+    border: 1px solid rgba(24, 199, 204, 0.35);
+    animation: hotspotPulse 2.4s ease-out infinite;
+  }
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.1);
+    border-color: $color-primary;
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      animation: none;
+    }
+  }
+}
+
+.hotspotActive {
+  border-color: $color-primary;
+  background: rgba(24, 199, 204, 0.25);
+}
+
+.hotspotDot {
+  width: 8px;
+  height: 8px;
+  border-radius: $radius-full;
+  background: $color-white;
+}
+
+@keyframes hotspotPulse {
+  from {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.teleCard {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 132px;
+  padding: $spacing-2 $spacing-3;
+  border: 1px solid rgba(24, 199, 204, 0.35);
+  border-left: 2px solid $color-primary;
+  border-radius: $radius-md;
+  background: rgba(5, 11, 22, 0.78);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.teleLabel {
+  font-size: $font-size-xs;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $palette-slate-400;
+}
+
+.teleValue {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  font-variant-numeric: tabular-nums;
+  color: $color-white;
+}
+
+.twinLabel {
+  transform: translate(10px, -50%);
+  padding: 2px $spacing-2;
+  border-radius: $radius-sm;
+  background: rgba(7, 20, 34, 0.82);
+  border: 1px solid rgba(24, 199, 204, 0.4);
+  font-size: $font-size-xs;
+  color: $color-primary-light;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.twinLabelLeft {
+  transform: translate(calc(-100% - 10px), -50%);
+}

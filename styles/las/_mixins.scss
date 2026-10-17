@@ -1,0 +1,173 @@
+// Copied verbatim from Fleet_Management_Lasmobility/frontend-angular/src/styles/_mixins.scss
+// (source commit c47f85ad). Do not edit here; re-copy when the app changes.
+
+@use 'variables' as *;
+
+// ============================================================
+// Responsive Breakpoints
+// ============================================================
+@mixin respond-to($bp) {
+  @if $bp == 'xs'  { @media (max-width: #{$breakpoint-xs})  { @content; } }
+  @if $bp == 'sm'  { @media (max-width: #{$breakpoint-sm})  { @content; } }
+  @if $bp == 'md'  { @media (max-width: #{$breakpoint-md})  { @content; } }
+  @if $bp == 'lg'  { @media (max-width: #{$breakpoint-lg})  { @content; } }
+  @if $bp == 'xl'  { @media (max-width: #{$breakpoint-xl})  { @content; } }
+  @if $bp == '2xl' { @media (max-width: #{$breakpoint-2xl}) { @content; } }
+}
+
+@mixin respond-up($bp) {
+  @if $bp == 'sm'  { @media (min-width: #{$breakpoint-sm})  { @content; } }
+  @if $bp == 'md'  { @media (min-width: #{$breakpoint-md})  { @content; } }
+  @if $bp == 'lg'  { @media (min-width: #{$breakpoint-lg})  { @content; } }
+  @if $bp == 'xl'  { @media (min-width: #{$breakpoint-xl})  { @content; } }
+}
+
+// ============================================================
+// Flexbox Utilities
+// ============================================================
+@mixin flex($dir: row, $align: stretch, $justify: flex-start, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $dir;
+  align-items: $align;
+  justify-content: $justify;
+  flex-wrap: $wrap;
+}
+
+@mixin flex-center { display: flex; align-items: center; justify-content: center; }
+@mixin flex-between { display: flex; align-items: center; justify-content: space-between; }
+@mixin flex-col { display: flex; flex-direction: column; }
+
+// ============================================================
+// Typography
+// ============================================================
+@mixin text($size: $font-size-base, $weight: $font-weight-normal, $color: $color-text-primary) {
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+}
+
+@mixin heading($size: $font-size-xl, $weight: $font-weight-semibold) {
+  font-size: $size;
+  font-weight: $weight;
+  color: $color-text-primary;
+  line-height: $line-height-tight;
+}
+
+@mixin truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// ============================================================
+// Cards
+// ============================================================
+@mixin card($padding: $spacing-6, $radius: $radius-lg) {
+  background: $color-surface;
+  border-radius: $radius;
+  box-shadow: $shadow-card;
+  padding: $padding;
+  border: 1px solid $color-border;
+}
+
+@mixin card-hover {
+  transition: border-color $transition-base;
+  &:hover {
+    border-color: $color-brand-primary;
+  }
+}
+
+// ============================================================
+// Status Colors
+// ============================================================
+@mixin status-color($status) {
+  @if $status == 'running'  { color: $color-running;  background: var(--color-success); }
+  @if $status == 'idle'     { color: $color-idle;     background: var(--color-warning); }
+  @if $status == 'stopped'  { color: $color-stopped;  background: var(--color-danger);  }
+  @if $status == 'offline'  { color: $color-offline;  background: color-mix(in srgb, var(--palette-slate-400) 10%, transparent); }
+}
+
+// ============================================================
+// Gradients
+// ============================================================
+@mixin gradient($from, $to, $dir: 135deg) {
+  background: linear-gradient($dir, $from, $to);
+}
+
+@mixin gradient-primary { @include gradient(var(--brand-primary), var(--brand-primary-strong)); }
+// The dark stop is a color-mix, not `darken()`: Sass colour functions evaluate
+// at BUILD time and cannot take a `var()` — these four were a compile error
+// waiting for the first caller (nothing uses them today, which is the only
+// reason the build is green). Mixing toward the ink token does the same job at
+// run time and follows whatever the theme re-cuts the hue to.
+/**
+ * A status surface -- tag, chip, banner, callout -- built from ONE token.
+ *
+ * The hand-written form is a light-theme triple: a dark ink on a pale fill
+ * inside a mid border (`#991b1b` on `#fef2f2` inside `#fecaca`). A pale fill is
+ * the one colour shape that gets LOUDER on a dark card rather than softer -- it
+ * has nowhere to go but toward white -- and the three parts drift apart every
+ * time the palette is re-cut, because nothing ties them together.
+ *
+ * The ink travels toward `--text-primary` rather than being spelled dark, so it
+ * darkens on white and lightens on a dark card while the fill moves the other
+ * way. The pair can never converge, on any theme, including a white-label one.
+ */
+@mixin status-surface($token, $ink: 55%, $fill: 12%, $edge: 30%) {
+  color: color-mix(in srgb, var($token) $ink, var(--text-primary));
+  background: color-mix(in srgb, var($token) $fill, transparent);
+  border-color: color-mix(in srgb, var($token) $edge, transparent);
+}
+
+@mixin gradient-shade($token, $amount: 12%) {
+  @include gradient(var($token), color-mix(in srgb, var($token) (100% - $amount), var(--palette-navy-ink)));
+}
+
+@mixin gradient-success  { @include gradient-shade(--color-success); }
+@mixin gradient-warning  { @include gradient-shade(--color-warning); }
+@mixin gradient-danger   { @include gradient-shade(--color-danger); }
+@mixin gradient-info     { @include gradient-shade(--color-info); }
+
+// ============================================================
+// Scrollbar
+// ============================================================
+@mixin scrollbar($size: 4px, $track: transparent, $thumb: null) {
+  &::-webkit-scrollbar { width: $size; height: $size; }
+  &::-webkit-scrollbar-track { background: $track; }
+  &::-webkit-scrollbar-thumb { background: if($thumb, $thumb, var(--scrollbar-thumb)); border-radius: $radius-full; }
+  &::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+}
+
+// ============================================================
+// Absolute Fill
+// ============================================================
+@mixin absolute-fill {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+}
+
+// ============================================================
+// Elevation Shadows
+// ============================================================
+@mixin elevation($level: 1) {
+  @if $level == 0 { box-shadow: none; }
+  @if $level == 1 { box-shadow: $shadow-sm; }
+  @if $level == 2 { box-shadow: $shadow-md; }
+  @if $level == 3 { box-shadow: $shadow-lg; }
+  @if $level == 4 { box-shadow: $shadow-xl; }
+}
+
+// ============================================================
+// Focus Ring
+// ============================================================
+@mixin focus-ring($color: var(--brand-primary)) {
+  outline: 2px solid $color;
+  outline-offset: 2px;
+}

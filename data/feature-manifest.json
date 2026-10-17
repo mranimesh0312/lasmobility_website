@@ -1,0 +1,174 @@
+{
+  "$comment": "Product screens shown on the website. appRoute is the real Angular route in Fleet_Management_Lasmobility/frontend-angular/src/app/app.routes.ts; ':vehicleId' is replaced with FLEET_DEMO_VEHICLE_ID by scripts/capture-app-screenshots.mjs. tier = account tier the route needs.",
+  "features": [
+    {
+      "id": "dashboard",
+      "title": "Fleet dashboard",
+      "appRoute": "/dashboard",
+      "tier": "user",
+      "sitePath": "/features",
+      "waitFor": ".shell__content"
+    },
+    {
+      "id": "live-tracking",
+      "title": "Live tracking",
+      "appRoute": "/vehicles/live-tracking",
+      "tier": "user",
+      "sitePath": "/features/live-tracking",
+      "waitFor": "#live-map"
+    },
+    {
+      "id": "vehicles",
+      "title": "Vehicle management",
+      "appRoute": "/vehicles",
+      "tier": "user",
+      "sitePath": "/features",
+      "waitFor": ".ag-row"
+    },
+    {
+      "id": "vehicle-details",
+      "title": "Vehicle details",
+      "appRoute": "/vehicles/:vehicleId/details",
+      "tier": "user",
+      "sitePath": "/features/live-tracking",
+      "waitFor": "app-vehicle-detail"
+    },
+    {
+      "id": "trips",
+      "title": "Trip history & replay",
+      "appRoute": "/trips/all",
+      "tier": "user",
+      "sitePath": "/features/route-analytics",
+      "waitFor": "app-trips"
+    },
+    {
+      "id": "routes",
+      "title": "Routes",
+      "appRoute": "/trips/routes",
+      "tier": "user",
+      "sitePath": "/features/route-optimization",
+      "waitFor": "app-trip-routes"
+    },
+    {
+      "id": "telemetry",
+      "title": "Live telemetry",
+      "appRoute": "/vehicles/:vehicleId/live",
+      "tier": "user",
+      "sitePath": "/features/live-tracking",
+      "waitFor": ".shell__content"
+    },
+    {
+      "id": "geofencing",
+      "title": "Geofencing",
+      "appRoute": "/geofences",
+      "tier": "user",
+      "sitePath": "/features/smart-alerts",
+      "waitFor": "app-geofence"
+    },
+    {
+      "id": "immobilization",
+      "title": "Remote immobilization",
+      "appRoute": "/vehicles/:vehicleId/details",
+      "tier": "user",
+      "sitePath": "/features/driver-safety",
+      "waitFor": "app-vehicle-detail"
+    },
+    {
+      "id": "driver-identification",
+      "title": "Driver identification",
+      "appRoute": "/drivers",
+      "tier": "user",
+      "sitePath": "/features/driver-identification",
+      "waitFor": ".shell__content"
+    },
+    {
+      "id": "temperature",
+      "title": "Temperature monitoring",
+      "appRoute": "/temperature/overview",
+      "tier": "user",
+      "sitePath": "/features/temperature-monitoring",
+      "waitFor": ".shell__content"
+    },
+    {
+      "id": "fuel",
+      "title": "Fuel management",
+      "appRoute": "/fuel/overview",
+      "tier": "user",
+      "sitePath": "/features/fuel-monitoring",
+      "waitFor": ".shell__content"
+    },
+    {
+      "id": "maintenance",
+      "title": "Maintenance",
+      "appRoute": "/maintenance",
+      "tier": "user",
+      "sitePath": "/features",
+      "waitFor": ".shell__content"
+    },
+    {
+      "id": "expenses",
+      "title": "Expense management",
+      "appRoute": "/expenses/overview",
+      "tier": "user",
+      "sitePath": "/features/fuel-monitoring",
+      "waitFor": "app-expenses"
+    },
+    {
+      "id": "reports",
+      "title": "Reports",
+      "appRoute": "/reports/all",
+      "tier": "user",
+      "sitePath": "/features/route-analytics",
+      "waitFor": ".shell__content"
+    },
+    {
+      "id": "alerts",
+      "title": "Alerts",
+      "appRoute": "/alerts/all",
+      "tier": "user",
+      "sitePath": "/features/smart-alerts",
+      "waitFor": "app-alerts"
+    },
+    {
+      "id": "documents",
+      "title": "Document management",
+      "appRoute": "/documents/analytics",
+      "tier": "user",
+      "sitePath": "/features",
+      "waitFor": "app-documents"
+    },
+    {
+      "id": "rental-hub",
+      "title": "Rental Hub",
+      "appRoute": "/rental/dashboard",
+      "tier": "franchise",
+      "sitePath": "/industries/corporate-mobility",
+      "waitFor": ".shell__content"
+    },
+    {
+      "id": "franchise",
+      "title": "Franchise management",
+      "appRoute": "/configurations/franchise/partners",
+      "tier": "platform",
+      "sitePath": "/about/partners",
+      "waitFor": ".ag-row"
+    },
+    {
+      "id": "subscriptions",
+      "title": "Subscription management",
+      "appRoute": "/subscriptions",
+      "tier": "franchise",
+      "sitePath": "/contact",
+      "waitFor": ".shell__content"
+    },
+    {
+      "id": "mobile-app",
+      "title": "Mobile app",
+      "appRoute": "/",
+      "tier": "user",
+      "sitePath": "/features",
+      "waitFor": "ion-app",
+      "app": "mobile"
+    }
+  ]
+}

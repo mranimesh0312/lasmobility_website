@@ -27,3 +27,9 @@ next-dev.err.log
 dev-server.log
 dev-server.err.log
 .claude/
+
+# screenshot capture debugging
+capture-login-failure.png
+.env.capture.local
+screenshots-inbox/*/*
+!screenshots-inbox/README.md

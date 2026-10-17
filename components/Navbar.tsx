@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, ChevronDown, ArrowRight,
@@ -140,32 +140,105 @@ const navLinks = [
   { label: "Coming Soon",    href: "/coming-soon",     dropdown: "coming-soon" },
 ];
 
+/** "Log in" opens the LAS Mobility web app (the website has no login of its own). */
+const APP_LOGIN_URL = `${process.env.NEXT_PUBLIC_APP_URL ?? "https://lasmobility-web.vercel.app"}/login`;
+
+/** The site's dark-theme header palette, applied over dark sections in either theme. */
+const DARK_TONE = {
+  "--nav-bg": "rgba(6,14,26,0.72)",
+  "--bg-card": "#162035",
+  "--text-primary": "#F8FAFC",
+  "--text-secondary": "#94A3B8",
+  "--text-muted": "#94A3B8",
+  "--border": "rgba(255,255,255,0.08)",
+  "--border-accent": "rgba(14,206,206,0.3)",
+  "--accent": "#0ECECE",
+  "--accent-glow": "rgba(14,206,206,0.2)",
+  "--accent-text": "#22D9D9",
+} as React.CSSProperties;
+
 export default function Navbar() {
   const pathname = usePathname();
   const { open: openBookDemo } = useBookDemo();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const progressRef = useRef<HTMLDivElement>(null);
+  // A short grace period before a dropdown closes, so a pointer that cuts a
+  // corner on its way to a menu item doesn't lose the menu.
+  const closeTimer = useRef<number | undefined>(undefined);
+  const openDropdown = (label: string | null) => {
+    window.clearTimeout(closeTimer.current);
+    setActiveDropdown(label);
+  };
+  const closeDropdownSoon = () => {
+    window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => setActiveDropdown(null), 160);
+  };
 
+  // Scroll-aware header: always on screen (it is the site's navigation), with a
+  // shadow once scrolled and page progress drawn along its edge. Its height
+  // never changes while scrolling, so scroll-driven sections stay in sync.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 20);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (progressRef.current) progressRef.current.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
+    };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); }, [pathname]);
+  useEffect(() => { setMobileOpen(false); setActiveDropdown(null); }, [pathname]);
+
+  // A dark full-screen section under the header (the homepage story) sets
+  // <html data-header-tone="dark">; the header then uses its dark palette.
+  const [overDark, setOverDark] = useState(false);
+  useEffect(() => {
+    const html = document.documentElement;
+    const read = () => setOverDark(html.dataset.headerTone === "dark");
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(html, { attributes: true, attributeFilter: ["data-header-tone"] });
+    return () => mo.disconnect();
+  }, []);
+
+  // Publish the header height so full-screen sections (the homepage story)
+  // can sit underneath it instead of starting below it.
+  const headerRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const set = () => document.documentElement.style.setProperty("--site-header-h", `${el.offsetHeight}px`);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   return (
     <header
-      className="sticky top-0 z-50 w-full transition-all duration-300"
+      id="site-header"
+      ref={headerRef}
+      className="sticky top-0 z-50 w-full transition-all duration-300 motion-reduce:transition-none"
       style={{
+        ...(overDark ? DARK_TONE : null),
         background: "var(--nav-bg)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
         borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
         boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.12)" : "none",
+
       }}
     >
+      <div
+        ref={progressRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-0 h-[2px] w-full origin-left"
+        style={{ background: "var(--accent)", transform: "scaleX(0)" }}
+      />
       <AnnouncementBar />
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-6 xl:px-8"
@@ -173,7 +246,7 @@ export default function Navbar() {
       >
         {/* Logo — never shrinks */}
         <Link href="/" className="flex shrink-0 items-center" aria-label="LAS Mobility home">
-          <ThemeLogo width={160} height={36} className="h-9 w-auto" priority />
+          <ThemeLogo width={172} height={34} priority forceDark={overDark} />
         </Link>
 
         {/* Desktop nav — shown from xl (1280px) upward */}
@@ -186,8 +259,8 @@ export default function Navbar() {
                 <div
                   key={item.href}
                   className="relative"
-                  onMouseEnter={() => hasDropdown && setActiveDropdown(item.label)}
-                  onMouseLeave={() => setActiveDropdown(null)}
+                  onMouseEnter={() => openDropdown(hasDropdown ? item.label : null)}
+                  onMouseLeave={closeDropdownSoon}
                 >
                   <Link
                     href={item.href}
@@ -222,16 +295,15 @@ export default function Navbar() {
                   <AnimatePresence>
                     {hasDropdown && activeDropdown === item.label && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
+                        // Centering goes through framer's `x` (a CSS transform would be
+                        // overwritten by the `y` animation), and the gap below the
+                        // trigger is padding, so the pointer never leaves the hover area.
+                        initial={{ opacity: 0, y: 10, x: item.dropdown === "coming-soon" ? 0 : "-50%" }}
+                        animate={{ opacity: 1, y: 0, x: item.dropdown === "coming-soon" ? 0 : "-50%" }}
+                        exit={{ opacity: 0, y: 10, x: item.dropdown === "coming-soon" ? 0 : "-50%" }}
                         transition={{ duration: 0.18, ease: "easeOut" }}
-                        className="absolute top-full mt-2"
-                        style={
-                          item.dropdown === "coming-soon"
-                            ? { right: 0 }
-                            : { left: "50%", transform: "translateX(-50%)" }
-                        }
+                        className="absolute top-full pt-2"
+                        style={item.dropdown === "coming-soon" ? { right: 0 } : { left: "50%" }}
                       >
                         {item.dropdown === "features" && <FeaturesMegaMenu />}
                         {item.dropdown === "solutions" && <SolutionsMegaMenu />}
@@ -252,7 +324,7 @@ export default function Navbar() {
         <div className="hidden shrink-0 items-center gap-1.5 xl:flex">
           <ThemeSwitcher />
           <Link
-            href="/login"
+            href={APP_LOGIN_URL}
             className="inline-flex h-9 items-center whitespace-nowrap rounded-lg px-3.5 text-[13px] font-semibold transition-all hover:opacity-90"
             style={{
               color: "var(--text-primary)",
@@ -291,19 +363,25 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile / tablet menu. It overlays the page below the header instead of
+          growing the header, and scrolls on its own: on short laptop screens
+          the full menu is taller than the viewport, and a sticky header that
+          grows can't be scrolled, so its lower links were unreachable. */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t xl:hidden"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            data-lenis-prevent
+            className="absolute inset-x-0 top-full overflow-y-auto overscroll-contain border-t shadow-2xl xl:hidden"
             style={{
+              maxHeight: "calc(100svh - var(--site-header-h, 100px))",
               borderColor: "var(--border)",
               background: "var(--nav-bg)",
               backdropFilter: "blur(24px)",
+              WebkitBackdropFilter: "blur(24px)",
             }}
           >
             <div className="mx-auto max-w-7xl space-y-1 px-4 py-4 sm:px-6">
@@ -341,7 +419,7 @@ export default function Navbar() {
               })}
               <div className="mt-3 flex gap-2">
                 <Link
-                  href="/login"
+                  href={APP_LOGIN_URL}
                   className="flex-1 rounded-lg px-4 py-3 text-center text-sm font-semibold transition"
                   style={{ border: "1px solid var(--border)", color: "var(--text-primary)" }}
                 >

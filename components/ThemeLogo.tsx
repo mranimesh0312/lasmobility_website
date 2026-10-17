@@ -19,8 +19,10 @@ interface ThemeLogoProps {
 
 /**
  * Theme-aware logo that crossfades between:
- *   /public/brand/logo-light.png  (dark logo for light backgrounds)
- *   /public/brand/logo-dark.png   (light logo for dark backgrounds)
+ *   /public/brand/logo-light-tight.png  (dark logo for light backgrounds)
+ *   /public/brand/logo-dark-tight.png   (light logo for dark backgrounds)
+ * The "-tight" files are the brand PNGs cropped to the artwork (the originals
+ * carry ~60% transparent padding, which made the logo render tiny).
  */
 export default function ThemeLogo({
   width = 220,
@@ -35,8 +37,8 @@ export default function ThemeLogo({
   // Graceful fallback: if brand PNG files haven't been added yet, use the SVG
   const [lightErr, setLightErr] = useState(false);
   const [darkErr, setDarkErr]   = useState(false);
-  const lightSrc = lightErr ? "/logo.svg" : "/brand/logo-light.png";
-  const darkSrc  = darkErr  ? "/logo.svg" : "/brand/logo-dark.png";
+  const lightSrc = lightErr ? "/logo.svg" : "/brand/logo-light-tight.png";
+  const darkSrc  = darkErr  ? "/logo.svg" : "/brand/logo-dark-tight.png";
 
   // Both images are rendered simultaneously; CSS opacity crossfades between
   // them when the theme changes — no unmount/remount flicker.
