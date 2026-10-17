@@ -6,6 +6,7 @@ import { BookDemoProvider } from "@/context/BookDemoContext";
 import BookDemoModal from "@/components/BookDemoModal";
 import Chatbot from "@/components/Chatbot";
 import SmoothScroll from "@/components/animations/SmoothScroll";
+import NavProgress from "@/components/NavProgress";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -13,6 +14,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
       <ToastProvider>
         <BookDemoProvider>
           <SmoothScroll />
+          <NavProgress />
           {children}
           <BookDemoModal />
           <Chatbot />
