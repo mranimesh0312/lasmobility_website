@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, type MutableRefObject } from "react";
+import { useEffect, useRef, type MutableRefObject } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { cameraAt, type CameraKey } from "./storyMath";
-import { damp, type StoryRuntime } from "./storyRuntime";
+import { damp, introEase, type StoryRuntime } from "./storyRuntime";
 
 interface Props {
   rt: MutableRefObject<StoryRuntime>;
@@ -13,7 +13,12 @@ interface Props {
   zoom: number;
   /** Subtle pointer parallax (desktop, motion allowed). */
   parallax: boolean;
+  /** Slow drift around the car after a few seconds without input. */
+  idle?: boolean;
 }
+
+/** Seconds without input before the idle drift starts. */
+const IDLE_AFTER = 4;
 
 const tmpTarget = new THREE.Vector3();
 const tmpPos = new THREE.Vector3();
@@ -23,7 +28,7 @@ const tmpPos = new THREE.Vector3();
  * target, a hotspot override near the top of the page, zoom, and a little
  * mouse parallax. Everything is damped so scroll jumps never cut.
  */
-export default function CameraRig({ rt, focus, zoom, parallax }: Props) {
+export default function CameraRig({ rt, focus, zoom, parallax, idle = false }: Props) {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const pointer = useThree((s) => s.pointer);
   const size = useThree((s) => s.size);
@@ -33,6 +38,19 @@ export default function CameraRig({ rt, focus, zoom, parallax }: Props) {
   const look = useRef(new THREE.Vector3(0, 0.8, 0));
   const sph = useRef({ az: 0.72, el: 0.16, r: 8.4, fov: 30, focusMix: 0 });
   const initialised = useRef(false);
+  const lastInput = useRef(0);
+  const idleMix = useRef(0);
+  const idleClock = useRef(0);
+
+  // Any input pauses the idle drift; it eases back in once the visitor rests.
+  useEffect(() => {
+    if (!idle) return;
+    lastInput.current = performance.now();
+    const mark = () => void (lastInput.current = performance.now());
+    const events = ["pointermove", "pointerdown", "wheel", "keydown", "scroll", "touchstart"] as const;
+    events.forEach((e) => window.addEventListener(e, mark, { passive: true }));
+    return () => events.forEach((e) => window.removeEventListener(e, mark));
+  }, [idle]);
 
   useFrame((_, delta) => {
     const dt = Math.min(delta, 0.05);
@@ -44,9 +62,22 @@ export default function CameraRig({ rt, focus, zoom, parallax }: Props) {
     s.focusMix = damp(s.focusMix, focus && hero > 0.5 ? 1 : 0, 4, dt);
     const f = focus ?? key;
     const m = s.focusMix;
-    const az = key.az + (f.az - key.az) * m + (parallax ? pointer.x * 0.06 * hero : 0);
-    const el = key.el + (f.el - key.el) * m + (parallax ? pointer.y * 0.035 * hero : 0);
-    const rad = (key.r + (f.r - key.r) * m) * (1 + (zoom - 1) * hero) * aspectPullback;
+
+    // Opening: the camera swings in from a wider, lower angle and settles.
+    const settle = 1 - introEase(r);
+
+    // Idle drift: a slow sway around the car while nobody is interacting.
+    const resting = idle && !focus && hero > 0.5 && performance.now() - lastInput.current > IDLE_AFTER * 1000;
+    idleMix.current = damp(idleMix.current, resting ? 1 : 0, 1.2, dt);
+    if (idleMix.current > 0.001) {
+      idleClock.current += dt;
+      r.busy = true;
+    }
+    const drift = Math.sin(idleClock.current * 0.22) * 0.16 * idleMix.current;
+
+    const az = key.az + (f.az - key.az) * m + (parallax ? pointer.x * 0.06 * hero : 0) + 0.5 * settle + drift;
+    const el = key.el + (f.el - key.el) * m + (parallax ? pointer.y * 0.035 * hero : 0) - 0.05 * settle;
+    const rad = (key.r + (f.r - key.r) * m) * (1 + (zoom - 1) * hero) * aspectPullback * (1 + 0.3 * settle);
     const fov = key.fov + (f.fov - key.fov) * m;
     tmpTarget.set(
       key.target[0] + (f.target[0] - key.target[0]) * m,

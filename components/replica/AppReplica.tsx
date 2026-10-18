@@ -11,10 +11,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { AI_PROMPTS, ALERTS, SEVERITY_META, ago } from "@/data/appReplicaData";
 import { ReplicaContext, type ReplicaApi, type ScreenId } from "./context";
 import { Drawer, cx } from "./ui";
-import { DashboardScreen, LiveTrackingScreen, TripsScreen, VehicleDetailScreen, VehiclesScreen } from "./screens/FleetScreens";
-import {
-  AiScreen, AlertsScreen, DriversScreen, FuelScreen, MaintenanceScreen, ModuleOverviewScreen, RentalScreen, ReportsScreen, TemperatureScreen,
-} from "./screens/OpsScreens";
+import ScreenSwitch from "./ScreenSwitch";
 import s from "./Replica.module.scss";
 
 interface NavItem {
@@ -71,24 +68,6 @@ const QUICK: { id: ScreenId; label: string }[] = [
   { id: "rental", label: "Rental Hub" },
 ];
 
-function Screen({ id }: { id: ScreenId }) {
-  switch (id) {
-    case "dashboard": return <DashboardScreen />;
-    case "live": return <LiveTrackingScreen />;
-    case "vehicles": return <VehiclesScreen />;
-    case "vehicle": return <VehicleDetailScreen />;
-    case "trips": return <TripsScreen />;
-    case "alerts": return <AlertsScreen />;
-    case "fuel": return <FuelScreen />;
-    case "temperature": return <TemperatureScreen />;
-    case "maintenance": return <MaintenanceScreen />;
-    case "drivers": return <DriversScreen />;
-    case "reports": return <ReportsScreen />;
-    case "ai": return <AiScreen />;
-    case "rental": return <RentalScreen />;
-    default: return <ModuleOverviewScreen id={id} />;
-  }
-}
 
 /**
  * "Drive the app": an interactive recreation of the LAS Mobility web app with
@@ -386,14 +365,14 @@ export default function AppReplica() {
                 </nav>
 
                 <div ref={contentRef} className={s.content} data-lenis-prevent>
-                  <Screen id={screen} />
+                  <ScreenSwitch id={screen} />
                 </div>
               </div>
 
               {aiOpen && <AiDrawer onClose={() => setAiOpen(false)} />}
               {toastMsg && (
                 <div className={s.toast} role="status">
-                  <CheckCircle2 size={16} color="#10B981" /> {toastMsg}
+                  <CheckCircle2 size={16} color="var(--success)" /> {toastMsg}
                 </div>
               )}
             </div>

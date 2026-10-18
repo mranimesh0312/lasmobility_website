@@ -38,13 +38,13 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: (id: string) =
   }, [toast.id, onRemove]);
 
   const icon =
-    toast.type === "success" ? <CheckCircle2 className="h-5 w-5" style={{ color: "#22C55E" }} /> :
-    toast.type === "error"   ? <XCircle      className="h-5 w-5" style={{ color: "#EF4444" }} /> :
+    toast.type === "success" ? <CheckCircle2 className="h-5 w-5" style={{ color: "var(--success)" }} /> :
+    toast.type === "error"   ? <XCircle      className="h-5 w-5" style={{ color: "var(--danger)" }} /> :
                                <Info         className="h-5 w-5" style={{ color: "var(--accent-text)" }} />;
 
   const border =
-    toast.type === "success" ? "rgba(34,197,94,0.35)" :
-    toast.type === "error"   ? "rgba(239,68,68,0.35)"  :
+    toast.type === "success" ? "rgb(var(--success-rgb) / 0.35)" :
+    toast.type === "error"   ? "rgb(var(--danger-rgb) / 0.35)"  :
                                "var(--border-accent)";
 
   return (

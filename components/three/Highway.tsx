@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import type { StoryRuntime } from "./storyRuntime";
+import { PALETTE } from "@/lib/palette";
 
 const DASH_GAP = 12;
 const DASHES = 36;
@@ -34,7 +35,7 @@ export default function Highway({ rt, lowDetail }: { rt: MutableRefObject<StoryR
       rail: new THREE.MeshStandardMaterial({ color: "#8A9098", metalness: 0.9, roughness: 0.4, transparent: true }),
       post: new THREE.MeshStandardMaterial({ color: "#4B5057", metalness: 0.7, roughness: 0.5, transparent: true }),
       lamp: new THREE.MeshStandardMaterial({ color: "#FFE2B0", emissive: "#FFC870", emissiveIntensity: 3, transparent: true }),
-      skyline: new THREE.MeshStandardMaterial({ color: "#0B1220", emissive: "#10233A", emissiveIntensity: 0.6, roughness: 1, transparent: true }),
+      skyline: new THREE.MeshStandardMaterial({ color: PALETTE.studioRoad, emissive: PALETTE.surface2, emissiveIntensity: 0.6, roughness: 1, transparent: true }),
     }),
     []
   );

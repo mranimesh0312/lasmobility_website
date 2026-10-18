@@ -64,8 +64,8 @@ export default function NavProgress() {
         height: 3,
         width: `${width}%`,
         opacity: state === "idle" ? 0 : 1,
-        background: "linear-gradient(90deg, #0ECECE, #22D9D9)",
-        boxShadow: "0 0 10px rgba(14,206,206,0.7)",
+        background: "linear-gradient(90deg, var(--accent), var(--accent-hover))",
+        boxShadow: "0 0 10px rgb(var(--accent-rgb) / 0.7)",
         transition: "width 0.2s ease, opacity 0.3s ease",
         pointerEvents: "none",
       }}

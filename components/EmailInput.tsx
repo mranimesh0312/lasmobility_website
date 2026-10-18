@@ -125,7 +125,7 @@ export default function EmailInput({
             style={{
               background: "var(--bg-deep)",
               border: "1px solid var(--border-accent)",
-              boxShadow: "0 16px 48px rgba(0,0,0,0.5)",
+              boxShadow: "0 16px 48px rgb(var(--black-rgb) / 0.5)",
             }}
             role="listbox"
             aria-label="Email suggestions"

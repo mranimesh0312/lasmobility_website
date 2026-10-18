@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { PALETTE } from "@/lib/palette";
 
 export type LightingMode = "day" | "night";
 export type QualityTier = "low" | "medium" | "high";
@@ -17,7 +18,7 @@ export const PAINTS: PaintOption[] = [
   { id: "glacier", label: "Glacier White", color: "#E9ECEF", metalness: 0.15, roughness: 0.32 },
   { id: "graphite", label: "Graphite", color: "#2B3038", metalness: 0.7, roughness: 0.28 },
   { id: "obsidian", label: "Obsidian Black", color: "#0B0D10", metalness: 0.55, roughness: 0.22 },
-  { id: "teal", label: "LAS Teal", color: "#0EA5A8", metalness: 0.65, roughness: 0.26 },
+  { id: "teal", label: "LAS Teal", color: PALETTE.accentMid, metalness: 0.65, roughness: 0.26 },
   { id: "crimson", label: "Crimson", color: "#8E1B22", metalness: 0.6, roughness: 0.27 },
 ];
 

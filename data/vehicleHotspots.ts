@@ -119,17 +119,23 @@ export interface HeroHotspot {
  */
 function focusCamera(id: ComponentId, az: number, el: number, r: number): CameraKey {
   const [x, y, z] = componentPositions("suv")[id];
-  const shift = 0.55; // metres to the camera's left; right vector is (sin az, 0, -cos az)
+  // Metres to the camera's left (right vector is (sin az, 0, -cos az)): the
+  // component lands right of centre, clear of the inspector panel on the left.
+  const shift = 1.15;
   return { az, el, r, target: [x - Math.sin(az) * shift, y, z + Math.cos(az) * shift], fov: 30 };
 }
 
-/** Hero hotspots and the camera framing each one gets when selected. */
+/**
+ * Hero hotspots and the camera framing each one gets when selected: a gentle
+ * push-in (the whole car stays readable), not a close-up.
+ */
 export const HERO_HOTSPOTS: HeroHotspot[] = [
-  { id: "gps", camera: focusCamera("gps", 0.9, 0.5, 6.4) },
-  { id: "battery", camera: focusCamera("battery", 0.4, 0.38, 6.2) },
-  { id: "immobilizer", camera: focusCamera("immobilizer", 1.25, 0.3, 6.0) },
-  { id: "fuel", camera: focusCamera("fuel", 2.2, 0.2, 6.4) },
-  { id: "driverId", camera: focusCamera("driverId", 1.0, 0.42, 5.8) },
-  { id: "temperature", camera: focusCamera("temperature", 2.75, 0.3, 6.6) },
-  { id: "tpms", camera: focusCamera("tpms", 1.05, 0.14, 5.4) },
+  { id: "gps", camera: focusCamera("gps", 0.9, 0.42, 9.6) },
+  { id: "battery", camera: focusCamera("battery", 0.45, 0.32, 9.4) },
+  { id: "immobilizer", camera: focusCamera("immobilizer", 1.2, 0.26, 9.2) },
+  { id: "fuel", camera: focusCamera("fuel", 2.1, 0.2, 9.6) },
+  { id: "driverId", camera: focusCamera("driverId", 1.0, 0.36, 9.0) },
+  { id: "temperature", camera: focusCamera("temperature", 2.6, 0.28, 9.8) },
+  { id: "tpms", camera: focusCamera("tpms", 1.05, 0.14, 8.8) },
+  { id: "doors", camera: focusCamera("doors", 1.4, 0.22, 9.2) },
 ];

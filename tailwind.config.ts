@@ -8,58 +8,83 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      // Site-wide content width (every section uses max-w-7xl). Wider than
+      // Tailwind's 1280px so large screens are used rather than left empty.
+      maxWidth: {
+        "7xl": "100rem",
+      },
       colors: {
         // Brand
+        // Every colour resolves to a CSS custom property in app/globals.css
+        // (the app's softened graphite palette), so utilities follow the theme.
         teal: {
-          50:  "#F0FEFE",
-          100: "#CCFAFA",
-          200: "#99F5F5",
-          300: "#5DECEC",
-          400: "#22D9D9",
-          500: "#0ECECE",
-          600: "#0AABAB",
-          700: "#088888",
-          800: "#066565",
-          900: "#044444",
+          50:  "var(--slate-50)",
+          100: "var(--slate-200)",
+          200: "var(--accent-text)",
+          300: "var(--accent-text)",
+          400: "var(--accent-hover)",
+          500: "rgb(var(--accent-rgb) / <alpha-value>)",
+          600: "var(--accent-mid)",
+          700: "var(--accent-strong)",
+          800: "var(--accent-strong)",
+          900: "var(--surface-1)",
         },
         navy: {
-          50:  "#EEF4FF",
-          100: "#D8E8FF",
-          200: "#B4CCEE",
-          300: "#7499C4",
-          400: "#4A6D9A",
-          500: "#2A4770",
-          600: "#1E3050",
-          700: "#162035",
-          800: "#0B1628",
-          900: "#060E1A",
-          950: "#030810",
+          50:  "var(--slate-50)",
+          100: "var(--slate-200)",
+          200: "var(--slate-400)",
+          300: "var(--slate-500)",
+          400: "var(--slate-600)",
+          500: "var(--slate-700)",
+          600: "rgb(var(--surface-3-rgb) / <alpha-value>)",
+          700: "rgb(var(--surface-2-rgb) / <alpha-value>)",
+          800: "rgb(var(--surface-1-rgb) / <alpha-value>)",
+          900: "rgb(var(--surface-0-rgb) / <alpha-value>)",
+          950: "rgb(var(--stage-rgb) / <alpha-value>)",
+        },
+        // Tailwind's stock hues re-pointed at the muted tokens, so a stray
+        // utility (text-amber-400, bg-emerald-400...) cannot bring neon back.
+        emerald: { 300: "var(--success-light)", 400: "var(--success)", 500: "var(--success)", 600: "var(--success)", 700: "var(--success)" },
+        green: { 400: "var(--success)", 500: "var(--success)", 600: "var(--success)" },
+        red: { 300: "var(--danger-light)", 400: "var(--danger-light)", 500: "var(--danger)", 600: "var(--danger)" },
+        amber: {
+          50: "color-mix(in srgb, var(--warning) 12%, transparent)",
+          200: "var(--warning-light)",
+          300: "var(--warning-light)",
+          400: "var(--warning)",
+          500: "var(--warning)",
+          900: "color-mix(in srgb, var(--warning) 55%, black)",
+        },
+        cyan: { DEFAULT: "rgb(var(--accent-rgb) / <alpha-value>)", 300: "var(--accent-text)", 400: "var(--accent-hover)", 500: "var(--accent)" },
+        sky: { 300: "var(--accent-text)", 400: "var(--accent-hover)" },
+        slate: {
+          50: "var(--slate-50)", 100: "var(--slate-200)", 200: "var(--slate-200)", 300: "var(--slate-400)",
+          400: "var(--slate-400)", 500: "var(--slate-500)", 600: "var(--slate-600)", 700: "var(--slate-700)", 900: "var(--slate-900)",
         },
         // Aliases
-        ink: "#0B1628",
-        cyan: "#0ECECE",
-        mint: "#22D9D9",
-        electric: "#0AABAB",
+        ink: "rgb(var(--surface-1-rgb) / <alpha-value>)",
+        mint: "var(--accent-hover)",
+        electric: "var(--accent-strong)",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "ui-sans-serif", "system-ui"],
       },
       backgroundImage: {
         "grid-dark":
-          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          "linear-gradient(rgb(var(--mist-rgb) / 0.035) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--mist-rgb) / 0.035) 1px, transparent 1px)",
         "grid-light":
-          "linear-gradient(rgba(11,22,40,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(11,22,40,0.06) 1px, transparent 1px)",
+          "linear-gradient(rgb(var(--ink-rgb) / 0.06) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--ink-rgb) / 0.06) 1px, transparent 1px)",
         "hero-gradient":
-          "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(14,206,206,0.18), transparent), linear-gradient(180deg, #060E1A 0%, #0B1628 60%, #0B1628 100%)",
+          "radial-gradient(ellipse 80% 50% at 50% -20%, rgb(var(--accent-rgb) / 0.06), transparent), linear-gradient(180deg, var(--surface-0) 0%, var(--surface-1) 60%)",
         "teal-glow":
-          "radial-gradient(circle, rgba(14,206,206,0.3) 0%, transparent 70%)",
+          "radial-gradient(circle, rgb(var(--accent-rgb) / 0.1) 0%, transparent 70%)",
       },
       boxShadow: {
-        soft:     "0 8px 40px rgba(11,22,40,0.08)",
-        card:     "0 24px 64px rgba(0,0,0,0.4)",
-        glow:     "0 0 40px rgba(14,206,206,0.25)",
-        "glow-sm":"0 0 20px rgba(14,206,206,0.18)",
-        "inner-glow": "inset 0 1px 0 rgba(255,255,255,0.08)",
+        soft:     "0 8px 40px rgb(var(--ink-rgb) / 0.08)",
+        card:     "0 24px 64px rgb(var(--black-rgb) / 0.4)",
+        glow:     "0 0 40px rgb(var(--accent-rgb) / 0.125)",
+        "glow-sm":"0 0 20px rgb(var(--accent-rgb) / 0.09)",
+        "inner-glow": "inset 0 1px 0 rgb(var(--white-rgb) / 0.06)",
       },
       animation: {
         "fade-in":      "fadeIn 0.5s ease both",

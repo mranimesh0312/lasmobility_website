@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import type { MutableRefObject } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { toCreasedNormals } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { VEHICLE_SPECS, componentPositions, type ComponentId, type VehicleSpec, type VehicleVariant } from "./vehicleSpecs";
+import { PALETTE } from "@/lib/palette";
 
 /** Per-frame animation inputs, written by whoever drives the scene. */
 export interface VehicleAnimState {
@@ -31,7 +32,7 @@ interface VehicleModelProps {
   lowDetail?: boolean;
 }
 
-const TWIN_COLOR = new THREE.Color("#18C7CC"); // $palette-cyan
+const TWIN_COLOR = new THREE.Color(PALETTE.accent); // $palette-cyan
 
 function archArc(shape: THREE.Shape, cx: number, cy: number, r: number, y: number) {
   const a = Math.asin(THREE.MathUtils.clamp((y - cy) / r, -1, 1));
@@ -182,14 +183,14 @@ function createMaterials(): Materials {
     tire: new THREE.MeshStandardMaterial({ color: "#121314", metalness: 0, roughness: 0.88 }),
     rim: new THREE.MeshStandardMaterial({ color: "#B9BEC5", metalness: 1, roughness: 0.22 }),
     disc: new THREE.MeshStandardMaterial({ color: "#5A5E63", metalness: 0.9, roughness: 0.42 }),
-    caliper: new THREE.MeshStandardMaterial({ color: "#0EA5A8", metalness: 0.3, roughness: 0.35 }), // $palette-cyan-600
+    caliper: new THREE.MeshStandardMaterial({ color: PALETTE.accentMid, metalness: 0.3, roughness: 0.35 }), // $palette-cyan-600
     headlight: new THREE.MeshStandardMaterial({ color: "#F4F8FF", emissive: "#EAF4FF", emissiveIntensity: 4, roughness: 0.1 }),
     drl: new THREE.MeshStandardMaterial({ color: "#E8FBFF", emissive: "#CFF7FA", emissiveIntensity: 3, roughness: 0.1 }),
     tail: new THREE.MeshStandardMaterial({ color: "#5A0A0E", emissive: "#FF2433", emissiveIntensity: 2.4, roughness: 0.2 }),
     indicator: new THREE.MeshStandardMaterial({ color: "#3A2606", emissive: "#FFA51F", emissiveIntensity: 0, roughness: 0.2 }),
     twinLines: new THREE.LineBasicMaterial({ color: TWIN_COLOR, transparent: true, opacity: 0, depthWrite: false }),
-    node: new THREE.MeshStandardMaterial({ color: "#0B1B2D", emissive: TWIN_COLOR, emissiveIntensity: 1.2, transparent: true, opacity: 0 }),
-    nodeActive: new THREE.MeshStandardMaterial({ color: "#0B1B2D", emissive: "#67E8F9", emissiveIntensity: 4, transparent: true, opacity: 0 }),
+    node: new THREE.MeshStandardMaterial({ color: PALETTE.stageRaised, emissive: TWIN_COLOR, emissiveIntensity: 1.2, transparent: true, opacity: 0 }),
+    nodeActive: new THREE.MeshStandardMaterial({ color: PALETTE.stageRaised, emissive: PALETTE.accentText, emissiveIntensity: 4, transparent: true, opacity: 0 }),
   };
 }
 
@@ -281,15 +282,44 @@ export default function VehicleModel({ variant = "suv", paint, anim, highlight =
   );
   useEffect(() => () => Object.values(mats).forEach((m) => m.dispose()), [mats]);
 
+  // Paint changes cross-fade in the frame loop (~0.6 s) instead of snapping.
+  // On a demand-rendered canvas the tween must keep requesting frames itself,
+  // otherwise the new colour never reaches the screen.
+  const invalidate = useThree((s) => s.invalidate);
+  const paintTarget = useRef({ color: new THREE.Color(paint.color), metalness: paint.metalness, roughness: paint.roughness });
+  const paintInit = useRef(false);
   useEffect(() => {
-    mats.paint.color.set(paint.color);
-    mats.paint.metalness = paint.metalness;
-    mats.paint.roughness = paint.roughness;
-  }, [mats, paint.color, paint.metalness, paint.roughness]);
+    const t = paintTarget.current;
+    t.color.set(paint.color);
+    t.metalness = paint.metalness;
+    t.roughness = paint.roughness;
+    if (!paintInit.current) {
+      paintInit.current = true;
+      mats.paint.color.copy(t.color);
+      mats.paint.metalness = t.metalness;
+      mats.paint.roughness = t.roughness;
+    }
+    invalidate();
+  }, [mats, paint.color, paint.metalness, paint.roughness, invalidate]);
 
   useFrame((frame, delta) => {
     const s = state.current;
     const dt = Math.min(delta, 0.05);
+
+    const t = paintTarget.current;
+    const k = 1 - Math.exp(-7 * dt);
+    const p = mats.paint;
+    const dc = Math.abs(p.color.r - t.color.r) + Math.abs(p.color.g - t.color.g) + Math.abs(p.color.b - t.color.b);
+    if (dc > 0.002 || Math.abs(p.metalness - t.metalness) > 0.002) {
+      p.color.lerp(t.color, k);
+      p.metalness += (t.metalness - p.metalness) * k;
+      p.roughness += (t.roughness - p.roughness) * k;
+      invalidate();
+    } else if (dc > 0) {
+      p.color.copy(t.color);
+      p.metalness = t.metalness;
+      p.roughness = t.roughness;
+    }
     for (const w of wheels.current) if (w) w.rotation.z -= s.wheelSpeed * dt;
 
     const blinkOn = s.hazards && Math.floor(frame.clock.elapsedTime * 1.6) % 2 === 0;

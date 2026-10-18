@@ -17,9 +17,9 @@ const capabilities = [
 ];
 
 const useCases = [
-  { title: "HVAC & Plumbing",      description: "Dispatch technicians to emergency and scheduled jobs with nearest-vehicle logic. Auto-log every site visit with GPS timestamps.", stat: "30% more calls/day" },
-  { title: "IT Field Support",     description: "Track field engineers across large service zones. Visit duration logging builds a verifiable record for SLA compliance and billing.", stat: "↓ 25% response time" },
-  { title: "Utilities & Maintenance", description: "Manage inspection and maintenance crews across distributed infrastructure. Geofence every site for automatic arrival confirmation.", stat: "100% visits logged" },
+  { title: "HVAC & Plumbing",      description: "Dispatch technicians to emergency and scheduled jobs with nearest-vehicle logic. Auto-log every site visit with GPS timestamps.", stat: "Nearest technician dispatched" },
+  { title: "IT Field Support",     description: "Track field engineers across large service zones. Visit duration logging builds a verifiable record for SLA compliance and billing.", stat: "Incidents seen live" },
+  { title: "Utilities & Maintenance", description: "Manage inspection and maintenance crews across distributed infrastructure. Geofence every site for automatic arrival confirmation.", stat: "Every visit logged" },
 ];
 
 function ResponseTimeChart() {
@@ -34,20 +34,20 @@ function ResponseTimeChart() {
     <svg viewBox="0 0 320 130" className="w-full" aria-label="Average response time trend dropping over 6 weeks" role="img">
       <defs>
         <linearGradient id="fsRespGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#0ECECE"/>
-          <stop offset="100%" stopColor="#0ECECE" stopOpacity="0.6"/>
+          <stop offset="0%" stopColor="var(--accent)"/>
+          <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.6"/>
         </linearGradient>
         <linearGradient id="fsFillGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#0ECECE" stopOpacity="0.15"/>
-          <stop offset="100%" stopColor="#0ECECE" stopOpacity="0"/>
+          <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.15"/>
+          <stop offset="100%" stopColor="var(--accent)" stopOpacity="0"/>
         </linearGradient>
       </defs>
       {[20, 30, 40, 50].map(v => {
         const y = 100 - ((v - minV) / range) * 80;
         return (
           <g key={v}>
-            <text x="28" y={y + 4} fontSize="8" fill="rgba(255,255,255,0.3)" textAnchor="end">{v}m</text>
-            <line x1="32" y1={y} x2="310" y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+            <text x="28" y={y + 4} fontSize="8" fill="rgb(var(--white-rgb) / 0.3)" textAnchor="end">{v}m</text>
+            <line x1="32" y1={y} x2="310" y2={y} stroke="rgb(var(--white-rgb) / 0.05)" strokeWidth="1"/>
           </g>
         );
       })}
@@ -55,9 +55,9 @@ function ResponseTimeChart() {
       <polyline points={pts} fill="none" stroke="url(#fsRespGrad)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
       {vals.map((v, i) => (
         <g key={i}>
-          <circle cx={36 + i * 48} cy={100 - ((v - minV) / range) * 80} r="4" fill="#0ECECE"/>
-          <text x={36 + i * 48} y={100 - ((v - minV) / range) * 80 - 9} fontSize="8" fill="rgba(14,206,206,0.9)" textAnchor="middle">{v}m</text>
-          <text x={36 + i * 48} y="115" fontSize="8" fill="rgba(255,255,255,0.3)" textAnchor="middle">{weeks[i]}</text>
+          <circle cx={36 + i * 48} cy={100 - ((v - minV) / range) * 80} r="4" fill="var(--accent)"/>
+          <text x={36 + i * 48} y={100 - ((v - minV) / range) * 80 - 9} fontSize="8" fill="rgb(var(--accent-rgb) / 0.9)" textAnchor="middle">{v}m</text>
+          <text x={36 + i * 48} y="115" fontSize="8" fill="rgb(var(--white-rgb) / 0.3)" textAnchor="middle">{weeks[i]}</text>
         </g>
       ))}
     </svg>
@@ -68,7 +68,7 @@ export default function FieldServicePage() {
   return (
     <>
       <section className="section-pad relative overflow-hidden" style={{ background: "var(--bg-deep)" }}>
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 45% at 65% 30%, rgba(14,206,206,0.1), transparent)" }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 45% at 65% 30%, rgb(var(--accent-rgb) / 0.1), transparent)" }} />
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-30" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2">
@@ -95,15 +95,15 @@ export default function FieldServicePage() {
               </div>
             </div>
             <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7 }}>
-              <div className="overflow-hidden rounded-2xl" style={{ border: "1px solid var(--border-accent)", boxShadow: "0 24px 64px rgba(0,0,0,0.45), 0 0 60px rgba(14,206,206,0.1)" }}>
+              <div className="overflow-hidden rounded-2xl" style={{ border: "1px solid var(--border-accent)", boxShadow: "0 24px 64px rgb(var(--black-rgb) / 0.45), 0 0 60px rgb(var(--accent-rgb) / 0.1)" }}>
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <Image src="/industry-car-rental.avif" alt="Field service technician dispatch" fill className="object-cover" priority />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(6,14,26,0.85), transparent 60%)" }} />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgb(var(--ink-deep-rgb) / 0.85), transparent 60%)" }} />
                   <div className="absolute bottom-3 left-3 right-3 flex gap-2">
-                    {[{ v:"30%", l:"More calls/day" }, { v:"↓25%", l:"Response time" }, { v:"Live", l:"Map dispatch" }].map(({ v, l }) => (
-                      <div key={l} className="flex-1 rounded-lg px-2.5 py-2 text-center backdrop-blur-md" style={{ background: "rgba(6,14,26,0.7)", border: "1px solid rgba(14,206,206,0.2)" }}>
+                    {[{ v:"Nearest", l:"Technician dispatch" }, { v:"Live", l:"Incident response" }, { v:"Live", l:"Map dispatch" }].map(({ v, l }) => (
+                      <div key={l} className="flex-1 rounded-lg px-2.5 py-2 text-center backdrop-blur-md" style={{ background: "rgb(var(--ink-deep-rgb) / 0.7)", border: "1px solid rgb(var(--accent-rgb) / 0.2)" }}>
                         <p className="text-sm font-bold" style={{ color: "var(--accent-text)" }}>{v}</p>
-                        <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>{l}</p>
+                        <p className="text-[10px]" style={{ color: "rgb(var(--white-rgb) / 0.5)" }}>{l}</p>
                       </div>
                     ))}
                   </div>
@@ -117,7 +117,7 @@ export default function FieldServicePage() {
       <section style={{ background: "var(--bg-base)" }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4" style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-            {[{ v:"30%", l:"More calls per day" }, { v:"↓25%", l:"Response time" }, { v:"100%", l:"Visits logged" }, { v:"Live", l:"Map dispatch" }].map(({ v, l }, i) => (
+            {[{ v:"Nearest", l:"Technician dispatch" }, { v:"Live", l:"Incident response" }, { v:"Every visit", l:"Logged automatically" }, { v:"Live", l:"Map dispatch" }].map(({ v, l }, i) => (
               <div key={l} className="px-8 py-10 text-center" style={{ borderRight: i < 3 ? "1px solid var(--border)" : undefined }}>
                 <p className="text-3xl font-bold" style={{ color: "var(--accent-text)" }}>{v}</p>
                 <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{l}</p>
@@ -133,7 +133,7 @@ export default function FieldServicePage() {
           <div className="mt-12 overflow-hidden rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
             <p className="mb-1 text-sm font-bold" style={{ color: "var(--text-primary)" }}>Average Response Time — 6 Week Trend</p>
             <p className="mb-5 text-xs" style={{ color: "var(--text-muted)" }}>Average minutes from job assignment to technician on-site (48 min → 22 min)</p>
-            <div className="rounded-xl p-4" style={{ background: "#060E1A" }}><ResponseTimeChart /></div>
+            <div className="rounded-xl p-4" style={{ background: "var(--ink-deep)" }}><ResponseTimeChart /></div>
             <div className="mt-4 rounded-lg p-3" style={{ background: "var(--accent-glow)", border: "1px solid var(--border-accent)" }}>
               <p className="text-xs font-semibold" style={{ color: "var(--accent-text)" }}>Result — Average response time dropped from 48 to 22 minutes in 6 weeks through nearest-vehicle dispatch.</p>
             </div>

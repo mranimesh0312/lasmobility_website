@@ -112,7 +112,7 @@ export default function Chatbot() {
             data-lenis-prevent
             className="fixed bottom-24 right-6 z-50 flex w-[340px] flex-col overflow-hidden rounded-2xl"
             style={{
-              background: isDark ? "#0B1628" : "#FFFFFF",
+              background: isDark ? "var(--ink)" : "var(--white)",
               border: `1px solid var(--border)`,
               boxShadow: "var(--shadow-card)",
               height: "480px",

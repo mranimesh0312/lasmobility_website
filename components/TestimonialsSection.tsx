@@ -11,7 +11,7 @@ const testimonials = [
     company: "FastTrack Logistics",
     rating: 5,
     initials: "RM",
-    color: "#0ECECE",
+    color: "var(--accent)",
   },
   {
     quote: "The driver safety scoring alone was worth switching. We've seen a 35% reduction in harsh braking incidents and our insurance premiums have dropped significantly.",
@@ -20,7 +20,7 @@ const testimonials = [
     company: "City Express Deliveries",
     rating: 5,
     initials: "AS",
-    color: "#22C55E",
+    color: "var(--success)",
   },
   {
     quote: "Finally a fleet platform that our ops team actually uses daily. The dashboard is intuitive and the AI recommendations are genuinely useful, not just noise.",
@@ -29,7 +29,7 @@ const testimonials = [
     company: "BuildCorp Equipment",
     rating: 5,
     initials: "VN",
-    color: "#8B5CF6",
+    color: "var(--violet)",
   },
   {
     quote: "Fuel savings have been remarkable — we identified 4 vehicles with abnormal consumption patterns in the first week that we'd completely missed before.",
@@ -38,7 +38,7 @@ const testimonials = [
     company: "SunTrans Mobility",
     rating: 5,
     initials: "PK",
-    color: "#F59E0B",
+    color: "var(--warning)",
   },
   {
     quote: "The geofencing and alert system is incredibly flexible. We set it up in an afternoon and it has already prevented two unauthorized vehicle uses.",
@@ -47,7 +47,7 @@ const testimonials = [
     company: "Metro Guard Services",
     rating: 5,
     initials: "SP",
-    color: "#0ECECE",
+    color: "var(--accent)",
   },
   {
     quote: "LAS Mobility's onboarding support was outstanding. Within 2 weeks our entire 80-vehicle fleet was live and our managers were running their own reports.",
@@ -56,7 +56,7 @@ const testimonials = [
     company: "Alpine School Transport",
     rating: 5,
     initials: "DI",
-    color: "#22C55E",
+    color: "var(--success)",
   },
 ];
 
@@ -95,7 +95,7 @@ export default function TestimonialsSection() {
               {/* Stars */}
               <div className="flex gap-0.5">
                 {Array.from({ length: t.rating }).map((_, k) => (
-                  <Star key={k} className="h-4 w-4 fill-current" style={{ color: "#F59E0B" }} />
+                  <Star key={k} className="h-4 w-4 fill-current" style={{ color: "var(--warning)" }} />
                 ))}
               </div>
 

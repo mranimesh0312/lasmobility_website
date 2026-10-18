@@ -1,0 +1,12 @@
+// Site motion system: one easing, five durations. Animate transform, opacity,
+// camera and material properties; never layout. Mirrored as --motion-* /
+// --ease-out-expo custom properties in app/globals.css.
+$ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+$motion-micro:  0.15s;  // 120-180ms: hover, press, toggles
+$motion-ui:     0.24s;  // 180-280ms: chips, tabs, small reveals
+$motion-panel:  0.36s;  // 280-420ms: panels, sheets, inspectors
+$motion-camera: 0.75s;  // 500-900ms: camera moves
+$motion-scene:  1.1s;   // <=1.2s: major scene transitions
+
+// Site content width: wide screens are used rather than left empty.
+$page-max: 1600px;

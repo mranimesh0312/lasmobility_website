@@ -8,6 +8,7 @@ import routesJson from "@/data/demoRoutes.json";
 import { DEMO_STOPS, DEMO_VEHICLES, STOP_SECONDS, simulatedSpeed, type DemoVehicle } from "@/data/demoData";
 import { useTheme } from "@/context/ThemeContext";
 import styles from "./Demos.module.scss";
+import { PALETTE } from "@/lib/palette";
 
 type LngLat = [number, number];
 interface RouteData { distanceM: number; durationS: number; coordinates: LngLat[] }
@@ -18,7 +19,7 @@ const STYLE_URL = { dark: "https://tiles.openfreemap.org/styles/dark", light: "h
 const FALLBACK_STYLE: StyleSpecification = {
   version: 8,
   sources: {},
-  layers: [{ id: "bg", type: "background", paint: { "background-color": "#0B1B2D" } }],
+  layers: [{ id: "bg", type: "background", paint: { "background-color": PALETTE.stageRaised } }],
 };
 const SIM_RATE = 14; // simulated seconds per real second
 const VEHICLE_IDS = DEMO_VEHICLES.map((v) => v.id);
@@ -156,8 +157,8 @@ export default function FleetMapDemo({ mode }: { mode: "tracking" | "geofence" }
       if (src) src.setData(poly);
       else {
         m.addSource("zone", { type: "geojson", data: poly });
-        m.addLayer({ id: "zone-fill", type: "fill", source: "zone", paint: { "fill-color": "#18C7CC", "fill-opacity": 0.12 } });
-        m.addLayer({ id: "zone-line", type: "line", source: "zone", paint: { "line-color": "#18C7CC", "line-width": 2, "line-dasharray": [2, 1.5] } });
+        m.addLayer({ id: "zone-fill", type: "fill", source: "zone", paint: { "fill-color": PALETTE.accent, "fill-opacity": 0.12 } });
+        m.addLayer({ id: "zone-line", type: "line", source: "zone", paint: { "line-color": PALETTE.accent, "line-width": 2, "line-dasharray": [2, 1.5] } });
       }
     }
   }, [mode, tracks]);

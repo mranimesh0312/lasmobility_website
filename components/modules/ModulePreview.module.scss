@@ -1,0 +1,134 @@
+// Features-menu preview. Theme tokens only (app/globals.css); the menu's
+// preview card sets .theme-dark-scope, so this always renders on the dark set.
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  padding: 14px;
+  background:
+    linear-gradient(rgb(var(--mist-rgb) / 0.03) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(90deg, rgb(var(--mist-rgb) / 0.03) 1px, transparent 1px) 0 0 / 22px 22px,
+    var(--surface-0);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.vehicle {
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--mist);
+}
+
+.tag {
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border: 1px solid rgb(var(--mist-rgb) / 0.14);
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--mist-rgb) / 0.55);
+}
+
+.readings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+
+  span {
+    min-width: 0;
+    padding: 6px 8px;
+    border: 1px solid rgb(var(--mist-rgb) / 0.08);
+    border-radius: 8px;
+    background: var(--surface-1);
+  }
+
+  small {
+    display: block;
+    font-size: 9px;
+    color: rgb(var(--mist-rgb) / 0.55);
+  }
+
+  b {
+    display: block;
+    overflow: hidden;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-variant-numeric: tabular-nums;
+    color: var(--mist);
+  }
+
+  [data-tone="warn"] b {
+    color: var(--warning);
+  }
+
+  [data-tone="alert"] b {
+    color: var(--danger);
+  }
+}
+
+.spark {
+  display: block;
+  width: 100%;
+  height: 54px;
+}
+
+.band {
+  fill: rgb(var(--success-rgb) / 0.1);
+}
+
+.area {
+  fill: rgb(var(--accent-rgb) / 0.12);
+}
+
+.line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.75;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.event {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 5px 8px;
+  border-left: 2px solid var(--accent);
+  border-radius: 6px;
+  background: var(--surface-1);
+  overflow: hidden;
+  font-size: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: rgb(var(--mist-rgb) / 0.75);
+
+  time {
+    color: rgb(var(--mist-rgb) / 0.5);
+  }
+
+  &[data-tone="ok"] {
+    border-left-color: var(--success);
+  }
+
+  &[data-tone="warn"] {
+    border-left-color: var(--warning);
+  }
+
+  &[data-tone="alert"] {
+    border-left-color: var(--danger);
+  }
+}

@@ -114,7 +114,7 @@ export default function PricingSection() {
             </button>
             <span className="text-sm font-medium" style={{ color: annual ? "var(--text-primary)" : "var(--text-muted)" }}>
               Annual
-              <span className="ml-1.5 rounded-full px-2 py-0.5 text-xs font-semibold" style={{ background: "rgba(34,197,94,0.12)", color: "#22C55E" }}>Save 20%</span>
+              <span className="ml-1.5 rounded-full px-2 py-0.5 text-xs font-semibold" style={{ background: "rgb(var(--success-rgb) / 0.12)", color: "var(--success)" }}>Save 20%</span>
             </span>
           </div>
         </motion.div>

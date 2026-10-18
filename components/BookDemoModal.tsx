@@ -222,7 +222,7 @@ export default function BookDemoModal() {
     className: "w-full rounded-xl px-4 py-3 text-sm outline-none transition",
     style: {
       background: "var(--bg-card-hover)",
-      border: `1px solid ${errors[k] ? "#EF4444" : "var(--border)"}`,
+      border: `1px solid ${errors[k] ? "var(--danger)" : "var(--border)"}`,
       color: "var(--text-primary)",
     } as React.CSSProperties,
     onFocus: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -242,7 +242,7 @@ export default function BookDemoModal() {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="absolute inset-0"
-            style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(8px)" }}
+            style={{ background: "rgb(var(--black-rgb) / 0.7)", backdropFilter: "blur(8px)" }}
             onClick={close}
           />
 
@@ -262,19 +262,19 @@ export default function BookDemoModal() {
               {/* ── Left info panel ── */}
               <div
                 className="relative hidden flex-col justify-between overflow-hidden p-8 lg:flex lg:w-[42%]"
-                style={{ background: "linear-gradient(160deg, #060E1A 0%, #0B1628 60%, #0D1F38 100%)" }}
+                style={{ background: "linear-gradient(160deg, var(--ink-deep) 0%, var(--ink) 60%, var(--surface-2) 100%)" }}
               >
                 {/* Grid overlay */}
                 <div className="pointer-events-none absolute inset-0 bg-grid opacity-20" />
                 {/* Glow */}
-                <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(14,206,206,0.12), transparent)" }} />
+                <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgb(var(--accent-rgb) / 0.12), transparent)" }} />
 
                 <div className="relative">
                   <ThemeLogo width={160} height={36} className="h-9 w-auto" forceDark />
                   <h2 className="mt-7 text-2xl font-bold leading-snug text-white">
                     See LAS Mobility in action — built for your fleet.
                   </h2>
-                  <p className="mt-3 text-sm leading-6" style={{ color: "rgba(255,255,255,0.55)" }}>
+                  <p className="mt-3 text-sm leading-6" style={{ color: "rgb(var(--white-rgb) / 0.55)" }}>
                     A 30-minute personalised demo with a fleet intelligence specialist, at no cost or commitment.
                   </p>
 
@@ -287,8 +287,8 @@ export default function BookDemoModal() {
                       "No sales pressure — ever",
                     ].map(item => (
                       <div key={item} className="flex items-start gap-2.5">
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#0ECECE" }} />
-                        <span className="text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>{item}</span>
+                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--accent)" }} />
+                        <span className="text-sm" style={{ color: "rgb(var(--white-rgb) / 0.7)" }}>{item}</span>
                       </div>
                     ))}
                   </div>
@@ -301,21 +301,21 @@ export default function BookDemoModal() {
                       { icon: Users,      value: "200+",   label: "Fleet teams" },
                       { icon: CheckCircle2, value:"99.9%", label: "Uptime SLA" },
                     ].map(({ icon: Icon, value, label }) => (
-                      <div key={label} className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                        <Icon className="h-4 w-4 mb-1.5" style={{ color: "#0ECECE" }} />
+                      <div key={label} className="rounded-xl p-3" style={{ background: "rgb(var(--white-rgb) / 0.05)", border: "1px solid rgb(var(--white-rgb) / 0.08)" }}>
+                        <Icon className="h-4 w-4 mb-1.5" style={{ color: "var(--accent)" }} />
                         <p className="text-base font-bold text-white">{value}</p>
-                        <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.45)" }}>{label}</p>
+                        <p className="text-[11px]" style={{ color: "rgb(var(--white-rgb) / 0.45)" }}>{label}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Trust logos */}
-                <div className="relative mt-6 border-t pt-5" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.3)" }}>Trusted by fleet teams at</p>
+                <div className="relative mt-6 border-t pt-5" style={{ borderColor: "rgb(var(--white-rgb) / 0.1)" }}>
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest" style={{ color: "rgb(var(--white-rgb) / 0.3)" }}>Trusted by fleet teams at</p>
                   <div className="flex flex-wrap gap-x-5 gap-y-1.5">
                     {["FastTrack","CityExpress","SunTrans","BuildCorp","MetroGuard"].map(n => (
-                      <span key={n} className="text-xs font-bold tracking-wide" style={{ color: "rgba(255,255,255,0.25)" }}>{n}</span>
+                      <span key={n} className="text-xs font-bold tracking-wide" style={{ color: "rgb(var(--white-rgb) / 0.25)" }}>{n}</span>
                     ))}
                   </div>
                 </div>
@@ -341,7 +341,7 @@ export default function BookDemoModal() {
                 {success ? (
                   <div className="flex flex-1 flex-col items-center justify-center gap-5 px-8 py-12 text-center">
                     <motion.div initial={{ scale: 0.5, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 200, damping: 18 }}
-                      className="flex h-20 w-20 items-center justify-center rounded-full" style={{ background: "rgba(14,206,206,0.12)", border: "1px solid rgba(14,206,206,0.3)" }}>
+                      className="flex h-20 w-20 items-center justify-center rounded-full" style={{ background: "rgb(var(--accent-rgb) / 0.12)", border: "1px solid rgb(var(--accent-rgb) / 0.3)" }}>
                       <CheckCircle2 className="h-10 w-10" style={{ color: "var(--accent-text)" }} />
                     </motion.div>
                     <div>
@@ -366,21 +366,21 @@ export default function BookDemoModal() {
                     {/* Row 1: Name + Company */}
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div>
-                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Full Name <span style={{ color: "#EF4444" }}>*</span></label>
+                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Full Name <span style={{ color: "var(--danger)" }}>*</span></label>
                         <input {...inp("fullName")} type="text" placeholder="Your full name" value={form.fullName} onChange={e => set("fullName", e.target.value)} />
-                        {errors.fullName && <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.fullName}</p>}
+                        {errors.fullName && <p className="mt-1 text-xs" style={{ color: "var(--danger)" }}>{errors.fullName}</p>}
                       </div>
                       <div>
-                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Company Name <span style={{ color: "#EF4444" }}>*</span></label>
+                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Company Name <span style={{ color: "var(--danger)" }}>*</span></label>
                         <input {...inp("companyName")} type="text" placeholder="Your company" value={form.companyName} onChange={e => set("companyName", e.target.value)} />
-                        {errors.companyName && <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.companyName}</p>}
+                        {errors.companyName && <p className="mt-1 text-xs" style={{ color: "var(--danger)" }}>{errors.companyName}</p>}
                       </div>
                     </div>
 
                     {/* Row 2: Email + Phone */}
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div>
-                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Email Address <span style={{ color: "#EF4444" }}>*</span></label>
+                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Email Address <span style={{ color: "var(--danger)" }}>*</span></label>
                         <EmailInput
                           value={form.email}
                           onChange={(v) => set("email", v)}
@@ -391,10 +391,10 @@ export default function BookDemoModal() {
                           onFocus={inp("email").onFocus as React.FocusEventHandler<HTMLInputElement>}
                           onBlur={inp("email").onBlur as React.FocusEventHandler<HTMLInputElement>}
                         />
-                        {errors.email && <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.email}</p>}
+                        {errors.email && <p className="mt-1 text-xs" style={{ color: "var(--danger)" }}>{errors.email}</p>}
                       </div>
                       <div>
-                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Phone Number <span style={{ color: "#EF4444" }}>*</span></label>
+                        <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Phone Number <span style={{ color: "var(--danger)" }}>*</span></label>
                         <div className="flex gap-2">
                           {/* Country picker */}
                           <div className="relative shrink-0" ref={countryRef}>
@@ -435,17 +435,17 @@ export default function BookDemoModal() {
                           <input {...inp("phone")} type="tel" placeholder="00000 00000" value={form.phone}
                             onChange={e => set("phone", e.target.value)} className="min-w-0 flex-1 rounded-xl px-4 py-3 text-sm outline-none transition" />
                         </div>
-                        {errors.phone && <p className="mt-1 text-xs" style={{ color: "#EF4444" }}>{errors.phone}</p>}
+                        {errors.phone && <p className="mt-1 text-xs" style={{ color: "var(--danger)" }}>{errors.phone}</p>}
                       </div>
                     </div>
 
                     {/* Row 3: Fleet size */}
                     <div>
-                      <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Fleet Size <span style={{ color: "#EF4444" }}>*</span></label>
+                      <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Fleet Size <span style={{ color: "var(--danger)" }}>*</span></label>
                       <div className="relative" ref={fleetRef}>
                         <button type="button" onClick={() => setFleetOpen(v => !v)}
                           className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm outline-none transition"
-                          style={{ background:"var(--bg-card-hover)", border:`1px solid ${errors.fleetSize ? "#EF4444" : fleetOpen ? "var(--accent)" : "var(--border)"}`, color:"var(--text-primary)" }}>
+                          style={{ background:"var(--bg-card-hover)", border:`1px solid ${errors.fleetSize ? "var(--danger)" : fleetOpen ? "var(--accent)" : "var(--border)"}`, color:"var(--text-primary)" }}>
                           {form.fleetSize ? (
                             <>
                               <span className="flex-1 text-left font-medium">{FLEET_SIZES.find(f => f.value === form.fleetSize)?.label}</span>
@@ -457,7 +457,7 @@ export default function BookDemoModal() {
                           <ChevronDown className="h-4 w-4 shrink-0" style={{ color:"var(--text-muted)", transform: fleetOpen ? "rotate(180deg)" : "none", transition:"transform 0.2s" }} />
                         </button>
                         {fleetOpen && (
-                          <div className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded-xl" style={{ background:"var(--bg-deep)", border:"1px solid var(--border-accent)", boxShadow:"0 16px 48px rgba(0,0,0,0.5)" }}>
+                          <div className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded-xl" style={{ background:"var(--bg-deep)", border:"1px solid var(--border-accent)", boxShadow:"0 16px 48px rgb(var(--black-rgb) / 0.5)" }}>
                             <ul className="max-h-52 overflow-y-auto py-1">
                               {FLEET_SIZES.map(fs => (
                                 <li key={fs.value}>
@@ -473,23 +473,23 @@ export default function BookDemoModal() {
                           </div>
                         )}
                       </div>
-                      {errors.fleetSize && <p className="mt-1 text-xs" style={{ color:"#EF4444" }}>{errors.fleetSize}</p>}
+                      {errors.fleetSize && <p className="mt-1 text-xs" style={{ color:"var(--danger)" }}>{errors.fleetSize}</p>}
                     </div>
 
                     {/* Row 4: Business type */}
                     <div>
-                      <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Business Type <span style={{ color: "#EF4444" }}>*</span></label>
+                      <label className="mb-1.5 block text-xs font-semibold" style={{ color: "var(--text-primary)" }}>Business Type <span style={{ color: "var(--danger)" }}>*</span></label>
                       <div className="relative" ref={btRef}>
                         <button type="button" onClick={() => setBtOpen(v => !v)}
                           className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm outline-none transition"
-                          style={{ background:"var(--bg-card-hover)", border:`1px solid ${errors.businessType ? "#EF4444" : btOpen ? "var(--accent)" : "var(--border)"}`, color:"var(--text-primary)" }}>
+                          style={{ background:"var(--bg-card-hover)", border:`1px solid ${errors.businessType ? "var(--danger)" : btOpen ? "var(--accent)" : "var(--border)"}`, color:"var(--text-primary)" }}>
                           <span className="flex-1 text-left" style={{ color: form.businessType ? "var(--text-primary)" : "var(--text-muted)" }}>
                             {form.businessType || "Select your business type…"}
                           </span>
                           <ChevronDown className="h-4 w-4 shrink-0" style={{ color:"var(--text-muted)", transform: btOpen ? "rotate(180deg)" : "none", transition:"transform 0.2s" }} />
                         </button>
                         {btOpen && (
-                          <div className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded-xl" style={{ background:"var(--bg-deep)", border:"1px solid var(--border-accent)", boxShadow:"0 16px 48px rgba(0,0,0,0.5)" }}>
+                          <div className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded-xl" style={{ background:"var(--bg-deep)", border:"1px solid var(--border-accent)", boxShadow:"0 16px 48px rgb(var(--black-rgb) / 0.5)" }}>
                             <ul className="py-1">
                               {BUSINESS_TYPES.map(bt => (
                                 <li key={bt}>
@@ -504,7 +504,7 @@ export default function BookDemoModal() {
                           </div>
                         )}
                       </div>
-                      {errors.businessType && <p className="mt-1 text-xs" style={{ color:"#EF4444" }}>{errors.businessType}</p>}
+                      {errors.businessType && <p className="mt-1 text-xs" style={{ color:"var(--danger)" }}>{errors.businessType}</p>}
                     </div>
 
                     {/* Row 5: Date + Time */}
@@ -517,12 +517,12 @@ export default function BookDemoModal() {
                         <input
                           type="date" min={todayStr()}
                           className="w-full rounded-xl px-4 py-3 text-sm outline-none transition"
-                          style={{ background:"var(--bg-card-hover)", border:`1px solid ${errors.preferredDate ? "#EF4444" : "var(--border)"}`, color:"var(--text-primary)", colorScheme:"dark" }}
+                          style={{ background:"var(--bg-card-hover)", border:`1px solid ${errors.preferredDate ? "var(--danger)" : "var(--border)"}`, color:"var(--text-primary)", colorScheme:"dark" }}
                           value={form.preferredDate} onChange={e => set("preferredDate", e.target.value)}
                           onFocus={e => e.target.style.borderColor = "var(--accent)"}
-                          onBlur={e => e.target.style.borderColor = errors.preferredDate ? "#EF4444" : "var(--border)"}
+                          onBlur={e => e.target.style.borderColor = errors.preferredDate ? "var(--danger)" : "var(--border)"}
                         />
-                        {errors.preferredDate && <p className="mt-1 text-xs" style={{ color:"#EF4444" }}>{errors.preferredDate}</p>}
+                        {errors.preferredDate && <p className="mt-1 text-xs" style={{ color:"var(--danger)" }}>{errors.preferredDate}</p>}
                       </div>
                       <div>
                         <label className="mb-1.5 flex items-center gap-1.5 text-xs font-semibold" style={{ color: "var(--text-primary)" }}>

@@ -4,6 +4,7 @@
  * geometries in Bengaluru (data/demoRoutes.json).
  */
 import type { VehicleVariant } from "@/components/three/vehicleSpecs";
+import { PALETTE } from "@/lib/palette";
 
 export interface DemoVehicle {
   id: "ka-demo-01" | "ka-demo-02" | "ka-demo-03";
@@ -15,9 +16,9 @@ export interface DemoVehicle {
 }
 
 export const DEMO_VEHICLES: DemoVehicle[] = [
-  { id: "ka-demo-01", plate: "DEMO-01", name: "Delivery van 01", driver: "Demo driver A", color: "#18C7CC" },
-  { id: "ka-demo-02", plate: "DEMO-02", name: "Service SUV 02", driver: "Demo driver B", color: "#8B5CF6" },
-  { id: "ka-demo-03", plate: "DEMO-03", name: "Pool car 03", driver: "Demo driver C", color: "#F97316" },
+  { id: "ka-demo-01", plate: "DEMO-01", name: "Delivery van 01", driver: "Demo driver A", color: PALETTE.accent },
+  { id: "ka-demo-02", plate: "DEMO-02", name: "Service SUV 02", driver: "Demo driver B", color: PALETTE.violet },
+  { id: "ka-demo-03", plate: "DEMO-03", name: "Pool car 03", driver: "Demo driver C", color: PALETTE.orange },
 ];
 
 /** Simulated speed (km/h) along a route, by distance travelled (m). */
@@ -65,10 +66,10 @@ export function reportSeries(days: 7 | 30): DayPoint[] {
 }
 
 export const STATUS_BREAKDOWN = [
-  { key: "moving", label: "Moving", share: 0.46, color: "#10B981" },
-  { key: "idle", label: "Idle", share: 0.14, color: "#F59E0B" },
-  { key: "stopped", label: "Stopped", share: 0.31, color: "#EF4444" },
-  { key: "offline", label: "Offline", share: 0.09, color: "#94A3B8" },
+  { key: "moving", label: "Moving", share: 0.46, color: PALETTE.success },
+  { key: "idle", label: "Idle", share: 0.14, color: PALETTE.warning },
+  { key: "stopped", label: "Stopped", share: 0.31, color: PALETTE.danger },
+  { key: "offline", label: "Offline", share: 0.09, color: PALETTE.slate400 },
 ] as const;
 
 // ---------- fuel & temperature ----------

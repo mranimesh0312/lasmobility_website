@@ -9,6 +9,7 @@ import StudioLighting from "./StudioLighting";
 import VehicleModel, { defaultAnimState } from "./VehicleModel";
 import type { ComponentId, VehicleVariant } from "./vehicleSpecs";
 import type { LightingMode, PaintOption, QualityTier } from "@/stores/experienceStore";
+import { PALETTE } from "@/lib/palette";
 import styles from "./VehicleStage.module.scss";
 
 interface VehicleStageProps {
@@ -43,12 +44,12 @@ function StageContent({ variant, paint, lighting, twin, highlight, onComponentSe
 
   return (
     <>
-      <color attach="background" args={[lighting === "night" ? "#04070C" : "#0A1019"]} />
+      <color attach="background" args={[lighting === "night" ? PALETTE.studioNight : PALETTE.studio]} />
       <StudioLighting mode={lighting} resolution={128} />
       <VehicleModel variant={variant} paint={paint} anim={anim} highlight={highlight} onComponentSelect={onComponentSelect} lowDetail={tier === "low"} />
       <mesh rotation-x={-Math.PI / 2} receiveShadow>
         <circleGeometry args={[14, 48]} />
-        <meshStandardMaterial color="#0B0F15" roughness={0.85} metalness={0.2} />
+        <meshStandardMaterial color={PALETTE.studioFloor} roughness={0.85} metalness={0.2} />
       </mesh>
       <ContactShadows position={[0, 0.004, 0]} scale={9} blur={2.4} far={2} opacity={0.75} resolution={256} frames={1} />
       <CameraAim />

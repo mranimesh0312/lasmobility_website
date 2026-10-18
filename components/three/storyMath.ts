@@ -28,7 +28,7 @@ export interface CameraKey {
 export const CAMERA_KEYS: CameraKey[] = [
   // Hero target sits 2.2 m to the camera's left of the car (right vector is
   // (sin az, 0, -cos az)), which puts the car in the right half beside the copy.
-  { az: 0.72, el: 0.12, r: 12, target: [-1.45, 0.85, 1.65], fov: 30 }, // 0 hero
+  { az: 0.72, el: 0.12, r: 9.4, target: [-1.08, 0.8, 1.24], fov: 30 }, // 0 hero
   { az: 2.55, el: 0.18, r: 9.6, target: [-0.78, 0.8, -1.16], fov: 30 }, // 1 orbit to rear three-quarter
   { az: 1.57, el: 0.08, r: 11, target: [-1.6, 0.9, 0], fov: 28 }, // 2 highway side tracking
   { az: 1.15, el: 0.98, r: 18, target: [4, 0, -1], fov: 34 }, // 3 GPS, high

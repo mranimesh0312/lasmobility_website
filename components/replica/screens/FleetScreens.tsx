@@ -51,11 +51,11 @@ export function DashboardScreen() {
 
       <div className={s.kpis}>
         <Kpi icon={Car} value={VEHICLES.length} label="Total Vehicles" sub="22 subscribed" onClick={() => go("vehicles")} />
-        <Kpi icon={Activity} value={active} label="Active Vehicles" sub={`${Math.round((active / 22) * 100)}% of subscribed`} color="#10B981" onClick={() => go("live")} />
-        <Kpi icon={Route} value={`${totals.distance.toLocaleString("en-IN")} km`} label="Total Distance" sub={RANGES.find((r) => r.key === range)!.label} color="#3B82F6" onClick={() => go("trips")} />
-        <Kpi icon={Fuel} value={`${totals.fuel.toLocaleString("en-IN")} L`} label="Fuel Consumed" sub={`${(totals.distance / totals.fuel).toFixed(1)} km/L average`} color="#8B5CF6" onClick={() => go("fuel")} />
-        <Kpi icon={Bell} value={ALERTS.filter((a) => a.minutesAgo < 120).length} label="Active Alerts" sub="2 critical" color="#EF4444" onClick={() => go("alerts")} />
-        <Kpi icon={Wrench} value={SERVICES.filter((x) => x.status !== "Scheduled").length} label="Maintenance Due" sub="1 overdue" color="#F59E0B" onClick={() => go("maintenance")} />
+        <Kpi icon={Activity} value={active} label="Active Vehicles" sub={`${Math.round((active / 22) * 100)}% of subscribed`} color="var(--success)" onClick={() => go("live")} />
+        <Kpi icon={Route} value={`${totals.distance.toLocaleString("en-IN")} km`} label="Total Distance" sub={RANGES.find((r) => r.key === range)!.label} color="var(--info)" onClick={() => go("trips")} />
+        <Kpi icon={Fuel} value={`${totals.fuel.toLocaleString("en-IN")} L`} label="Fuel Consumed" sub={`${(totals.distance / totals.fuel).toFixed(1)} km/L average`} color="var(--violet)" onClick={() => go("fuel")} />
+        <Kpi icon={Bell} value={ALERTS.filter((a) => a.minutesAgo < 120).length} label="Active Alerts" sub="2 critical" color="var(--danger)" onClick={() => go("alerts")} />
+        <Kpi icon={Wrench} value={SERVICES.filter((x) => x.status !== "Scheduled").length} label="Maintenance Due" sub="1 overdue" color="var(--warning)" onClick={() => go("maintenance")} />
       </div>
 
       <div className={s.grid}>
@@ -74,8 +74,8 @@ export function DashboardScreen() {
           <AreaChart
             labels={series.map((d) => d.label)}
             series={[
-              { name: "Distance (km)", color: "#18C7CC", values: series.map((d) => d.distance) },
-              { name: "Fuel (L) x10", color: "#8B5CF6", values: series.map((d) => d.fuel * 10) },
+              { name: "Distance (km)", color: "var(--accent)", values: series.map((d) => d.distance) },
+              { name: "Fuel (L) x10", color: "var(--violet)", values: series.map((d) => d.fuel * 10) },
             ]}
             height={210}
           />
@@ -122,7 +122,7 @@ export function DashboardScreen() {
                   <small>{d.vehicle} · {d.distanceKm.toLocaleString("en-IN")} km</small>
                 </div>
                 <div style={{ width: 120 }}>
-                  <Bar value={d.score / 100} color={d.score >= 85 ? "#10B981" : d.score >= 70 ? "#F59E0B" : "#EF4444"} />
+                  <Bar value={d.score / 100} color={d.score >= 85 ? "var(--success)" : d.score >= 70 ? "var(--warning)" : "var(--danger)"} />
                 </div>
                 <b className={s.num} style={{ width: 30, textAlign: "right" }}>{d.score}</b>
               </li>
@@ -257,9 +257,9 @@ export function VehiclesScreen() {
     { key: "group", header: "Group", render: (v) => v.group, sort: (v) => v.group, search: (v) => v.group },
     { key: "status", header: "Status", render: (v) => <StatusTag status={v.status} />, sort: (v) => v.status },
     { key: "speed", header: "Speed", render: (v) => <span className={s.num}>{liveSpeed(v, seconds)} km/h</span>, sort: (v) => v.speed },
-    { key: "fuel", header: "Fuel", render: (v) => <span style={{ display: "flex", alignItems: "center", gap: 8 }}><Bar value={v.fuelPct / 100} color={v.fuelPct < 25 ? "#EF4444" : undefined} /><span className={s.num}>{v.fuelPct}%</span></span>, sort: (v) => v.fuelPct },
+    { key: "fuel", header: "Fuel", render: (v) => <span style={{ display: "flex", alignItems: "center", gap: 8 }}><Bar value={v.fuelPct / 100} color={v.fuelPct < 25 ? "var(--danger)" : undefined} /><span className={s.num}>{v.fuelPct}%</span></span>, sort: (v) => v.fuelPct },
     { key: "odo", header: "Odometer", render: (v) => <span className={s.num}>{v.odometerKm.toLocaleString("en-IN")} km</span>, sort: (v) => v.odometerKm },
-    { key: "sub", header: "Subscription", render: (v) => <Tag color={v.subscription === "Active" ? "#10B981" : v.subscription === "Renewal due" ? "#F59E0B" : "#EF4444"}>{v.subscription}</Tag>, sort: (v) => v.subscription },
+    { key: "sub", header: "Subscription", render: (v) => <Tag color={v.subscription === "Active" ? "var(--success)" : v.subscription === "Renewal due" ? "var(--warning)" : "var(--danger)"}>{v.subscription}</Tag>, sort: (v) => v.subscription },
     { key: "upd", header: "Last update", render: (v) => <span className={s.muted}>{ago(v.lastUpdateMin)}</span>, sort: (v) => v.lastUpdateMin },
   ];
   return (
@@ -422,7 +422,7 @@ export function VehicleDetailScreen() {
         <div style={{ display: "grid", gap: 14, alignContent: "start" }}>
           <Card icon={GaugeIcon} title="Live status" sub={offline ? `Offline since ${ago(v.lastUpdateMin)}` : "Connected · updated just now"}>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <Gauge value={speed} max={120} label="km/h" color={speed > 80 ? "#EF4444" : "var(--brand)"} size={150} />
+              <Gauge value={speed} max={120} label="km/h" color={speed > 80 ? "var(--danger)" : "var(--brand)"} size={150} />
               <dl className={s.facts} style={{ flex: 1, gridTemplateColumns: "1fr" }}>
                 <div><dt>Status</dt><dd><StatusTag status={effectiveStatus} /></dd></div>
                 <div><dt>Ignition</dt><dd>{v.ignition && !immobilized ? "On" : "Off"}</dd></div>
@@ -456,7 +456,7 @@ export function VehicleDetailScreen() {
                   const done = ["queued", "sent", "ack"].indexOf(cmd) >= i;
                   return (
                     <li key={step} className={s.listRow} style={{ padding: "6px 0" }}>
-                      {done ? <CheckCircle2 size={15} color="#10B981" /> : <Power size={15} className={s.muted} />}
+                      {done ? <CheckCircle2 size={15} color="var(--success)" /> : <Power size={15} className={s.muted} />}
                       <span style={{ color: done ? "var(--t1)" : "var(--t3)" }}>{step === "queued" ? "Queued" : step === "sent" ? "Sent to device" : "Acknowledged"}</span>
                     </li>
                   );
@@ -522,7 +522,7 @@ export function TripsScreen() {
     { key: "route", header: "From → To", render: (t) => `${t.from} → ${t.to}`, search: (t) => `${t.from} ${t.to}` },
     { key: "dist", header: "Distance", render: (t) => <span className={s.num}>{t.distanceKm} km</span>, sort: (t) => t.distanceKm },
     { key: "dur", header: "Duration", render: (t) => <span className={s.num}>{t.durationMin} min</span>, sort: (t) => t.durationMin },
-    { key: "max", header: "Max speed", render: (t) => <span className={s.num} style={{ color: t.maxSpeed > 80 ? "#EF4444" : undefined }}>{t.maxSpeed} km/h</span>, sort: (t) => t.maxSpeed },
+    { key: "max", header: "Max speed", render: (t) => <span className={s.num} style={{ color: t.maxSpeed > 80 ? "var(--danger)" : undefined }}>{t.maxSpeed} km/h</span>, sort: (t) => t.maxSpeed },
     { key: "stops", header: "Stops", render: (t) => t.stops, sort: (t) => t.stops },
   ];
 

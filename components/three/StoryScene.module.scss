@@ -11,9 +11,9 @@
   width: 26px;
   height: 26px;
   padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgb(var(--white-rgb) / 0.35);
   border-radius: $radius-full;
-  background: rgba(5, 11, 22, 0.35);
+  background: rgb(var(--stage-rgb) / 0.35);
   backdrop-filter: blur(6px);
   cursor: pointer;
   transition: transform $transition-base, border-color $transition-base, background $transition-base;
@@ -23,14 +23,14 @@
     position: absolute;
     inset: -5px;
     border-radius: inherit;
-    border: 1px solid rgba(24, 199, 204, 0.35);
+    border: 1px solid rgb(var(--accent-rgb) / 0.35);
     animation: hotspotPulse 2.4s ease-out infinite;
   }
 
   &:hover,
   &:focus-visible {
     transform: scale(1.1);
-    border-color: $color-primary;
+    border-color: var(--accent);
     outline: none;
   }
 
@@ -42,15 +42,15 @@
 }
 
 .hotspotActive {
-  border-color: $color-primary;
-  background: rgba(24, 199, 204, 0.25);
+  border-color: var(--accent);
+  background: rgb(var(--accent-rgb) / 0.25);
 }
 
 .hotspotDot {
   width: 8px;
   height: 8px;
   border-radius: $radius-full;
-  background: $color-white;
+  background: var(--white);
 }
 
 @keyframes hotspotPulse {
@@ -70,10 +70,10 @@
   gap: 2px;
   min-width: 132px;
   padding: $spacing-2 $spacing-3;
-  border: 1px solid rgba(24, 199, 204, 0.35);
-  border-left: 2px solid $color-primary;
+  border: 1px solid rgb(var(--accent-rgb) / 0.35);
+  border-left: 2px solid var(--accent);
   border-radius: $radius-md;
-  background: rgba(5, 11, 22, 0.78);
+  background: rgb(var(--stage-rgb) / 0.78);
   white-space: nowrap;
   pointer-events: none;
 }
@@ -82,24 +82,24 @@
   font-size: $font-size-xs;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: $palette-slate-400;
+  color: var(--slate-400);
 }
 
 .teleValue {
   font-size: $font-size-lg;
   font-weight: $font-weight-semibold;
   font-variant-numeric: tabular-nums;
-  color: $color-white;
+  color: var(--white);
 }
 
 .twinLabel {
   transform: translate(10px, -50%);
   padding: 2px $spacing-2;
   border-radius: $radius-sm;
-  background: rgba(7, 20, 34, 0.82);
-  border: 1px solid rgba(24, 199, 204, 0.4);
+  background: rgb(var(--surface-0-rgb) / 0.82);
+  border: 1px solid rgb(var(--accent-rgb) / 0.4);
   font-size: $font-size-xs;
-  color: $color-primary-light;
+  color: var(--accent-text);
   white-space: nowrap;
   pointer-events: none;
 }

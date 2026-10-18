@@ -17,8 +17,8 @@ const capabilities = [
 ];
 
 const useCases = [
-  { title: "Ambulance & EMS",              description: "Track ambulances with sub-5-second alerts, live position feeds, and custom geofence rules for hospital zones and emergency corridors.", stat: "<5 sec alert delivery" },
-  { title: "Security & Cash-in-Transit",   description: "Monitor high-value transport with device tamper detection, multi-channel escalation, and 99.9% uptime SLA for zero blind spots.", stat: "99.9% platform uptime" },
+  { title: "Ambulance & EMS",              description: "Track ambulances with sub-5-second alerts, live position feeds, and custom geofence rules for hospital zones and emergency corridors.", stat: "Instant alerts" },
+  { title: "Security & Cash-in-Transit",   description: "Monitor high-value transport with device tamper detection, multi-channel escalation, and 99.9% uptime SLA for zero blind spots.", stat: "Cloud-hosted platform" },
   { title: "Cold Chain Emergency",         description: "Track temperature-sensitive vehicles with live position feeds and custom alerts for route deviation or unexpected stops during transit.", stat: "Real-time positions" },
 ];
 
@@ -37,23 +37,23 @@ function AlertSpeedChart() {
     <svg viewBox="0 0 320 130" className="w-full" aria-label="Alert delivery speed comparison across channels" role="img">
       <defs>
         <linearGradient id="specAlertGrad" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#EF4444" stopOpacity="0.8"/>
-          <stop offset="100%" stopColor="#EF4444"/>
+          <stop offset="0%" stopColor="var(--danger)" stopOpacity="0.8"/>
+          <stop offset="100%" stopColor="var(--danger)"/>
         </linearGradient>
       </defs>
-      <text x={labelW + 2} y="10" fontSize="7.5" fill="rgba(255,255,255,0.35)">Alert delivery speed by channel</text>
+      <text x={labelW + 2} y="10" fontSize="7.5" fill="rgb(var(--white-rgb) / 0.35)">Alert delivery speed by channel</text>
       {channels.map((c, i) => {
         const y = 20 + i * (rowH + gap);
         const w = (c.barPct / 100) * barMaxW;
         return (
           <g key={c.label}>
-            <text x={labelW - 4} y={y + rowH / 2 + 4} fontSize="9" fill="rgba(255,255,255,0.5)" textAnchor="end">{c.label}</text>
+            <text x={labelW - 4} y={y + rowH / 2 + 4} fontSize="9" fill="rgb(var(--white-rgb) / 0.5)" textAnchor="end">{c.label}</text>
             <rect x={labelW} y={y} width={w} height={rowH} rx="4" fill="url(#specAlertGrad)"/>
-            <text x={labelW + w + 6} y={y + rowH / 2 + 4} fontSize="9" fill="rgba(239,68,68,0.9)">{c.ms}</text>
+            <text x={labelW + w + 6} y={y + rowH / 2 + 4} fontSize="9" fill="rgb(var(--danger-rgb) / 0.9)">{c.ms}</text>
           </g>
         );
       })}
-      <text x={labelW} y="120" fontSize="7.5" fill="rgba(255,255,255,0.25)">Shorter bar = faster delivery</text>
+      <text x={labelW} y="120" fontSize="7.5" fill="rgb(var(--white-rgb) / 0.25)">Shorter bar = faster delivery</text>
     </svg>
   );
 }
@@ -62,12 +62,12 @@ export default function SpecializedFleetsPage() {
   return (
     <>
       <section className="section-pad relative overflow-hidden" style={{ background: "var(--bg-deep)" }}>
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 45% at 65% 30%, rgba(239,68,68,0.1), transparent)" }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 45% at 65% 30%, rgb(var(--danger-rgb) / 0.1), transparent)" }} />
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-30" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider" style={{ border: "1px solid rgba(239,68,68,0.4)", color: "#EF4444", background: "rgba(239,68,68,0.1)" }}>
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider" style={{ border: "1px solid rgb(var(--danger-rgb) / 0.4)", color: "var(--danger)", background: "rgb(var(--danger-rgb) / 0.1)" }}>
                 <Ambulance className="h-3.5 w-3.5" /> Specialized Fleets
               </span>
               <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight sm:text-5xl" style={{ color: "var(--text-primary)" }}>
@@ -79,7 +79,7 @@ export default function SpecializedFleetsPage() {
               <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2">
                 {["Sub-5-second alerts", "99.9% uptime SLA", "Multi-channel escalation", "Device tamper detection"].map(item => (
                   <div key={item} className="flex items-center gap-1.5 text-sm" style={{ color: "var(--text-secondary)" }}>
-                    <CheckCircle2 className="h-4 w-4 shrink-0" style={{ color: "#EF4444" }} /> {item}
+                    <CheckCircle2 className="h-4 w-4 shrink-0" style={{ color: "var(--danger)" }} /> {item}
                   </div>
                 ))}
               </div>
@@ -89,15 +89,15 @@ export default function SpecializedFleetsPage() {
               </div>
             </div>
             <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7 }}>
-              <div className="overflow-hidden rounded-2xl" style={{ border: "1px solid rgba(239,68,68,0.3)", boxShadow: "0 24px 64px rgba(0,0,0,0.45), 0 0 60px rgba(239,68,68,0.1)" }}>
+              <div className="overflow-hidden rounded-2xl" style={{ border: "1px solid rgb(var(--danger-rgb) / 0.3)", boxShadow: "0 24px 64px rgb(var(--black-rgb) / 0.45), 0 0 60px rgb(var(--danger-rgb) / 0.1)" }}>
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <Image src="/industry-emergency.avif" alt="Specialized fleet critical tracking" fill className="object-cover" priority />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(6,14,26,0.85), transparent 60%)" }} />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgb(var(--ink-deep-rgb) / 0.85), transparent 60%)" }} />
                   <div className="absolute bottom-3 left-3 right-3 flex gap-2">
-                    {[{ v:"<5 sec", l:"Alert delivery" }, { v:"99.9%", l:"Uptime SLA" }, { v:"Multi-channel", l:"Escalation" }].map(({ v, l }) => (
-                      <div key={l} className="flex-1 rounded-lg px-2.5 py-2 text-center backdrop-blur-md" style={{ background: "rgba(6,14,26,0.7)", border: "1px solid rgba(239,68,68,0.2)" }}>
-                        <p className="text-sm font-bold" style={{ color: "#EF4444" }}>{v}</p>
-                        <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>{l}</p>
+                    {[{ v:"Instant", l:"Alerts" }, { v:"99.9%", l:"Uptime SLA" }, { v:"Multi-channel", l:"Escalation" }].map(({ v, l }) => (
+                      <div key={l} className="flex-1 rounded-lg px-2.5 py-2 text-center backdrop-blur-md" style={{ background: "rgb(var(--ink-deep-rgb) / 0.7)", border: "1px solid rgb(var(--danger-rgb) / 0.2)" }}>
+                        <p className="text-sm font-bold" style={{ color: "var(--danger)" }}>{v}</p>
+                        <p className="text-[10px]" style={{ color: "rgb(var(--white-rgb) / 0.5)" }}>{l}</p>
                       </div>
                     ))}
                   </div>
@@ -111,9 +111,9 @@ export default function SpecializedFleetsPage() {
       <section style={{ background: "var(--bg-base)" }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4" style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-            {[{ v:"<5 sec", l:"Alert delivery" }, { v:"99.9%", l:"Platform uptime" }, { v:"Multi-channel", l:"Escalation" }, { v:"Real-time", l:"Positions" }].map(({ v, l }, i) => (
+            {[{ v:"Instant", l:"Alerts" }, { v:"99.9%", l:"Platform uptime" }, { v:"Multi-channel", l:"Escalation" }, { v:"Real-time", l:"Positions" }].map(({ v, l }, i) => (
               <div key={l} className="px-8 py-10 text-center" style={{ borderRight: i < 3 ? "1px solid var(--border)" : undefined }}>
-                <p className="text-3xl font-bold" style={{ color: "#EF4444" }}>{v}</p>
+                <p className="text-3xl font-bold" style={{ color: "var(--danger)" }}>{v}</p>
                 <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{l}</p>
               </div>
             ))}
@@ -127,9 +127,9 @@ export default function SpecializedFleetsPage() {
           <div className="mt-12 overflow-hidden rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
             <p className="mb-1 text-sm font-bold" style={{ color: "var(--text-primary)" }}>Alert Delivery Speed — By Channel</p>
             <p className="mb-5 text-xs" style={{ color: "var(--text-muted)" }}>Average end-to-end alert delivery time from trigger to recipient notification</p>
-            <div className="rounded-xl p-4" style={{ background: "#060E1A" }}><AlertSpeedChart /></div>
-            <div className="mt-4 rounded-lg p-3" style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)" }}>
-              <p className="text-xs font-semibold" style={{ color: "#EF4444" }}>SLA — Push alerts fire in under 2 seconds. All channels confirmed within 5 seconds of the triggering event.</p>
+            <div className="rounded-xl p-4" style={{ background: "var(--ink-deep)" }}><AlertSpeedChart /></div>
+            <div className="mt-4 rounded-lg p-3" style={{ background: "rgb(var(--danger-rgb) / 0.08)", border: "1px solid rgb(var(--danger-rgb) / 0.2)" }}>
+              <p className="text-xs font-semibold" style={{ color: "var(--danger)" }}>SLA — Push alerts fire in under 2 seconds. All channels confirmed within 5 seconds of the triggering event.</p>
             </div>
           </div>
         </div>
@@ -148,10 +148,10 @@ export default function SpecializedFleetsPage() {
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {useCases.map(({ title, description, stat }) => (
               <div key={title} className="rounded-xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border)", boxShadow: "var(--shadow-card)" }}>
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgba(239,68,68,0.1)" }}><Ambulance className="h-6 w-6" style={{ color: "#EF4444" }} /></div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: "rgb(var(--danger-rgb) / 0.1)" }}><Ambulance className="h-6 w-6" style={{ color: "var(--danger)" }} /></div>
                 <h3 className="mt-4 text-base font-bold" style={{ color: "var(--text-primary)" }}>{title}</h3>
                 <p className="mt-2 text-sm leading-6" style={{ color: "var(--text-secondary)" }}>{description}</p>
-                <p className="mt-4 text-xs font-bold" style={{ color: "#EF4444" }}>{stat}</p>
+                <p className="mt-4 text-xs font-bold" style={{ color: "var(--danger)" }}>{stat}</p>
               </div>
             ))}
           </div>

@@ -1,0 +1,386 @@
+// Dash cam preview. Theme tokens only; .theme-dark-scope on the wrapper keeps
+// the camera view dark in either site theme.
+
+.wrap {
+  overflow: hidden;
+  border: 1px solid rgb(var(--mist-rgb) / 0.1);
+  border-radius: 18px;
+  background: var(--surface-0);
+  box-shadow: 0 24px 60px rgb(var(--black-rgb) / 0.3);
+}
+
+// ---------- camera view ----------
+.view {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--stage);
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.skyTop {
+  stop-color: var(--surface-1);
+}
+
+.skyBottom {
+  stop-color: var(--surface-2);
+}
+
+.ground {
+  fill: var(--surface-0);
+}
+
+.road {
+  fill: var(--surface-1);
+}
+
+.edge {
+  fill: none;
+  stroke: rgb(var(--mist-rgb) / 0.35);
+  stroke-width: 2;
+}
+
+.lane {
+  fill: none;
+  stroke: rgb(var(--mist-rgb) / 0.55);
+  stroke-width: 3;
+  stroke-dasharray: 10 14;
+  animation: laneMove 0.9s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes laneMove {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.horizon {
+  stroke: rgb(var(--mist-rgb) / 0.08);
+}
+
+.car {
+  fill: var(--surface-3);
+  stroke: rgb(var(--mist-rgb) / 0.2);
+}
+
+.detectBox {
+  fill: none;
+  stroke: var(--warning);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 3;
+}
+
+.view[data-cam="rear"] .scene {
+  transform: scaleX(-1);
+}
+
+.cabinBg {
+  fill: var(--surface-1);
+}
+
+.cabinWindow {
+  fill: var(--surface-2);
+}
+
+.cabinSeat {
+  fill: var(--surface-3);
+}
+
+.cabinWheel {
+  fill: var(--surface-0);
+}
+
+.cabinHead {
+  fill: rgb(var(--mist-rgb) / 0.25);
+}
+
+.view[data-cam="cabin"] .detectBox {
+  stroke: var(--danger);
+}
+
+// Vignette so the HUD reads on any frame.
+.view::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgb(var(--black-rgb) / 0.45), transparent 26%),
+    linear-gradient(to top, rgb(var(--black-rgb) / 0.55), transparent 32%);
+}
+
+%hud {
+  position: absolute;
+  z-index: 1;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: rgb(var(--mist-rgb) / 0.85);
+}
+
+.hudTop {
+  @extend %hud;
+  top: 12px;
+}
+
+.hudBottom {
+  @extend %hud;
+  bottom: 12px;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+.rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgb(var(--black-rgb) / 0.45);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--mist);
+
+  i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--danger);
+    animation: blink 1.6s steps(1) infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.hudTime {
+  font-variant-numeric: tabular-nums;
+}
+
+.preview {
+  margin-left: auto;
+  padding: 2px 8px;
+  border: 1px solid rgb(var(--mist-rgb) / 0.25);
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(var(--mist-rgb) / 0.7);
+}
+
+.eventTag {
+  position: absolute;
+  z-index: 1;
+  top: 44px;
+  right: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 62%;
+  padding: 8px 10px;
+  border: 1px solid rgb(var(--warning-rgb) / 0.4);
+  border-left: 3px solid var(--warning);
+  border-radius: 10px;
+  background: rgb(var(--surface-0-rgb) / 0.82);
+  backdrop-filter: blur(6px);
+  color: var(--warning);
+  animation: tagIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+  b {
+    display: block;
+    font-size: 12px;
+    color: var(--mist);
+  }
+
+  small {
+    display: block;
+    margin-top: 1px;
+    font-size: 10.5px;
+    color: rgb(var(--mist-rgb) / 0.65);
+  }
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  &[data-tone="alert"] {
+    border-color: rgb(var(--danger-rgb) / 0.4);
+    border-left-color: var(--danger);
+    color: var(--danger);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes tagIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+// ---------- controls ----------
+.controls {
+  display: grid;
+  gap: 14px;
+  padding: 14px 16px 18px;
+  border-top: 1px solid rgb(var(--mist-rgb) / 0.08);
+
+  @media (min-width: 640px) {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
+.cams {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid rgb(var(--mist-rgb) / 0.1);
+  border-radius: 10px;
+  background: var(--surface-1);
+}
+
+.camBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgb(var(--mist-rgb) / 0.6);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    color: var(--mist);
+  }
+
+  &[aria-selected="true"] {
+    background: var(--accent-glow);
+    box-shadow: inset 0 0 0 1px var(--border-accent);
+    color: var(--accent-text);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+}
+
+.timeline {
+  position: relative;
+  height: 34px;
+}
+
+.track {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: rgb(var(--mist-rgb) / 0.1);
+}
+
+.played {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+// 24px hit area around a 10px marker.
+.marker {
+  position: absolute;
+  top: -2px;
+  width: 24px;
+  height: 24px;
+  margin-left: -12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--surface-0);
+    border-radius: 50%;
+    background: var(--warning);
+    transition: transform 0.15s;
+  }
+
+  &[data-tone="alert"]::after {
+    background: var(--danger);
+  }
+
+  &[aria-pressed="true"]::after {
+    transform: scale(1.35);
+    box-shadow: 0 0 0 3px rgb(var(--mist-rgb) / 0.15);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    border-radius: 50%;
+  }
+}
+
+%tl {
+  position: absolute;
+  bottom: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  color: rgb(var(--mist-rgb) / 0.45);
+}
+
+.tlStart {
+  @extend %tl;
+  left: 0;
+}
+
+.tlEnd {
+  @extend %tl;
+  right: 0;
+}

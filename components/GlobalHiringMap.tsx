@@ -33,7 +33,7 @@ const CITIES: City[] = [
     name: "London",
     country: "United Kingdom",
     coordinates: [-0.12, 51.5],
-    accent: "#818CF8",
+    accent: "var(--violet)",
     jobs: [
       { title: "Enterprise Account Manager", department: "KAM" },
       { title: "Financial Analyst", department: "Accounts & Finance" },
@@ -44,7 +44,7 @@ const CITIES: City[] = [
     name: "Dubai",
     country: "UAE",
     coordinates: [55.27, 25.2],
-    accent: "#0ECECE",
+    accent: "var(--accent)",
     jobs: [
       { title: "Sales Executive — MENA", department: "Sales" },
       { title: "Fleet Operations Manager", department: "Operations" },
@@ -57,7 +57,7 @@ const CITIES: City[] = [
     name: "Riyadh",
     country: "Saudi Arabia",
     coordinates: [46.68, 24.68],
-    accent: "#F59E0B",
+    accent: "var(--warning)",
     jobs: [
       { title: "Enterprise Account Manager", department: "KAM" },
       { title: "Sales Executive — MENA", department: "Sales" },
@@ -68,7 +68,7 @@ const CITIES: City[] = [
     name: "Bangalore",
     country: "India",
     coordinates: [77.59, 12.97],
-    accent: "#22C55E",
+    accent: "var(--success)",
     jobs: [
       { title: "Software Developer — UI/UX", department: "Engineering" },
       { title: "Software Developer — Full-Stack", department: "Engineering" },
@@ -84,7 +84,7 @@ const CITIES: City[] = [
     name: "Singapore",
     country: "Singapore",
     coordinates: [103.82, 1.35],
-    accent: "#EC4899",
+    accent: "var(--pink)",
     jobs: [
       { title: "Sales Executive — APAC", department: "Sales" },
       { title: "Key Account Manager", department: "KAM" },
@@ -96,7 +96,7 @@ const CITIES: City[] = [
     name: "Remote",
     country: "Global · Antarctica",
     coordinates: [20, -78],
-    accent: "#A855F7",
+    accent: "var(--violet)",
     jobs: [
       { title: "DevOps / Platform Engineer", department: "Infrastructure" },
       { title: "Talent Acquisition Specialist", department: "Human Resources" },
@@ -107,15 +107,15 @@ const CITIES: City[] = [
 ];
 
 const DEPT_COLOR: Record<string, string> = {
-  Engineering: "#0ECECE",
-  Sales: "#818CF8",
-  Infrastructure: "#F59E0B",
-  Product: "#22C55E",
-  "Customer Success": "#EC4899",
-  "Human Resources": "#A855F7",
-  Operations: "#F97316",
-  KAM: "#14B8A6",
-  "Accounts & Finance": "#EAB308",
+  Engineering: "var(--accent)",
+  Sales: "var(--violet)",
+  Infrastructure: "var(--warning)",
+  Product: "var(--success)",
+  "Customer Success": "var(--pink)",
+  "Human Resources": "var(--violet)",
+  Operations: "var(--orange)",
+  KAM: "var(--accent)",
+  "Accounts & Finance": "var(--warning)",
 };
 
 export default function GlobalHiringMap() {
@@ -153,9 +153,9 @@ export default function GlobalHiringMap() {
         <div
           className="relative overflow-hidden rounded-2xl"
           style={{
-            background: "#06101e",
+            background: "var(--surface-0)",
             border: "1px solid var(--border)",
-            boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
+            boxShadow: "0 24px 64px rgb(var(--black-rgb) / 0.5)",
           }}
         >
           {/* Radial atmosphere */}
@@ -163,7 +163,7 @@ export default function GlobalHiringMap() {
             className="pointer-events-none absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse at 50% 60%, rgba(14,206,206,0.045) 0%, transparent 65%)",
+                "radial-gradient(ellipse at 50% 60%, rgb(var(--accent-rgb) / 0.045) 0%, transparent 65%)",
             }}
           />
 
@@ -181,19 +181,19 @@ export default function GlobalHiringMap() {
                     geography={geo}
                     style={{
                       default: {
-                        fill: "rgba(14,206,206,0.07)",
-                        stroke: "rgba(14,206,206,0.18)",
+                        fill: "rgb(var(--accent-rgb) / 0.07)",
+                        stroke: "rgb(var(--accent-rgb) / 0.18)",
                         strokeWidth: 0.5,
                         outline: "none",
                       },
                       hover: {
-                        fill: "rgba(14,206,206,0.12)",
-                        stroke: "rgba(14,206,206,0.28)",
+                        fill: "rgb(var(--accent-rgb) / 0.12)",
+                        stroke: "rgb(var(--accent-rgb) / 0.28)",
                         strokeWidth: 0.5,
                         outline: "none",
                       },
                       pressed: {
-                        fill: "rgba(14,206,206,0.07)",
+                        fill: "rgb(var(--accent-rgb) / 0.07)",
                         outline: "none",
                       },
                     }}
@@ -252,7 +252,7 @@ export default function GlobalHiringMap() {
                     fill:
                       activeId === city.id
                         ? city.accent
-                        : "rgba(200,225,255,0.55)",
+                        : "rgb(var(--mist-rgb) / 0.55)",
                     letterSpacing: "0.4px",
                     pointerEvents: "none",
                     transition: "fill 0.3s ease",
@@ -275,9 +275,9 @@ export default function GlobalHiringMap() {
                 transition={{ duration: 0.22, ease: "easeOut" }}
                 className="absolute bottom-4 right-4 w-72 rounded-2xl p-4"
                 style={{
-                  background: "rgba(4,9,26,0.97)",
-                  border: `1px solid ${activeCity.accent}48`,
-                  boxShadow: `0 16px 48px rgba(0,0,0,0.65), 0 0 36px ${activeCity.accent}22`,
+                  background: "rgb(var(--surface-0-rgb) / 0.97)",
+                  border: `1px solid color-mix(in srgb, ${activeCity.accent} 28%, transparent)`,
+                  boxShadow: `0 16px 48px rgb(var(--black-rgb) / 0.65), 0 0 36px color-mix(in srgb, ${activeCity.accent} 13%, transparent)`,
                   backdropFilter: "blur(20px)",
                   WebkitBackdropFilter: "blur(20px)",
                   zIndex: 20,
@@ -289,8 +289,8 @@ export default function GlobalHiringMap() {
                     <span
                       className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
                       style={{
-                        background: `${activeCity.accent}18`,
-                        border: `1px solid ${activeCity.accent}38`,
+                        background: `color-mix(in srgb, ${activeCity.accent} 9%, transparent)`,
+                        border: `1px solid color-mix(in srgb, ${activeCity.accent} 22%, transparent)`,
                       }}
                     >
                       <MapPin
@@ -301,13 +301,13 @@ export default function GlobalHiringMap() {
                     <div>
                       <p
                         className="text-sm font-bold leading-none"
-                        style={{ color: "#fff" }}
+                        style={{ color: "var(--white)" }}
                       >
                         {activeCity.name}
                       </p>
                       <p
                         className="text-[10px] mt-0.5"
-                        style={{ color: "rgba(180,210,255,0.5)" }}
+                        style={{ color: "rgb(var(--mist-rgb) / 0.5)" }}
                       >
                         {activeCity.country}
                       </p>
@@ -317,7 +317,7 @@ export default function GlobalHiringMap() {
                     <span
                       className="text-[10px] font-semibold rounded-full px-2 py-0.5"
                       style={{
-                        background: `${activeCity.accent}1A`,
+                        background: `color-mix(in srgb, ${activeCity.accent} 10%, transparent)`,
                         color: activeCity.accent,
                       }}
                     >
@@ -327,7 +327,7 @@ export default function GlobalHiringMap() {
                     <button
                       onClick={() => setActiveId(null)}
                       className="rounded-md p-0.5 opacity-50 hover:opacity-100 transition"
-                      style={{ color: "rgba(200,220,255,0.6)" }}
+                      style={{ color: "rgb(var(--mist-rgb) / 0.6)" }}
                     >
                       <X className="h-3.5 w-3.5" />
                     </button>
@@ -348,7 +348,7 @@ export default function GlobalHiringMap() {
                       <div>
                         <p
                           className="text-xs font-semibold leading-tight"
-                          style={{ color: "rgba(220,240,255,0.92)" }}
+                          style={{ color: "rgb(var(--mist-rgb) / 0.92)" }}
                         >
                           {job.title}
                         </p>
@@ -357,7 +357,7 @@ export default function GlobalHiringMap() {
                           style={{
                             color:
                               DEPT_COLOR[job.department] ??
-                              "rgba(180,210,255,0.5)",
+                              "rgb(var(--mist-rgb) / 0.5)",
                           }}
                         >
                           {job.department}
@@ -372,9 +372,9 @@ export default function GlobalHiringMap() {
                   href="#roles"
                   className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-semibold transition hover:brightness-110"
                   style={{
-                    background: `${activeCity.accent}18`,
+                    background: `color-mix(in srgb, ${activeCity.accent} 9%, transparent)`,
                     color: activeCity.accent,
-                    border: `1px solid ${activeCity.accent}38`,
+                    border: `1px solid color-mix(in srgb, ${activeCity.accent} 22%, transparent)`,
                   }}
                 >
                   Quick Apply <ArrowRight className="h-3 w-3" />
@@ -398,11 +398,11 @@ export default function GlobalHiringMap() {
               style={{
                 background:
                   activeId === city.id
-                    ? `${city.accent}18`
+                    ? `color-mix(in srgb, ${city.accent} 9%, transparent)`
                     : "var(--bg-card)",
                 border: `1px solid ${
                   activeId === city.id
-                    ? city.accent + "55"
+                    ? `color-mix(in srgb, ${city.accent} 33%, transparent)`
                     : "var(--border)"
                 }`,
                 color:
@@ -414,7 +414,7 @@ export default function GlobalHiringMap() {
                 style={{ background: city.accent }}
               />
               {city.name}
-              <span style={{ color: "rgba(180,210,255,0.4)" }}>
+              <span style={{ color: "rgb(var(--mist-rgb) / 0.4)" }}>
                 ({city.jobs.length})
               </span>
             </button>

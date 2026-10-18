@@ -363,7 +363,7 @@ export default function ContactForm() {
                       width: "260px",
                       background: "var(--bg-deep)",
                       border: "1px solid var(--border-accent)",
-                      boxShadow: "0 16px 48px rgba(0,0,0,0.5)",
+                      boxShadow: "0 16px 48px rgb(var(--black-rgb) / 0.5)",
                     }}
                   >
                     {/* Search */}
@@ -465,7 +465,7 @@ export default function ContactForm() {
                   style={{
                     background: "var(--bg-deep)",
                     border: "1px solid var(--border-accent)",
-                    boxShadow: "0 16px 48px rgba(0,0,0,0.5)",
+                    boxShadow: "0 16px 48px rgb(var(--black-rgb) / 0.5)",
                   }}
                 >
                   <ul className="py-1">
@@ -523,7 +523,7 @@ export default function ContactForm() {
       {submitted && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: "rgba(0,0,0,0.65)", backdropFilter: "blur(6px)" }}
+          style={{ background: "rgb(var(--black-rgb) / 0.65)", backdropFilter: "blur(6px)" }}
           onClick={() => setSubmitted(false)}
         >
           <div
@@ -531,7 +531,7 @@ export default function ContactForm() {
             style={{
               background: "var(--bg-card)",
               border: "1px solid var(--border-accent)",
-              boxShadow: "0 32px 80px rgba(0,0,0,0.6), 0 0 60px rgba(14,206,206,0.12)",
+              boxShadow: "0 32px 80px rgb(var(--black-rgb) / 0.6), 0 0 60px rgb(var(--accent-rgb) / 0.12)",
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -545,7 +545,7 @@ export default function ContactForm() {
             </button>
 
             {/* Icon */}
-            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: "rgba(14,206,206,0.12)", border: "1px solid rgba(14,206,206,0.3)" }}>
+            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full" style={{ background: "rgb(var(--accent-rgb) / 0.12)", border: "1px solid rgb(var(--accent-rgb) / 0.3)" }}>
               <CheckCircle2 className="h-8 w-8" style={{ color: "var(--accent-text)" }} />
             </div>
 

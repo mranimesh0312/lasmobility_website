@@ -59,8 +59,8 @@ export default function AnnouncementBar() {
             className="relative"
             style={{
               background:
-                "linear-gradient(90deg, rgba(14,206,206,0.07) 0%, rgba(14,206,206,0.14) 50%, rgba(14,206,206,0.07) 100%)",
-              borderBottom: "1px solid rgba(14,206,206,0.18)",
+                "linear-gradient(90deg, rgb(var(--accent-rgb) / 0.07) 0%, rgb(var(--accent-rgb) / 0.14) 50%, rgb(var(--accent-rgb) / 0.07) 100%)",
+              borderBottom: "1px solid rgb(var(--accent-rgb) / 0.18)",
             }}
             role="banner"
             aria-label="Platform announcement"
@@ -70,7 +70,7 @@ export default function AnnouncementBar() {
               className="pointer-events-none absolute inset-y-0 w-40 opacity-20"
               style={{
                 background:
-                  "linear-gradient(90deg, transparent, rgba(14,206,206,0.7), transparent)",
+                  "linear-gradient(90deg, transparent, rgb(var(--accent-rgb) / 0.7), transparent)",
               }}
               animate={{ x: ["-100%", "800%"] }}
               transition={{ duration: 5, repeat: Infinity, ease: "linear", repeatDelay: 3 }}
@@ -81,9 +81,9 @@ export default function AnnouncementBar() {
               <span
                 className="hidden shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider sm:flex"
                 style={{
-                  border: "1px solid rgba(14,206,206,0.45)",
+                  border: "1px solid rgb(var(--accent-rgb) / 0.45)",
                   color: "var(--accent-text)",
-                  background: "rgba(14,206,206,0.1)",
+                  background: "rgb(var(--accent-rgb) / 0.1)",
                 }}
               >
                 <Zap className="h-2.5 w-2.5" />
@@ -124,9 +124,9 @@ export default function AnnouncementBar() {
                 href="/contact"
                 className="hidden shrink-0 items-center gap-1 rounded-full px-3 py-0.5 text-[10px] font-bold uppercase tracking-wider transition hover:opacity-80 sm:flex"
                 style={{
-                  background: "rgba(14,206,206,0.15)",
+                  background: "rgb(var(--accent-rgb) / 0.15)",
                   color: "var(--accent-text)",
-                  border: "1px solid rgba(14,206,206,0.3)",
+                  border: "1px solid rgb(var(--accent-rgb) / 0.3)",
                 }}
               >
                 Book Demo →

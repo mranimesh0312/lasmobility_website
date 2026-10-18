@@ -7,6 +7,7 @@
  * routes in data/demoRoutes.json. Deterministic, so SSR and client agree.
  */
 import routesJson from "./demoRoutes.json";
+import { PALETTE } from "@/lib/palette";
 
 export type LngLat = [number, number];
 export type LiveStatus = "running" | "idle" | "stopped" | "offline";
@@ -27,10 +28,10 @@ const pick = <T,>(arr: readonly T[]) => arr[Math.floor(rnd() * arr.length)];
 const round = (v: number, d = 0) => Math.round(v * 10 ** d) / 10 ** d;
 
 export const STATUS_META: Record<LiveStatus, { label: string; color: string }> = {
-  running: { label: "Running", color: "#10B981" },
-  idle: { label: "Idle", color: "#F59E0B" },
-  stopped: { label: "Stopped", color: "#EF4444" },
-  offline: { label: "Offline", color: "#94A3B8" },
+  running: { label: "Running", color: PALETTE.success },
+  idle: { label: "Idle", color: PALETTE.warning },
+  stopped: { label: "Stopped", color: PALETTE.danger },
+  offline: { label: "Offline", color: PALETTE.slate400 },
 };
 
 const MODELS = [
@@ -237,10 +238,10 @@ export const ALERTS: ReplicaAlert[] = [
 ];
 
 export const SEVERITY_META: Record<Severity, { label: string; color: string }> = {
-  critical: { label: "Critical", color: "#EF4444" },
-  high: { label: "High", color: "#F97316" },
-  medium: { label: "Medium", color: "#F59E0B" },
-  low: { label: "Low", color: "#06B6D4" },
+  critical: { label: "Critical", color: PALETTE.danger },
+  high: { label: "High", color: PALETTE.orange },
+  medium: { label: "Medium", color: PALETTE.warning },
+  low: { label: "Low", color: PALETTE.accent },
 };
 
 export const ALERT_RULES = [

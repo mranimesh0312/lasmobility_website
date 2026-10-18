@@ -20,11 +20,11 @@ const solutions = [
     description:
       "From depot dispatch to proof of delivery, LAS Mobility gives logistics operators complete visibility across their fleet. Track live positions, monitor route adherence, and review trip history — without calling drivers.",
     image: "/industry-truck.avif",
-    color: "#0ECECE",
+    color: "var(--accent)",
     stats: [
-      { value: "↓ 22%", label: "Cost per delivery" },
-      { value: "↑ 18%", label: "Fleet utilisation" },
-      { value: "40%", label: "Faster dispatch response" },
+      { value: "Per km", label: "Cost per delivery" },
+      { value: "Measured", label: "Fleet utilisation" },
+      { value: "Live", label: "Dispatch visibility" },
     ],
     features: [
       "Live GPS tracking across all vehicles",
@@ -43,11 +43,11 @@ const solutions = [
     description:
       "Parents, administrators, and operators all need confidence that every student arrives safely. LAS Mobility delivers live bus tracking, automatic geofence alerts, and driver safety scoring built specifically for education fleets.",
     image: "/industry-school-bus.avif",
-    color: "#F59E0B",
+    color: "var(--warning)",
     stats: [
-      { value: "98%", label: "Safety compliance" },
-      { value: "4.9/5", label: "Parent trust score" },
-      { value: "< 3 min", label: "Incident response time" },
+      { value: "Scored", label: "Driver safety, every trip" },
+      { value: "Logged", label: "Every stop arrival" },
+      { value: "Live", label: "Incidents as they happen" },
     ],
     features: [
       "Live bus position for parents and admins",
@@ -66,11 +66,11 @@ const solutions = [
     description:
       "Corporate transport teams manage dozens of routes across shifts every day. LAS Mobility centralises visibility so operators can confirm pick-ups, monitor delays, and respond to exceptions without manual check-ins.",
     image: "/industry-employee-bus.avif",
-    color: "#8B5CF6",
+    color: "var(--violet)",
     stats: [
-      { value: "94%", label: "On-time rate achieved" },
-      { value: "↓ 31%", label: "Unplanned idle time" },
-      { value: "3×", label: "Dispatch visibility increase" },
+      { value: "Tracked", label: "On-time arrivals" },
+      { value: "Tracked", label: "Idle time per vehicle" },
+      { value: "Live", label: "Dispatch visibility" },
     ],
     features: [
       "Live route progress per shift vehicle",
@@ -89,10 +89,10 @@ const solutions = [
     description:
       "Large enterprises need fleet visibility that scales across cities, branches, and vehicle types — without losing granularity. LAS Mobility's multi-branch architecture gives operations teams one unified command view.",
     image: "/industry-construction.avif",
-    color: "#22C55E",
+    color: "var(--success)",
     stats: [
-      { value: "1,000+", label: "Vehicles on one dashboard" },
-      { value: "↑ 18%", label: "Fleet utilisation rate" },
+      { value: "One map", label: "For the whole fleet" },
+      { value: "Measured", label: "Fleet utilisation by branch" },
       { value: "Role-based", label: "Access controls" },
     ],
     features: [
@@ -112,11 +112,11 @@ const solutions = [
     description:
       "High-frequency delivery fleets live and die by on-time performance. LAS Mobility optimises stop sequences, detects idle time, and gives dispatch the live visibility to adjust routes before SLAs are missed.",
     image: "/industry-delivery-van.avif",
-    color: "#EF4444",
+    color: "var(--danger)",
     stats: [
-      { value: "20%", label: "More drops per day" },
-      { value: "↓ 24%", label: "Route distance saved" },
-      { value: "38 min", label: "Avg time saved per trip" },
+      { value: "Planned", label: "Multi-stop routes" },
+      { value: "Compared", label: "Planned vs actual routes" },
+      { value: "Early", label: "Delays spotted early" },
     ],
     features: [
       "AI-optimised multi-stop sequencing",
@@ -135,11 +135,11 @@ const solutions = [
     description:
       "Field service teams need fast response and maximum coverage. LAS Mobility puts every technician on a live map so dispatchers assign the nearest available resource, track visit progress, and verify service completion.",
     image: "/industry-car-rental.avif",
-    color: "#0ECECE",
+    color: "var(--accent)",
     stats: [
-      { value: "30%", label: "More service calls per day" },
-      { value: "↓ 25%", label: "Response time reduction" },
-      { value: "100%", label: "Trips automatically logged" },
+      { value: "Nearest", label: "Technician dispatch" },
+      { value: "Live", label: "Incidents as they happen" },
+      { value: "Every trip", label: "Logged automatically" },
     ],
     features: [
       "Live technician positions on a map",
@@ -166,19 +166,19 @@ export default function SolutionsPage() {
     <>
       {/* Hero */}
       <section className="section-pad relative overflow-hidden" style={{ background: "var(--bg-deep)" }}>
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(34,197,94,0.09), transparent)" }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgb(var(--success-rgb) / 0.09), transparent)" }} />
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-20" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <span
             className="inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest"
-            style={{ background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", color: "#22C55E" }}
+            style={{ background: "rgb(var(--success-rgb) / 0.12)", border: "1px solid rgb(var(--success-rgb) / 0.3)", color: "var(--success)" }}
           >
             Solutions
           </span>
           <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl" style={{ color: "var(--text-primary)" }}>
             Fleet intelligence built around
             <br />
-            <span style={{ color: "#22C55E" }}>how your fleet operates</span>
+            <span style={{ color: "var(--success)" }}>how your fleet operates</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8" style={{ color: "var(--text-secondary)" }}>
             Whether you run school buses, delivery vans, or an enterprise fleet across multiple cities — LAS Mobility gives every operator the tools that fit their operating model.
@@ -200,12 +200,12 @@ export default function SolutionsPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4" style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
             {[
               { value: "6",      label: "Fleet operating models supported" },
-              { value: "1,000+", label: "Vehicles managed on one platform" },
+              { value: "One map", label: "For the whole fleet" },
               { value: "↓ 22%",  label: "Avg cost reduction across fleets" },
               { value: "99.9%",  label: "Platform uptime SLA" },
             ].map(({ value, label }, i) => (
               <div key={label} className="px-8 py-10 text-center" style={{ borderRight: i < 3 ? "1px solid var(--border)" : undefined }}>
-                <p className="text-3xl font-bold" style={{ color: "#22C55E" }}>{value}</p>
+                <p className="text-3xl font-bold" style={{ color: "var(--success)" }}>{value}</p>
                 <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{label}</p>
               </div>
             ))}
@@ -229,15 +229,15 @@ export default function SolutionsPage() {
             >
               <div className={`grid items-stretch lg:grid-cols-2 ${idx % 2 !== 0 ? "lg:[direction:rtl]" : ""}`}>
                 {/* Image panel */}
-                <div className="relative min-h-[260px] overflow-hidden lg:[direction:ltr]" style={{ background: "#060E1A" }}>
+                <div className="relative min-h-[260px] overflow-hidden lg:[direction:ltr]" style={{ background: "var(--ink-deep)" }}>
                   <Image src={image} alt={title} fill className="object-cover opacity-80" sizes="(max-width:1024px) 100vw, 50vw" />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, rgba(6,14,26,0.85))" }} />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 40%, rgb(var(--ink-deep-rgb) / 0.85))" }} />
                   {/* Stats overlay */}
                   <div className="absolute bottom-4 left-4 right-4 flex gap-3 lg:[direction:ltr]">
                     {stats.map(({ value, label }) => (
-                      <div key={label} className="flex-1 rounded-xl px-3 py-2.5 text-center backdrop-blur-md" style={{ background: "rgba(6,14,26,0.7)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                      <div key={label} className="flex-1 rounded-xl px-3 py-2.5 text-center backdrop-blur-md" style={{ background: "rgb(var(--ink-deep-rgb) / 0.7)", border: "1px solid rgb(var(--white-rgb) / 0.1)" }}>
                         <p className="text-lg font-bold" style={{ color }}>{value}</p>
-                        <p className="text-[10px] leading-tight" style={{ color: "rgba(255,255,255,0.55)" }}>{label}</p>
+                        <p className="text-[10px] leading-tight" style={{ color: "rgb(var(--white-rgb) / 0.55)" }}>{label}</p>
                       </div>
                     ))}
                   </div>
@@ -246,7 +246,7 @@ export default function SolutionsPage() {
                 {/* Content panel */}
                 <div className="flex flex-col justify-center p-8 lg:[direction:ltr]">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: `${color}18`, border: `1px solid ${color}35` }}>
+                    <span className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: `color-mix(in srgb, ${color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 21%, transparent)` }}>
                       <Icon className="h-5 w-5" style={{ color }} />
                     </span>
                     <span className="text-xs font-bold uppercase tracking-widest" style={{ color }}>{title}</span>
@@ -263,7 +263,7 @@ export default function SolutionsPage() {
                   </ul>
                   <div className="mt-6">
                     <Link href="/contact" className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition hover:opacity-80"
-                      style={{ background: `${color}18`, border: `1px solid ${color}35`, color }}>
+                      style={{ background: `color-mix(in srgb, ${color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 21%, transparent)`, color }}>
                       Get a demo for {title} <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
                   </div>

@@ -4,7 +4,7 @@
   position: relative;
   overflow: hidden;
   border-radius: $radius-xl;
-  background: $palette-navy-950;
+  background: var(--stage);
 }
 
 .canvas {
@@ -20,16 +20,17 @@
   display: inline-flex;
   align-items: center;
   gap: $spacing-1;
-  padding: $spacing-2 $spacing-3;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-height: 44px;
+  padding: 0 $spacing-4;
+  border: 1px solid rgb(var(--white-rgb) / 0.2);
   border-radius: $radius-full;
-  background: rgba(5, 11, 22, 0.7);
+  background: rgb(var(--stage-rgb) / 0.7);
   font-size: $font-size-sm;
-  color: $color-white;
+  color: var(--white);
   cursor: pointer;
 
   &[aria-pressed="true"] {
-    border-color: $color-primary;
-    color: $color-primary-light;
+    border-color: var(--accent);
+    color: var(--accent-text);
   }
 }

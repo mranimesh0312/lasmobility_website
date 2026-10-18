@@ -19,7 +19,7 @@ const industries = [
     description:
       "Track trucks across highways and city routes. Monitor route adherence, investigate deviations, and give dispatch the live intelligence to react before delays become incidents.",
     image: "/industry-truck.avif",
-    color: "#0ECECE",
+    color: "var(--accent)",
     features: [
       "Live position for every vehicle in transit",
       "Route deviation and off-route alerts",
@@ -27,7 +27,7 @@ const industries = [
       "Trip history with exportable mileage reports",
       "Driver behaviour scoring per trip",
     ],
-    stat: { value: "↓ 18%", label: "Avg idle time reduction" },
+    stat: { value: "Tracked", label: "Idle time per vehicle" },
   },
   {
     id: "delivery",
@@ -37,7 +37,7 @@ const industries = [
     description:
       "High-frequency delivery fleets need AI-optimised stop sequences, live ETAs, and instant alerts for unscheduled stops. LAS Mobility turns raw GPS into delivery intelligence.",
     image: "/industry-delivery-van.avif",
-    color: "#F59E0B",
+    color: "var(--warning)",
     features: [
       "AI multi-stop route optimisation",
       "Real-time ETA updates per stop",
@@ -45,7 +45,7 @@ const industries = [
       "Dead mileage identification",
       "Cost-per-delivery benchmarking",
     ],
-    stat: { value: "20%", label: "More drops per day" },
+    stat: { value: "Planned", label: "Multi-stop routes" },
   },
   {
     id: "education",
@@ -55,7 +55,7 @@ const industries = [
     description:
       "School bus operators, university transport, and campus fleets all need accountability that parents and administrators can see. LAS Mobility automates safety visibility for every route.",
     image: "/industry-school-bus.avif",
-    color: "#22C55E",
+    color: "var(--success)",
     features: [
       "Live bus tracking for parents and admins",
       "Geofence alerts at school gates",
@@ -63,7 +63,7 @@ const industries = [
       "Driver safety score per route",
       "Route deviation instant alerts",
     ],
-    stat: { value: "98%", label: "Safety compliance score" },
+    stat: { value: "Scored", label: "Driver safety, every trip" },
   },
   {
     id: "corporate",
@@ -73,7 +73,7 @@ const industries = [
     description:
       "Employee transport teams run dozens of routes across shifts. LAS Mobility gives operators the visibility to confirm pickups, monitor delays, and prevent SLA failures — automatically.",
     image: "/industry-employee-bus.avif",
-    color: "#8B5CF6",
+    color: "var(--violet)",
     features: [
       "Live route progress per shift vehicle",
       "Automated stoppage and delay logging",
@@ -81,7 +81,7 @@ const industries = [
       "On-time performance tracking per route",
       "Monthly trip summaries per vehicle",
     ],
-    stat: { value: "94%", label: "On-time rate" },
+    stat: { value: "Tracked", label: "On-time arrivals" },
   },
   {
     id: "construction",
@@ -91,7 +91,7 @@ const industries = [
     description:
       "Construction fleets span multiple sites with high-value vehicles and machinery. LAS Mobility reduces misuse, controls after-hours movement, and improves asset utilisation across the project.",
     image: "/industry-construction.avif",
-    color: "#EF4444",
+    color: "var(--danger)",
     features: [
       "After-hours ignition alerts",
       "Site geofence entry and exit tracking",
@@ -99,7 +99,7 @@ const industries = [
       "Asset utilisation reports per site",
       "Device tamper and offline alerts",
     ],
-    stat: { value: "↓ 27%", label: "Asset idle time" },
+    stat: { value: "Tracked", label: "Asset idle time" },
   },
   {
     id: "field-service",
@@ -109,7 +109,7 @@ const industries = [
     description:
       "Field service teams need fast dispatch and maximum coverage. LAS Mobility maps every technician live so you assign the nearest available resource and verify visit completion automatically.",
     image: "/industry-car-rental.avif",
-    color: "#0ECECE",
+    color: "var(--accent)",
     features: [
       "Live technician map with nearest dispatch",
       "Geofence arrival at customer sites",
@@ -117,7 +117,7 @@ const industries = [
       "Trip history and mileage for billing",
       "Safety scoring for field drivers",
     ],
-    stat: { value: "30%", label: "More service calls/day" },
+    stat: { value: "Nearest", label: "Technician dispatch" },
   },
   {
     id: "government",
@@ -127,7 +127,7 @@ const industries = [
     description:
       "Government and institutional fleets require auditable movement data, strict route adherence, and role-based access for different departments. LAS Mobility delivers the compliance layer public sector fleets demand.",
     image: "/industry-mining.avif",
-    color: "#F59E0B",
+    color: "var(--warning)",
     features: [
       "Role-based access by department",
       "Exportable audit-ready trip reports",
@@ -135,7 +135,7 @@ const industries = [
       "Secure multi-user dashboard access",
       "Fleet utilisation benchmarking",
     ],
-    stat: { value: "100%", label: "Trips automatically logged" },
+    stat: { value: "Every trip", label: "Logged automatically" },
   },
   {
     id: "specialized",
@@ -145,7 +145,7 @@ const industries = [
     description:
       "Healthcare, emergency response, and time-sensitive fleets operate under conditions where visibility failures have consequences. LAS Mobility's 99.9% uptime SLA and sub-5-second alerts are built for this.",
     image: "/industry-emergency.avif",
-    color: "#EF4444",
+    color: "var(--danger)",
     features: [
       "Sub-5-second alert delivery",
       "99.9% platform uptime SLA",
@@ -153,7 +153,7 @@ const industries = [
       "Device offline and tamper detection",
       "Custom geofence and threshold rules",
     ],
-    stat: { value: "< 5 sec", label: "Alert delivery time" },
+    stat: { value: "Instant", label: "Alerts to the right team" },
   },
 ];
 
@@ -162,7 +162,7 @@ export default function IndustriesPage() {
     <>
       {/* Hero */}
       <section className="section-pad relative overflow-hidden" style={{ background: "var(--bg-deep)" }}>
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(14,206,206,0.09), transparent)" }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgb(var(--accent-rgb) / 0.09), transparent)" }} />
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-20" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <span
@@ -198,7 +198,7 @@ export default function IndustriesPage() {
               { value: "8+",     label: "Industries supported" },
               { value: "50+",    label: "Countries with active fleets" },
               { value: "99.9%",  label: "Platform uptime SLA" },
-              { value: "< 5 sec", label: "Alert delivery across all sectors" },
+              { value: "Instant", label: "Alerts to the right team" },
             ].map(({ value, label }, i) => (
               <div key={label} className="px-8 py-10 text-center" style={{ borderRight: i < 3 ? "1px solid var(--border)" : undefined }}>
                 <p className="text-3xl font-bold" style={{ color: "var(--accent-text)" }}>{value}</p>
@@ -232,16 +232,16 @@ export default function IndustriesPage() {
                 {/* Image banner */}
                 <div className="relative h-44 overflow-hidden">
                   <Image src={image} alt={title} fill className="object-cover" sizes="(max-width:768px) 100vw, 50vw" />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(6,14,26,0.85) 100%)" }} />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgb(var(--black-rgb) / 0.1) 0%, rgb(var(--ink-deep-rgb) / 0.85) 100%)" }} />
                   <div className="absolute bottom-4 left-4 flex items-center gap-2.5">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-xl backdrop-blur-md" style={{ background: `${color}25`, border: `1px solid ${color}45` }}>
+                    <span className="flex h-9 w-9 items-center justify-center rounded-xl backdrop-blur-md" style={{ background: `color-mix(in srgb, ${color} 15%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 27%, transparent)` }}>
                       <Icon className="h-4.5 w-4.5" style={{ color }} />
                     </span>
                     <div>
                       <p className="text-xs font-bold uppercase tracking-wider" style={{ color }}>
                         {title}
                       </p>
-                      <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.5)" }}>{stat.value} — {stat.label}</p>
+                      <p className="text-[10px]" style={{ color: "rgb(var(--white-rgb) / 0.5)" }}>{stat.value} — {stat.label}</p>
                     </div>
                   </div>
                 </div>

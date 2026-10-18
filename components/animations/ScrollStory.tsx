@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { ArrowDown, ArrowRight, CalendarCheck, ChevronDown, ChevronUp, X } from "lucide-react";
 import { gsap, ScrollTrigger } from "./gsap";
@@ -42,6 +42,9 @@ export default function ScrollStory() {
   const scrimRight = useRef<HTMLDivElement>(null);
   const scrimBottom = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<ScrollTrigger | null>(null);
+  const inspector = useRef<HTMLElement>(null);
+  const connector = useRef<SVGPathElement>(null);
+  const connectorDot = useRef<SVGCircleElement>(null);
   const [tier, setTier] = useState<QualityTier>("medium");
   const [chapter, setChapter] = useState(0);
   const [screenIndex, setScreenIndex] = useState(0);
@@ -197,17 +200,38 @@ export default function ScrollStory() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Draws the connector from the selected hotspot to the inspector panel.
+  // Called every rendered frame while a hotspot is selected; writes the DOM directly.
+  const onFocusScreen = useCallback((p: { x: number; y: number } | null) => {
+    const path = connector.current;
+    const dot = connectorDot.current;
+    const box = inspector.current;
+    const host = stage.current;
+    if (!path || !dot || !box || !host || !p) return;
+    const hr = host.getBoundingClientRect();
+    const br = box.getBoundingClientRect();
+    const x0 = br.right - hr.left;
+    const y0 = br.top - hr.top + Math.min(56, br.height / 2);
+    const mx = x0 + (p.x - x0) * 0.45;
+    path.setAttribute("d", `M ${x0} ${y0} L ${mx} ${y0} L ${p.x} ${p.y}`);
+    dot.setAttribute("cx", String(p.x));
+    dot.setAttribute("cy", String(p.y));
+  }, []);
+
   const focusInfo = focus ? COMPONENTS[focus as keyof typeof COMPONENTS] : null;
   const setPanel = (i: number) => (el: HTMLElement | null) => {
     panels.current[i] = el;
   };
 
   return (
-    <section ref={root} className={styles.story} aria-label="LAS Mobility platform story">
-      <div ref={stage} className={styles.stage}>
+    <section ref={root} className={`${styles.story} theme-dark-scope`} aria-label="LAS Mobility platform story">
+      <div ref={stage} className={`${styles.stage} ${focusInfo && chapter === 0 ? styles.stageFocus : ""}`}>
         <SceneCanvas className={styles.canvas} label="Interactive 3D vehicle" camera={{ position: [6, 1.6, 6], fov: 30 }} onTier={setTier}>
-          <StoryScene tier={tier} screens={screens} theme={theme} interactive />
+          <StoryScene tier={tier} screens={screens} theme={theme} interactive onFocusScreen={onFocusScreen} />
         </SceneCanvas>
+        {/* Opening: the stage lifts out of darkness under a single light sweep. */}
+        <div className={styles.introVeil} aria-hidden="true" />
+        <div className={styles.lightSweep} aria-hidden="true" />
         <div ref={glow} className={styles.heroGlow} aria-hidden="true" />
         <div ref={scrimLeft} className={styles.scrim} aria-hidden="true" />
         <div ref={scrimRight} className={styles.scrimRight} style={{ opacity: 0 }} aria-hidden="true" />
@@ -225,7 +249,7 @@ export default function ScrollStory() {
           {!focusInfo && <HeroCards />}
           <div className={styles.heroDock}>
             <HeroControls />
-            <p className={styles.hint}>Drag to rotate · tap a hotspot to inspect</p>
+            <p className={styles.hint}>Drag to rotate · select a hotspot to inspect · illustrative demo values</p>
           </div>
         </div>
 
@@ -281,7 +305,13 @@ export default function ScrollStory() {
         </div>
 
         {focusInfo && chapter === 0 && (
-          <aside className={styles.inspector} aria-live="polite" aria-label={`${focusInfo.label} details`}>
+          <svg className={styles.connector} aria-hidden="true">
+            <path ref={connector} />
+            <circle ref={connectorDot} r="5" />
+          </svg>
+        )}
+        {focusInfo && chapter === 0 && (
+          <aside ref={inspector} className={styles.inspector} aria-live="polite" aria-label={`${focusInfo.label} details`}>
             <button type="button" className={styles.inspectorClose} aria-label="Close" onClick={() => setFocus(null)}>
               <X size={16} />
             </button>

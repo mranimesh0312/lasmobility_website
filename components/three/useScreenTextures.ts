@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { invalidateScenes } from "./SceneCanvas";
-import { screenshotFor, type FeatureEntry, type ThemeName } from "@/data/featureManifest";
+import type { FeatureEntry, ThemeName } from "@/data/featureManifest";
 import { drawAppScreen, loadLogo } from "./drawAppScreen";
 
 /** App-style screen drawn on a canvas (see drawAppScreen). */
@@ -29,8 +29,8 @@ function coverFit(tex: THREE.Texture, imgAspect: number, screenAspect: number) {
 }
 
 /**
- * One texture per feature for the theme: the app-style canvas screen, or a
- * reviewed screenshot when one exists (loaded lazily, swapped in place).
+ * One texture per feature for the theme: the app-style canvas screen, drawn
+ * in the theme palette (no screenshots, so the laptop always matches the site).
  */
 export function useScreenTextures(features: FeatureEntry[], theme: ThemeName, screenAspect: number) {
   const textures = useMemo(
@@ -44,7 +44,6 @@ export function useScreenTextures(features: FeatureEntry[], theme: ThemeName, sc
   );
 
   useEffect(() => {
-    const loader = new THREE.ImageLoader();
     let cancelled = false;
     // Redraw the canvas screens with the brand logo once it has loaded.
     loadLogo(theme)
@@ -52,24 +51,13 @@ export function useScreenTextures(features: FeatureEntry[], theme: ThemeName, sc
         if (cancelled) return;
         features.forEach((f, i) => {
           const tex = textures[i];
-          if (!(tex.image instanceof HTMLCanvasElement)) return; // a real screenshot replaced it
+          if (!(tex.image instanceof HTMLCanvasElement)) return;
           drawAppScreen(tex.image, f.id, theme, logo);
           tex.needsUpdate = true;
         });
         invalidateScenes();
       })
       .catch(() => {});
-    features.forEach((f, i) => {
-      const { shot } = screenshotFor(f, theme);
-      if (!shot) return;
-      loader.load(shot.src, (img) => {
-        if (cancelled) return;
-        const tex = textures[i];
-        tex.image = img;
-        coverFit(tex, img.width / img.height, screenAspect);
-        tex.needsUpdate = true;
-      });
-    });
     return () => {
       cancelled = true;
       textures.forEach((t) => t.dispose());

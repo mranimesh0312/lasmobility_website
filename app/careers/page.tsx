@@ -683,26 +683,26 @@ const jobs: Job[] = [
 ];
 
 const deptColors: Record<string, string> = {
-  Engineering:         "rgba(14,206,206,0.15)",
-  Sales:               "rgba(99,102,241,0.15)",
-  Infrastructure:      "rgba(245,158,11,0.15)",
-  Product:             "rgba(34,197,94,0.15)",
+  Engineering:         "rgb(var(--accent-rgb) / 0.15)",
+  Sales:               "rgb(var(--violet-rgb) / 0.15)",
+  Infrastructure:      "rgb(var(--warning-rgb) / 0.15)",
+  Product:             "rgb(var(--success-rgb) / 0.15)",
   "Customer Success":  "rgba(236,72,153,0.15)",
-  "Human Resources":   "rgba(168,85,247,0.15)",
+  "Human Resources":   "rgb(var(--violet-rgb) / 0.15)",
   Operations:          "rgba(249,115,22,0.15)",
-  KAM:                 "rgba(20,184,166,0.15)",
-  "Accounts & Finance":"rgba(234,179,8,0.15)",
+  KAM:                 "rgb(var(--accent-rgb) / 0.15)",
+  "Accounts & Finance":"rgb(var(--warning-rgb) / 0.15)",
 };
 const deptText: Record<string, string> = {
-  Engineering:         "#0ECECE",
-  Sales:               "#818CF8",
-  Infrastructure:      "#F59E0B",
-  Product:             "#22C55E",
-  "Customer Success":  "#EC4899",
-  "Human Resources":   "#A855F7",
-  Operations:          "#F97316",
-  KAM:                 "#14B8A6",
-  "Accounts & Finance":"#EAB308",
+  Engineering:         "var(--accent)",
+  Sales:               "var(--violet)",
+  Infrastructure:      "var(--warning)",
+  Product:             "var(--success)",
+  "Customer Success":  "var(--pink)",
+  "Human Resources":   "var(--violet)",
+  Operations:          "var(--orange)",
+  KAM:                 "var(--accent)",
+  "Accounts & Finance":"var(--warning)",
 };
 
 /* ─────────────────────────────────────────
@@ -830,7 +830,7 @@ function ApplyModal({
   const content = (
     <div
       className="fixed inset-0 z-[999] flex items-center justify-center p-4"
-      style={{ background: "rgba(6,14,26,0.8)", backdropFilter: "blur(6px)" }}
+      style={{ background: "rgb(var(--ink-deep-rgb) / 0.8)", backdropFilter: "blur(6px)" }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="dialog"
       aria-modal="true"
@@ -966,7 +966,7 @@ function ApplyModal({
                       style={{
                         background: "var(--bg-deep)",
                         border: "1px solid var(--border-accent)",
-                        boxShadow: "0 16px 48px rgba(0,0,0,0.5)",
+                        boxShadow: "0 16px 48px rgb(var(--black-rgb) / 0.5)",
                       }}
                     >
                       {/* Search */}
@@ -1141,7 +1141,7 @@ function ApplyModal({
                 onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileSelect(f); }}
               />
               {fileError && (
-                <p className="mt-2 text-xs" style={{ color: "#EF4444" }}>{fileError}</p>
+                <p className="mt-2 text-xs" style={{ color: "var(--danger)" }}>{fileError}</p>
               )}
             </div>
 
@@ -1471,7 +1471,7 @@ export default function CareersPage() {
               style={{
                 background: "var(--bg-card)",
                 border: "1px solid var(--border)",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
+                boxShadow: "0 2px 12px rgb(var(--black-rgb) / 0.15)",
               }}
             >
               <Search className="h-4 w-4 shrink-0" style={{ color: "var(--text-muted)" }} />

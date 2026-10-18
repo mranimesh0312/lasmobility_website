@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, type MutableRefObject } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import type { StoryRuntime } from "./storyRuntime";
+import { PALETTE } from "@/lib/palette";
 
 const SATELLITES: [number, number, number][] = [
   [-9, 15, -7],
@@ -41,11 +42,11 @@ export default function GpsLayer({ rt, roofY }: { rt: MutableRefObject<StoryRunt
       satGeo: new THREE.BoxGeometry(0.9, 0.35, 0.35),
       ringGeo: new THREE.RingGeometry(0.55, 0.62, 48),
       mats: {
-        route: new THREE.MeshStandardMaterial({ color: "#18C7CC", emissive: "#18C7CC", emissiveIntensity: 1.6, transparent: true }),
-        link: new THREE.LineDashedMaterial({ color: "#67E8F9", dashSize: 0.5, gapSize: 0.35, transparent: true }),
-        sat: new THREE.MeshStandardMaterial({ color: "#C7CDD4", metalness: 0.8, roughness: 0.3, emissive: "#18C7CC", emissiveIntensity: 0.4, transparent: true }),
+        route: new THREE.MeshStandardMaterial({ color: PALETTE.accent, emissive: PALETTE.accent, emissiveIntensity: 1.6, transparent: true }),
+        link: new THREE.LineDashedMaterial({ color: PALETTE.accentText, dashSize: 0.5, gapSize: 0.35, transparent: true }),
+        sat: new THREE.MeshStandardMaterial({ color: "#C7CDD4", metalness: 0.8, roughness: 0.3, emissive: PALETTE.accent, emissiveIntensity: 0.4, transparent: true }),
         rings: [0, 1, 2].map(
-          () => new THREE.MeshBasicMaterial({ color: "#67E8F9", transparent: true, side: THREE.DoubleSide, depthWrite: false })
+          () => new THREE.MeshBasicMaterial({ color: PALETTE.accentText, transparent: true, side: THREE.DoubleSide, depthWrite: false })
         ),
       },
     };

@@ -13,7 +13,7 @@ const markers = [
 
 export default function DashboardMockup() {
   return (
-    <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[#071426] p-4 shadow-glow">
+    <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[var(--surface-0)] p-4 shadow-glow">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
         <div>
           <p className="text-sm font-semibold text-white">LAS Mobility Command Center</p>
@@ -25,12 +25,12 @@ export default function DashboardMockup() {
         </div>
       </div>
       <div className="mt-4 grid gap-4 lg:grid-cols-[1.45fr_0.9fr]">
-        <div className="relative min-h-[390px] overflow-hidden rounded-md border border-white/10 bg-[#0b2239]">
+        <div className="relative min-h-[390px] overflow-hidden rounded-md border border-white/10 bg-[var(--surface-2)]">
           <div className="absolute inset-0 bg-grid opacity-80" />
           <svg className="absolute inset-0 h-full w-full" viewBox="0 0 680 430" fill="none" aria-hidden="true">
-            <path className="map-line route-glow" d="M52 344C116 244 194 264 265 232C353 192 367 102 462 102C540 102 584 160 630 87" stroke="#22D3EE" strokeWidth="5" strokeLinecap="round" />
-            <path d="M70 120C159 94 224 116 286 151C383 207 467 242 610 210" stroke="#2DD4BF" strokeWidth="3" strokeLinecap="round" opacity="0.62" />
-            <path d="M117 382C205 350 292 326 370 332C461 338 529 300 618 321" stroke="#2563EB" strokeWidth="3" strokeLinecap="round" opacity="0.56" />
+            <path className="map-line route-glow" d="M52 344C116 244 194 264 265 232C353 192 367 102 462 102C540 102 584 160 630 87" stroke="var(--accent-hover)" strokeWidth="5" strokeLinecap="round" />
+            <path d="M70 120C159 94 224 116 286 151C383 207 467 242 610 210" stroke="var(--accent-hover)" strokeWidth="3" strokeLinecap="round" opacity="0.62" />
+            <path d="M117 382C205 350 292 326 370 332C461 338 529 300 618 321" stroke="var(--info-strong)" strokeWidth="3" strokeLinecap="round" opacity="0.56" />
           </svg>
           {markers.map((marker, index) => (
             <motion.div

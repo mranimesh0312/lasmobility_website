@@ -4,14 +4,15 @@
  * all values are demo values.
  */
 import { ROUTES, STATUS_META, VEHICLES, statusCounts, vehiclePosition } from "@/data/appReplicaData";
+import { PALETTE, alpha } from "@/lib/palette";
 
 type Theme = "dark" | "light";
 const W = 1280;
 const H = 800;
 
 const PAL = {
-  dark: { page: "#1F2329", card: "#2B3038", card2: "#363C45", sidebar: "#191C21", line: "rgba(233,236,241,0.10)", t1: "#E9ECF1", t2: "#BAC1CC", t3: "#939BA7", brand: "#6CABAE", map: "#15191E", road: "#2c333c" },
-  light: { page: "#F2F5F7", card: "#FFFFFF", card2: "#F8FAFB", sidebar: "#FFFFFF", line: "rgba(15,23,42,0.10)", t1: "#0F172A", t2: "#334155", t3: "#64748B", brand: "#0EA5A8", map: "#E8EDF1", road: "#ffffff" },
+  dark: { page: "#1F2329", card: "#2B3038", card2: "#363C45", sidebar: "#191C21", line: alpha(PALETTE.mist, 0.10), t1: PALETTE.mist, t2: "#BAC1CC", t3: "#939BA7", brand: PALETTE.accent, map: "#15191E", road: "#2c333c" },
+  light: { page: "#F2F5F7", card: PALETTE.white, card2: "#F8FAFB", sidebar: PALETTE.white, line: alpha(PALETTE.slate900, 0.10), t1: PALETTE.slate900, t2: PALETTE.slate700, t3: PALETTE.slate500, brand: PALETTE.accentMid, map: "#E8EDF1", road: PALETTE.white },
 };
 
 function rr(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
@@ -98,8 +99,8 @@ function shell(ctx: CanvasRenderingContext2D, id: string, p: (typeof PAL)["dark"
   ctx.fillStyle = p.brand;
   rr(ctx, 1060, 13, 96, 30, 15);
   ctx.fill();
-  text(ctx, "Ask AI", 1108, 33, 12, "#031012", 700, "center");
-  ctx.fillStyle = "#475569";
+  text(ctx, "Ask AI", 1108, 33, 12, PALETTE.onAccent, 700, "center");
+  ctx.fillStyle = PALETTE.slate600;
   ctx.beginPath();
   ctx.arc(1230, 28, 15, 0, Math.PI * 2);
   ctx.fill();
@@ -161,7 +162,7 @@ function mapArea(ctx: CanvasRenderingContext2D, p: (typeof PAL)["dark"], x: numb
   const px = (c: [number, number]) => [x + 30 + ((c[0] - minX) / (maxX - minX)) * (w - 60), y + 30 + (1 - (c[1] - minY) / (maxY - minY)) * (h - 60)];
   ctx.lineWidth = 4;
   ROUTES.forEach((r) => {
-    ctx.strokeStyle = p.road === "#ffffff" ? "#c7d2dc" : "#3a434e";
+    ctx.strokeStyle = p.road === PALETTE.white ? "#c7d2dc" : "#3a434e";
     ctx.beginPath();
     r.forEach((c, i) => {
       const [a, b] = px(c);
@@ -175,7 +176,7 @@ function mapArea(ctx: CanvasRenderingContext2D, p: (typeof PAL)["dark"], x: numb
     const [a, b] = px(pos);
     const sel = v.id === selected;
     ctx.fillStyle = STATUS_META[v.status].color;
-    ctx.strokeStyle = "#fff";
+    ctx.strokeStyle = PALETTE.white;
     ctx.lineWidth = 2.5;
     ctx.beginPath();
     ctx.arc(a, b, sel ? 13 : 9, 0, Math.PI * 2);
@@ -185,7 +186,7 @@ function mapArea(ctx: CanvasRenderingContext2D, p: (typeof PAL)["dark"], x: numb
       ctx.fillStyle = "rgba(15,18,22,0.9)";
       rr(ctx, a - 36, b - 38, 72, 20, 5);
       ctx.fill();
-      text(ctx, v.plate, a, b - 24, 11, "#fff", 700, "center");
+      text(ctx, v.plate, a, b - 24, 11, PALETTE.white, 700, "center");
     }
   });
   ctx.restore();
@@ -202,10 +203,10 @@ export function drawAppScreen(canvas: HTMLCanvasElement, id: string, theme: Them
   if (id === "dashboard") {
     kpis(ctx, p, 140, [
       ["24", "Total Vehicles", p.brand],
-      ["15", "Active Vehicles", "#10B981"],
-      ["19,225 km", "Total Distance", "#3B82F6"],
-      ["2,240 L", "Fuel Consumed", "#8B5CF6"],
-      ["10", "Active Alerts", "#EF4444"],
+      ["15", "Active Vehicles", PALETTE.success],
+      ["19,225 km", "Total Distance", PALETTE.info],
+      ["2,240 L", "Fuel Consumed", PALETTE.violet],
+      ["10", "Active Alerts", PALETTE.danger],
     ]);
     card(ctx, p, 236, 232, 640, 290, "Live fleet map");
     mapArea(ctx, p, 252, 256, 608, 252);
@@ -239,12 +240,12 @@ export function drawAppScreen(canvas: HTMLCanvasElement, id: string, theme: Them
       if (i) ctx.lineTo(x, y);
       else ctx.moveTo(x, y);
     });
-    ctx.strokeStyle = "#18C7CC";
+    ctx.strokeStyle = PALETTE.accent;
     ctx.lineWidth = 3;
     ctx.stroke();
     ctx.lineTo(270 + 6 * 160, 760);
     ctx.lineTo(270, 760);
-    ctx.fillStyle = "rgba(24,199,204,0.15)";
+    ctx.fillStyle = alpha(PALETTE.accent, 0.15);
     ctx.fill();
   } else if (id === "live-tracking") {
     card(ctx, p, 236, 140, 300, 640);
@@ -313,9 +314,9 @@ export function drawAppScreen(canvas: HTMLCanvasElement, id: string, theme: Them
     });
     card(ctx, p, 888, 482, 368, 298, "Engine command");
     text(ctx, "Requires confirmation · role-protected", 904, 536, 12, p.t3);
-    ctx.fillStyle = "#EF4444";
+    ctx.fillStyle = PALETTE.danger;
     rr(ctx, 904, 700, 336, 44, 10);
     ctx.fill();
-    text(ctx, "Immobilize", 1072, 728, 15, "#fff", 700, "center");
+    text(ctx, "Immobilize", 1072, 728, 15, PALETTE.white, 700, "center");
   }
 }

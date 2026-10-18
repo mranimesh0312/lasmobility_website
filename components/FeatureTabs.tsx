@@ -81,7 +81,7 @@ export default function FeatureTabs() {
               <span className="rounded-full bg-mint/10 px-3 py-1 text-xs font-bold text-emerald-700">0{index + 1}</span>
             </div>
           ))}
-          <div className="mt-2 h-28 rounded-md bg-[linear-gradient(90deg,rgba(37,99,235,0.08)_1px,transparent_1px),linear-gradient(rgba(20,184,212,0.1)_1px,transparent_1px)] bg-[length:32px_32px]">
+          <div className="mt-2 h-28 rounded-md bg-[linear-gradient(90deg,rgb(var(--info-rgb)_/_0.08)_1px,transparent_1px),linear-gradient(rgb(var(--accent-rgb)_/_0.1)_1px,transparent_1px)] bg-[length:32px_32px]">
             <div className="h-full rounded-md bg-gradient-to-r from-electric/15 via-cyan/10 to-mint/15" />
           </div>
         </div>

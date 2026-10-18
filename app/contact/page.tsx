@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 
 const infoCards = [
   { icon: Mail,      color: "var(--accent-text)", label: "support@lasmobility.com",            href: "mailto:support@lasmobility.com" },
-  { icon: PhoneCall, color: "#22C55E",             label: "Demo requests and product inquiries", href: null },
-  { icon: Sparkles,  color: "#8B5CF6",             label: "AI fleet intelligence consultation",  href: null },
+  { icon: PhoneCall, color: "var(--success)",             label: "Demo requests and product inquiries", href: null },
+  { icon: Sparkles,  color: "var(--violet)",             label: "AI fleet intelligence consultation",  href: null },
 ];
 
 export default function ContactPage() {

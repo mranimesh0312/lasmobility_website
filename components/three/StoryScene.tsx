@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { ContactShadows, Html, MeshReflectorMaterial } from "@react-three/drei";
 import * as THREE from "three";
+import { PALETTE } from "@/lib/palette";
 import VehicleModel, { defaultAnimState } from "./VehicleModel";
 import StudioLighting from "./StudioLighting";
 import CameraRig from "./CameraRig";
@@ -11,8 +12,8 @@ import Highway, { ROAD_SPEED } from "./Highway";
 import GpsLayer from "./GpsLayer";
 import Laptop from "./Laptop";
 import Effects from "./Effects";
-import { CHAPTERS, sceneMix } from "./storyMath";
-import { createRuntime, damp, type StoryRuntime } from "./storyRuntime";
+import { CHAPTERS, sceneMix, smoothstep } from "./storyMath";
+import { createRuntime, damp, INTRO_SECONDS, type StoryRuntime } from "./storyRuntime";
 import { VEHICLE_SPECS, componentPositions } from "./vehicleSpecs";
 import { COMPONENTS, HERO_HOTSPOTS } from "@/data/vehicleHotspots";
 import { paintById, useExperienceStore, type QualityTier } from "@/stores/experienceStore";
@@ -23,9 +24,9 @@ const SPEC = VEHICLE_SPECS.suv;
 const NODES = componentPositions("suv");
 /** Twin labels drawn to the left of their node so neighbours do not collide. */
 const LEFT_LABELS = new Set<string>(["fuel", "doors", "temperature"]);
-const BG_DAY = new THREE.Color("#0A1019");
-const BG_NIGHT = new THREE.Color("#04070C");
-const BG_ROAD = new THREE.Color("#0B1422");
+const BG_DAY = new THREE.Color(PALETTE.studio);
+const BG_NIGHT = new THREE.Color(PALETTE.studioNight);
+const BG_ROAD = new THREE.Color(PALETTE.studioRoad);
 
 /** First in the tree: advances the shared runtime before any layer reads it. */
 function RuntimeDriver({ rt }: { rt: React.MutableRefObject<StoryRuntime> }) {
@@ -33,6 +34,10 @@ function RuntimeDriver({ rt }: { rt: React.MutableRefObject<StoryRuntime> }) {
     const r = rt.current;
     const dt = Math.min(delta, 0.05);
     r.busy = false;
+    if (r.intro < 1) {
+      r.intro = Math.min(1, r.intro + dt / INTRO_SECONDS);
+      r.busy = true;
+    }
     const target = useExperienceStore.getState().progress * (CHAPTERS - 1);
     const ch = damp(r.ch, target, 5, dt);
     if (Math.abs(ch - target) > 1e-4) r.busy = true;
@@ -103,12 +108,12 @@ function StudioFloor({ rt, tier }: { rt: React.MutableRefObject<StoryRuntime>; t
             depthScale={1.1}
             minDepthThreshold={0.4}
             maxDepthThreshold={1.4}
-            color="#0B0F15"
+            color={PALETTE.studioFloor}
             metalness={0.4}
             mirror={0}
           />
         ) : (
-          <meshStandardMaterial ref={mat} transparent color="#0B0F15" roughness={0.85} metalness={0.2} />
+          <meshStandardMaterial ref={mat} transparent color={PALETTE.studioFloor} roughness={0.85} metalness={0.2} />
         )}
       </mesh>
       <ContactShadows position={[0, 0.004, 0]} scale={9} blur={2.4} far={2} opacity={0.75} resolution={tier === "low" ? 256 : 512} frames={tier === "high" ? Infinity : 1} />
@@ -196,7 +201,8 @@ function Vehicle({ rt, focus, onSelect, lowDetail }: { rt: React.MutableRefObjec
     const a = anim.current;
     a.twin = r.mix.twin;
     a.wheelSpeed = (r.mix.road * ROAD_SPEED) / SPEC.wheelRadius;
-    a.headlights = headlights ? 0.35 + 0.65 * Math.max(r.mix.night, 0.4) : 0;
+    // Lamps come on once the car has settled into its presentation pose.
+    a.headlights = headlights ? (0.35 + 0.65 * Math.max(r.mix.night, 0.4)) * smoothstep(0.7, 1, r.intro) : 0;
     a.hazards = hazards;
     if (group.current) {
       group.current.rotation.y = r.yaw;
@@ -210,6 +216,28 @@ function Vehicle({ rt, focus, onSelect, lowDetail }: { rt: React.MutableRefObjec
       <Anchors rt={rt} onSelect={onSelect} focus={focus} />
     </group>
   );
+}
+
+const tmpProj = new THREE.Vector3();
+
+/** Reports the selected hotspot's screen position, for the DOM connector line. */
+function FocusProjector({ focus, onScreen }: { focus: string | null; onScreen?: (p: { x: number; y: number } | null) => void }) {
+  const camera = useThree((s) => s.camera);
+  const size = useThree((s) => s.size);
+  const last = useRef<string | null>(null);
+  useFrame(() => {
+    if (!onScreen) return;
+    if (!focus) {
+      if (last.current) onScreen(null);
+      last.current = null;
+      return;
+    }
+    last.current = focus;
+    const p = NODES[focus as keyof typeof NODES];
+    tmpProj.set(p[0], p[1], p[2]).project(camera);
+    onScreen({ x: ((tmpProj.x + 1) / 2) * size.width, y: ((1 - tmpProj.y) / 2) * size.height });
+  });
+  return null;
 }
 
 /** Drag to rotate the car while the hero is on screen. */
@@ -259,10 +287,12 @@ export interface StorySceneProps {
   screens: FeatureEntry[];
   theme: ThemeName;
   interactive: boolean;
+  /** Screen position of the selected hotspot (null when none). */
+  onFocusScreen?: (p: { x: number; y: number } | null) => void;
 }
 
 /** Everything inside the scroll-story canvas. */
-export default function StoryScene({ tier, screens, theme, interactive }: StorySceneProps) {
+export default function StoryScene({ tier, screens, theme, interactive, onFocusScreen }: StorySceneProps) {
   const rt = useRef<StoryRuntime>(createRuntime());
   const lighting = useExperienceStore((s) => s.lighting);
   const zoom = useExperienceStore((s) => s.zoom);
@@ -284,7 +314,8 @@ export default function StoryScene({ tier, screens, theme, interactive }: StoryS
       <RuntimeDriver rt={rt} />
       <Atmosphere rt={rt} />
       <StudioLighting mode={lighting} resolution={tier === "high" ? 256 : 128} />
-      <CameraRig rt={rt} focus={focusCam} zoom={zoom} parallax={interactive} />
+      <CameraRig rt={rt} focus={focusCam} zoom={zoom} parallax={interactive} idle={interactive && tier !== "low"} />
+      <FocusProjector focus={focus} onScreen={onFocusScreen} />
       <DragRotate rt={rt} enabled={interactive} />
       <StudioFloor rt={rt} tier={tier} />
       <Highway rt={rt} lowDetail={tier === "low"} />

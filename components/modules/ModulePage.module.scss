@@ -1,0 +1,735 @@
+@use "../../styles/las/mixins" as *;
+@use "../../styles/site/motion" as *;
+
+// Live hardware module pages. Colours are theme tokens only (app/globals.css),
+// so the page follows the site theme and the app's muted graphite palette.
+
+%wrap {
+  width: 100%;
+  max-width: $page-max;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  @include respond-up("sm") {
+    padding: 0 24px;
+  }
+
+  @include respond-up("lg") {
+    padding: 0 40px;
+  }
+}
+
+.wrap {
+  @extend %wrap;
+}
+
+.section {
+  padding: 64px 0;
+  background: var(--bg-base);
+
+  @include respond-up("lg") {
+    padding: 88px 0;
+  }
+}
+
+.sectionDeep {
+  background: var(--bg-deep);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.head {
+  max-width: 760px;
+  margin-bottom: 36px;
+}
+
+.h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+// ---------- hero ----------
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 0 0;
+  background:
+    linear-gradient(rgb(var(--mist-rgb) / 0.03) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgb(var(--mist-rgb) / 0.03) 1px, transparent 1px) 0 0 / 48px 48px,
+    var(--bg-deep);
+
+  @include respond-up("lg") {
+    padding-top: 72px;
+  }
+}
+
+.heroGrid {
+  @extend %wrap;
+  display: grid;
+  gap: 40px;
+  align-items: center;
+
+  @include respond-up("lg") {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 64px;
+  }
+}
+
+.heroCopy {
+  min-width: 0;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+%pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.chip {
+  @extend %pill;
+  border: 1px solid var(--border-accent);
+  background: var(--accent-glow);
+  color: var(--accent-text);
+}
+
+.live {
+  @extend %pill;
+  border: 1px solid rgb(var(--success-rgb) / 0.35);
+  background: rgb(var(--success-rgb) / 0.1);
+  color: var(--success);
+}
+
+.soon {
+  @extend %pill;
+  border: 1px solid rgb(var(--warning-rgb) / 0.35);
+  background: rgb(var(--warning-rgb) / 0.1);
+  color: var(--warning);
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+}
+
+.title {
+  margin: 20px 0 0;
+  font-size: clamp(2.3rem, 1.4rem + 3.6vw, 4.4rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  color: var(--text-primary);
+}
+
+.titleAccent {
+  display: block;
+  color: var(--accent);
+}
+
+.lead {
+  max-width: 600px;
+  margin: 20px 0 0;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.proof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 10px 28px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+  }
+
+  svg {
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+
+  @include respond-to("xs") {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.heroVisual {
+  min-width: 0;
+}
+
+// ---------- instrument panel ----------
+.panel {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+
+.panelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+
+  b {
+    display: block;
+    font-size: 1rem;
+    color: var(--text-primary);
+  }
+
+  small {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+}
+
+.demoTag {
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.readings {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0 0;
+
+  div {
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-muted);
+  }
+
+  dt {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  dd {
+    margin: 4px 0 0;
+    overflow: hidden;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--text-primary);
+  }
+
+  [data-tone="warn"] dd {
+    color: var(--warning);
+  }
+
+  [data-tone="alert"] dd {
+    color: var(--danger);
+  }
+
+  @include respond-to("xs") {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.chart {
+  margin-top: 12px;
+  padding: 12px 12px 4px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.chartLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+
+  em {
+    font-style: normal;
+    color: var(--success);
+  }
+}
+
+.spark {
+  display: block;
+  width: 100%;
+  height: 96px;
+  margin-top: 6px;
+}
+
+.sparkBand {
+  fill: rgb(var(--success-rgb) / 0.1);
+}
+
+.sparkArea {
+  fill: rgb(var(--accent-rgb) / 0.12);
+}
+
+.sparkLine {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.sparkDot {
+  fill: var(--accent);
+  stroke: var(--bg-card);
+  stroke-width: 2;
+}
+
+.events {
+  display: grid;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border-left: 3px solid var(--accent);
+    background: var(--bg-muted);
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+
+  time {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+  }
+
+  b {
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+  }
+
+  // Status is spelled out (b) as well as coloured.
+  [data-tone="ok"] {
+    border-left-color: var(--success);
+
+    b {
+      color: var(--success);
+    }
+  }
+
+  [data-tone="warn"] {
+    border-left-color: var(--warning);
+
+    b {
+      color: var(--warning);
+    }
+  }
+
+  [data-tone="alert"] {
+    border-left-color: var(--danger);
+
+    b {
+      color: var(--danger);
+    }
+  }
+}
+
+// ---------- what it records ----------
+.records {
+  @extend %wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 48px;
+  margin-bottom: 0;
+  list-style: none;
+
+  @include respond-up("lg") {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 72px;
+  }
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 24px 16px;
+    border-top: 1px solid var(--border);
+
+    @include respond-up("lg") {
+      padding: 28px 24px;
+
+      & + li {
+        border-left: 1px solid var(--border);
+      }
+    }
+  }
+
+  b {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+  }
+
+  small {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+  }
+}
+
+.recordIcon,
+.cardIcon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-accent);
+  border-radius: 12px;
+  background: var(--accent-glow);
+  color: var(--accent-text);
+}
+
+// ---------- capability bento ----------
+.bento {
+  display: grid;
+  gap: 16px;
+
+  @include respond-up("md") {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond-up("lg") {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card,
+.case {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--bg-card);
+  transition: transform $motion-ui $ease-out-expo, border-color $motion-ui, box-shadow $motion-ui;
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-accent);
+    box-shadow: var(--shadow-card);
+  }
+
+  h3 {
+    margin: 16px 0 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  p {
+    margin: 8px 0 0;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+// The lead capability gets a 2x2 tile on wide screens (six cards then fill a
+// 3x3 grid exactly), with a quiet accent wash and an oversized watermark icon.
+.cardFeature {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 90% at 100% 0%, rgb(var(--accent-rgb) / 0.1), transparent 70%),
+    var(--bg-card);
+
+  @include respond-up("lg") {
+    grid-column: span 2;
+    grid-row: span 2;
+    min-height: 320px;
+    padding: 32px;
+  }
+
+  .cardIcon {
+    width: 52px;
+    height: 52px;
+    margin-bottom: auto;
+  }
+
+  h3 {
+    margin-top: 24px;
+    font-size: clamp(1.3rem, 1rem + 1vw, 1.75rem);
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    max-width: 560px;
+    font-size: 1.02rem;
+  }
+}
+
+// The lead capability's icon, large and faint in the corner of its tile.
+.watermark {
+  position: absolute;
+  top: -24px;
+  right: -24px;
+  width: 220px;
+  height: 220px;
+  color: var(--accent);
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+// ---------- steps ----------
+.steps {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include respond-up("lg") {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+
+    // The route the steps sit on.
+    &::before {
+      content: "";
+      position: absolute;
+      top: 22px;
+      left: 22px;
+      right: 22px;
+      border-top: 2px dashed rgb(var(--accent-rgb) / 0.3);
+    }
+  }
+}
+
+.step {
+  position: relative;
+  min-width: 0;
+
+  h3 {
+    margin: 16px 0 0;
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  p {
+    margin: 6px 0 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+}
+
+.stepNo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border-accent);
+  border-radius: 50%;
+  background: var(--bg-deep);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-text);
+}
+
+// ---------- in the app ----------
+.inApp {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+
+  @include respond-up("lg") {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: 56px;
+  }
+}
+
+.inAppCopy,
+.inAppScreen {
+  min-width: 0;
+}
+
+.checks {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+
+  svg {
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: var(--accent);
+  }
+}
+
+// ---------- use cases ----------
+.cases {
+  display: grid;
+  gap: 16px;
+
+  @include respond-up("md") {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.outcome {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgb(var(--success-rgb) / 0.08);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--success);
+}
+
+// ---------- related ----------
+.related {
+  display: grid;
+  gap: 12px;
+
+  @include respond-up("md") {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.relatedCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 72px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-card);
+  transition: border-color $motion-micro, transform $motion-micro $ease-out-expo;
+
+  b {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+  }
+
+  small {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  &:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+.relatedArrow {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--accent-text);
+}

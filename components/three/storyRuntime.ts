@@ -14,9 +14,17 @@ export interface StoryRuntime {
   /** Hero drag rotation, radians. */
   yaw: number;
   yawTarget: number;
+  /** Opening sequence, 0..1 over INTRO_SECONDS after mount. */
+  intro: number;
 }
 
-export const createRuntime = (): StoryRuntime => ({ ch: 0, mix: sceneMix(0), busy: true, yaw: 0, yawTarget: 0 });
+/** The whole opening (camera settle, headlights on) stays under 1.5 s. */
+export const INTRO_SECONDS = 1.3;
+
+/** Ease-out cubic of the intro, for anything that settles into place. */
+export const introEase = (rt: StoryRuntime) => 1 - Math.pow(1 - rt.intro, 3);
+
+export const createRuntime = (): StoryRuntime => ({ ch: 0, mix: sceneMix(0), busy: true, yaw: 0, yawTarget: 0, intro: 0 });
 
 /** Frame-rate independent exponential damping. */
 export const damp = (current: number, target: number, lambda: number, dt: number) =>

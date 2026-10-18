@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { PALETTE } from "@/lib/palette";
 
 const rlMap = new Map<string, { count: number; windowStart: number }>();
 const RL_WINDOW_MS = 60 * 60 * 1000;
@@ -132,7 +133,7 @@ function emailShell(content: string) {
           <tr>
             <td style="background:linear-gradient(135deg,#06152b 0%,#082f49 100%);padding:26px 32px;">
               <img src="${logoUrl}" width="190" alt="LAS Mobility" style="display:block;max-width:190px;height:auto;" />
-              <p style="margin:14px 0 0;font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#67e8f9;font-weight:700;">AI-Powered Fleet Intelligence</p>
+              <p style="margin:14px 0 0;font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#92d2d5;font-weight:700;">AI-Powered Fleet Intelligence</p>
             </td>
           </tr>
           ${content}
@@ -182,7 +183,7 @@ function acknowledgementEmailHtml(data: DemoRequest) {
     </tr>
     <tr>
       <td style="padding:0 32px 28px;">
-        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:14px;">
+        <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#ecfeff;border:1px solid #92d2d5;border-radius:14px;">
           <tr>
             <td style="padding:20px;">
               <p style="margin:0;font-size:14px;font-weight:700;color:#0e7490;">What happens next?</p>
@@ -198,7 +199,7 @@ function acknowledgementEmailHtml(data: DemoRequest) {
     </tr>
     <tr>
       <td style="padding:0 32px 34px;">
-        <a href="${getSiteUrl()}" style="display:inline-block;background:#06b6d4;color:#06152b;text-decoration:none;font-weight:800;font-size:14px;padding:13px 20px;border-radius:10px;">Visit LAS Mobility</a>
+        <a href="${getSiteUrl()}" style="display:inline-block;background:#6cabae;color:#06152b;text-decoration:none;font-weight:800;font-size:14px;padding:13px 20px;border-radius:10px;">Visit LAS Mobility</a>
       </td>
     </tr>
   `);
@@ -235,7 +236,7 @@ function adminEmailHtml(data: DemoRequest, submittedAt: string) {
           ${rows
             .map(
               ([label, value], index) => `
-                <tr style="background:${index % 2 === 0 ? "#ffffff" : "#f8fafc"};">
+                <tr style="background:${index % 2 === 0 ? PALETTE.white : PALETTE.slate50};">
                   <td style="width:34%;padding:13px 16px;border-bottom:1px solid #e2e8f0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;font-weight:800;color:#64748b;vertical-align:top;">${escapeHtml(label)}</td>
                   <td style="padding:13px 16px;border-bottom:1px solid #e2e8f0;font-size:14px;line-height:22px;font-weight:600;color:#0f172a;word-break:break-word;">${escapeHtml(value)}</td>
                 </tr>`

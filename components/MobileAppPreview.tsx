@@ -1,41 +1,35 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import PhoneAppScreen from "@/components/PhoneAppScreen";
 import {
   Map, Route, BarChart3, Smartphone, Apple, ArrowRight,
 } from "lucide-react";
 
 const phones = [
   {
-    id: "live",
+    id: "live" as const,
     label: "Live Tracking",
     feature: "Real-time GPS position, vehicle status and ignition state at a glance.",
     icon: Map,
-    image: "/dashboard-live.jpeg",
-    objectPosition: "0% 0%",
     rotation: -5,
     yOffset: 40,
   },
   {
-    id: "fleet",
+    id: "fleet" as const,
     label: "Fleet Overview",
     feature: "Full fleet command — running, idle, stopped counts with instant alerts.",
     icon: BarChart3,
-    image: "/dashboard-main.jpeg",
-    objectPosition: "0% 0%",
     rotation: 0,
     yOffset: 0,
     prominent: true,
   },
   {
-    id: "routes",
+    id: "routes" as const,
     label: "Route History",
     feature: "View every trip detail, stoppage duration and route replay on map.",
     icon: Route,
-    image: "/dashboard-route.jpeg",
-    objectPosition: "0% 0%",
     rotation: 5,
     yOffset: 24,
   },
@@ -81,13 +75,13 @@ function PhoneFrame({
           width: w,
           height: h,
           borderRadius: 44,
-          background: "linear-gradient(145deg, #0D1F35 0%, #060E1A 100%)",
+          background: "linear-gradient(145deg, var(--surface-2) 0%, var(--ink-deep) 100%)",
           border: isHovered
-            ? "2px solid rgba(14,206,206,0.6)"
-            : "2px solid rgba(14,206,206,0.18)",
+            ? "2px solid rgb(var(--accent-rgb) / 0.6)"
+            : "2px solid rgb(var(--accent-rgb) / 0.18)",
           boxShadow: isHovered
-            ? `0 32px 80px rgba(0,0,0,0.55), 0 0 40px rgba(14,206,206,0.18), inset 0 1px 0 rgba(255,255,255,0.06)`
-            : `0 20px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04)`,
+            ? `0 32px 80px rgb(var(--black-rgb) / 0.55), 0 0 40px rgb(var(--accent-rgb) / 0.18), inset 0 1px 0 rgb(var(--white-rgb) / 0.06)`
+            : `0 20px 50px rgb(var(--black-rgb) / 0.4), inset 0 1px 0 rgb(var(--white-rgb) / 0.04)`,
           padding: 8,
           transition: "border-color 0.25s, box-shadow 0.25s",
         }}
@@ -101,7 +95,7 @@ function PhoneFrame({
             width: 3,
             height: 36,
             borderRadius: "2px 0 0 2px",
-            background: "rgba(14,206,206,0.25)",
+            background: "rgb(var(--accent-rgb) / 0.25)",
           }}
         />
         <div
@@ -112,7 +106,7 @@ function PhoneFrame({
             width: 3,
             height: 36,
             borderRadius: "2px 0 0 2px",
-            background: "rgba(14,206,206,0.25)",
+            background: "rgb(var(--accent-rgb) / 0.25)",
           }}
         />
         <div
@@ -123,7 +117,7 @@ function PhoneFrame({
             width: 3,
             height: 56,
             borderRadius: "0 2px 2px 0",
-            background: "rgba(14,206,206,0.18)",
+            background: "rgb(var(--accent-rgb) / 0.18)",
           }}
         />
 
@@ -134,59 +128,52 @@ function PhoneFrame({
             width: "100%",
             height: "100%",
             borderRadius: 38,
-            background: "#060E1A",
+            background: "var(--ink-deep)",
           }}
         >
           {/* Status bar */}
           <div
             className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5"
-            style={{ height: 36, background: "rgba(6,14,26,0.92)" }}
+            style={{ height: 36, background: "var(--bg-deep)", color: "var(--text-primary)" }}
           >
-            <span className="text-[10px] font-semibold text-white/80">9:41</span>
+            <span className="text-[10px] font-semibold" style={{ opacity: 0.8 }}>9:41</span>
             <div
               className="h-4 w-20 rounded-full"
-              style={{ background: "rgba(6,14,26,0.95)", border: "1px solid rgba(255,255,255,0.12)" }}
+              style={{ background: "var(--bg-base)", border: "1px solid var(--border)" }}
             />
             <div className="flex items-center gap-1.5">
               <div className="flex items-end gap-px">
                 {[3, 5, 7, 9].map((h) => (
                   <div
                     key={h}
-                    style={{ width: 2, height: h, borderRadius: 1, background: "rgba(255,255,255,0.8)" }}
+                    style={{ width: 2, height: h, borderRadius: 1, background: "currentColor", opacity: 0.8 }}
                   />
                 ))}
               </div>
               <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
-                <rect x="0.5" y="0.5" width="11" height="9" rx="2.5" stroke="white" strokeOpacity="0.8" />
-                <rect x="12" y="3" width="2" height="4" rx="1" fill="white" fillOpacity="0.6" />
-                <rect x="1.5" y="1.5" width="9" height="7" rx="2" fill="white" fillOpacity="0.85" />
+                <rect x="0.5" y="0.5" width="11" height="9" rx="2.5" stroke="currentColor" strokeOpacity="0.8" />
+                <rect x="12" y="3" width="2" height="4" rx="1" fill="currentColor" fillOpacity="0.6" />
+                <rect x="1.5" y="1.5" width="9" height="7" rx="2" fill="currentColor" fillOpacity="0.85" />
               </svg>
             </div>
           </div>
 
-          {/* App screenshot */}
-          <Image
-            src={phone.image}
-            alt={`LAS Mobility mobile app – ${phone.label}`}
-            fill
-            sizes="260px"
-            className="object-cover"
-            style={{ objectPosition: phone.objectPosition }}
-          />
+          {/* Coded app screen (theme-aware), not a screenshot */}
+          <PhoneAppScreen id={phone.id} label={phone.label} />
 
           {/* Bottom gradient */}
           <div
             className="absolute inset-x-0 bottom-0"
             style={{
               height: 80,
-              background: "linear-gradient(to top, rgba(6,14,26,0.9) 0%, transparent 100%)",
+              background: "linear-gradient(to top, rgb(var(--black-rgb) / 0.12) 0%, transparent 100%)",
             }}
           />
 
           {/* Home indicator */}
           <div
             className="absolute bottom-2.5 left-1/2 -translate-x-1/2"
-            style={{ width: 48, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.35)" }}
+            style={{ width: 48, height: 4, borderRadius: 2, background: "var(--text-muted)", opacity: 0.6 }}
           />
         </div>
 
@@ -197,7 +184,7 @@ function PhoneFrame({
           transition={{ duration: 0.2 }}
           style={{
             borderRadius: 44,
-            boxShadow: "inset 0 0 0 1.5px rgba(14,206,206,0.5)",
+            boxShadow: "inset 0 0 0 1.5px rgb(var(--accent-rgb) / 0.5)",
           }}
         />
       </motion.div>
@@ -282,9 +269,9 @@ export default function MobileAppPreview() {
             href="#"
             className="flex items-center gap-3 rounded-xl px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
             style={{
-              background: "linear-gradient(135deg, #0B1628 0%, #0D2040 100%)",
-              border: "1px solid rgba(14,206,206,0.25)",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+              background: "linear-gradient(135deg, var(--ink) 0%, var(--surface-2) 100%)",
+              border: "1px solid rgb(var(--accent-rgb) / 0.25)",
+              boxShadow: "0 8px 24px rgb(var(--black-rgb) / 0.3)",
             }}
           >
             <Apple className="h-5 w-5" />
@@ -297,9 +284,9 @@ export default function MobileAppPreview() {
             href="#"
             className="flex items-center gap-3 rounded-xl px-6 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5"
             style={{
-              background: "linear-gradient(135deg, #0B1628 0%, #0D2040 100%)",
-              border: "1px solid rgba(14,206,206,0.25)",
-              boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
+              background: "linear-gradient(135deg, var(--ink) 0%, var(--surface-2) 100%)",
+              border: "1px solid rgb(var(--accent-rgb) / 0.25)",
+              boxShadow: "0 8px 24px rgb(var(--black-rgb) / 0.3)",
             }}
           >
             <Smartphone className="h-5 w-5" />

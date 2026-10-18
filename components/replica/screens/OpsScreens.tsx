@@ -59,10 +59,10 @@ export function AlertsScreen() {
         </button>
       </PageHeader>
       <div className={s.kpis} style={{ "--kpi-cols": 4 } as CSSProperties}>
-        <Kpi icon={Bell} value={ALERTS.length - acked.size - dismissed.size > 0 ? ALERTS.length - acked.size - dismissed.size : 0} label="Unread" color="#06B6D4" />
-        <Kpi icon={AlertOctagon} value={ALERTS.filter((a) => a.severity === "critical").length} label="Critical" sub="SOS / panic" color="#EF4444" onClick={() => setTab("sos")} />
-        <Kpi icon={ShieldAlert} value={rules.filter((r) => r.active).length} label="Active rules" color="#10B981" onClick={() => setTab("rules")} />
-        <Kpi icon={BellOff} value={dismissed.size} label="Dismissed" color="#94A3B8" onClick={() => setTab("dismissed")} />
+        <Kpi icon={Bell} value={ALERTS.length - acked.size - dismissed.size > 0 ? ALERTS.length - acked.size - dismissed.size : 0} label="Unread" color="var(--accent)" />
+        <Kpi icon={AlertOctagon} value={ALERTS.filter((a) => a.severity === "critical").length} label="Critical" sub="SOS / panic" color="var(--danger)" onClick={() => setTab("sos")} />
+        <Kpi icon={ShieldAlert} value={rules.filter((r) => r.active).length} label="Active rules" color="var(--success)" onClick={() => setTab("rules")} />
+        <Kpi icon={BellOff} value={dismissed.size} label="Dismissed" color="var(--slate-400)" onClick={() => setTab("dismissed")} />
       </div>
       <div className={s.tabs} role="tablist">
         {(["all", "sos", "dismissed", "rules"] as const).map((t) => (
@@ -85,7 +85,7 @@ export function AlertsScreen() {
                     <td>{r.type}</td>
                     <td className={s.num}>{r.threshold}</td>
                     <td>{r.vehicles}</td>
-                    <td><span style={{ display: "flex", gap: 4 }}>{r.channels.map((c) => <Tag key={c} color="#6CABAE">{c}</Tag>)}</span></td>
+                    <td><span style={{ display: "flex", gap: 4 }}>{r.channels.map((c) => <Tag key={c} color="var(--accent)">{c}</Tag>)}</span></td>
                     <td>
                       <button type="button" role="switch" aria-checked={r.active} aria-label={`${r.name} active`} className={s.btn} onClick={() => setRules((rs) => rs.map((x, j) => (j === i ? { ...x, active: !x.active } : x)))}>
                         {r.active ? "On" : "Off"}
@@ -118,7 +118,7 @@ export function AlertsScreen() {
               <select id="rt" name="type">{["Overspeed", "Idling", "Geofence", "Temperature", "Fuel", "Power cut", "Harsh braking"].map((t) => <option key={t}>{t}</option>)}</select>
             </div>
             <div className={s.field}><label htmlFor="th">Threshold</label><input id="th" name="threshold" placeholder="80 km/h" /></div>
-            <div className={s.field}><label>Notify</label><span className={s.chips}>{["Email", "Push", "SMS"].map((c) => <Tag key={c} color="#6CABAE">{c}</Tag>)}</span></div>
+            <div className={s.field}><label>Notify</label><span className={s.chips}>{["Email", "Push", "SMS"].map((c) => <Tag key={c} color="var(--accent)">{c}</Tag>)}</span></div>
             <button type="submit" className={cx(s.btn, s.btnPrimary)} style={{ width: "100%", justifyContent: "center", height: 38 }}>Save rule</button>
           </form>
         </Drawer>
@@ -135,17 +135,17 @@ export function FuelScreen() {
     <>
       <PageHeader title="Fuel Overview" crumbs="Fuel Management" />
       <div className={s.kpis} style={{ "--kpi-cols": 4 } as CSSProperties}>
-        <Kpi icon={Fuel} value={`${week.reduce((a, d) => a + d.fuel, 0).toLocaleString("en-IN")} L`} label="Consumed, 7 days" color="#8B5CF6" />
-        <Kpi icon={Gauge} value="8.9 km/L" label="Fleet efficiency" sub="+0.4 vs last week" color="#10B981" />
-        <Kpi icon={Fuel} value={FUEL_EVENTS.filter((e) => e.kind === "Refuel").length} label="Refuels today" color="#3B82F6" />
-        <Kpi icon={TrendingDown} value={`${FUEL_EVENTS.filter((e) => e.kind === "Drain").reduce((a, e) => a + e.litres, 0)} L`} label="Suspected drains" sub="2 incidents" color="#EF4444" />
+        <Kpi icon={Fuel} value={`${week.reduce((a, d) => a + d.fuel, 0).toLocaleString("en-IN")} L`} label="Consumed, 7 days" color="var(--violet)" />
+        <Kpi icon={Gauge} value="8.9 km/L" label="Fleet efficiency" sub="+0.4 vs last week" color="var(--success)" />
+        <Kpi icon={Fuel} value={FUEL_EVENTS.filter((e) => e.kind === "Refuel").length} label="Refuels today" color="var(--info)" />
+        <Kpi icon={TrendingDown} value={`${FUEL_EVENTS.filter((e) => e.kind === "Drain").reduce((a, e) => a + e.litres, 0)} L`} label="Suspected drains" sub="2 incidents" color="var(--danger)" />
       </div>
       <div className={s.grid}>
         <Card icon={Fuel} title="Fuel level · DEMO-102" sub="Last 24 hours, refuel at 11:00" className={s.span8}>
-          <AreaChart labels={series.map((p) => p.t)} series={[{ name: "Level", color: "#8B5CF6", values: series.map((p) => p.v) }]} unit="%" height={220} />
+          <AreaChart labels={series.map((p) => p.t)} series={[{ name: "Level", color: "var(--violet)", values: series.map((p) => p.v) }]} unit="%" height={220} />
         </Card>
         <Card icon={Gauge} title="Daily consumption" sub="Litres, 7 days" className={s.span4}>
-          <Bars data={week.map((d) => ({ label: d.label.slice(0, 2), value: d.fuel }))} color="#8B5CF6" unit=" L" height={210} />
+          <Bars data={week.map((d) => ({ label: d.label.slice(0, 2), value: d.fuel }))} color="var(--violet)" unit=" L" height={210} />
         </Card>
         <div className={s.span12}>
           <div className={s.gridCard}>
@@ -158,7 +158,7 @@ export function FuelScreen() {
                     <tr key={e.time + e.vehicle}>
                       <td className={s.num}>{e.time}</td>
                       <td><b>{e.vehicle}</b></td>
-                      <td><Tag color={e.kind === "Refuel" ? "#10B981" : "#EF4444"} dot>{e.kind}</Tag></td>
+                      <td><Tag color={e.kind === "Refuel" ? "var(--success)" : "var(--danger)"} dot>{e.kind}</Tag></td>
                       <td className={s.num}>{e.kind === "Drain" ? "−" : "+"}{e.litres} L</td>
                       <td>{e.location}</td>
                     </tr>
@@ -180,14 +180,14 @@ export function TemperatureScreen() {
     <>
       <PageHeader title="Temperature Overview" crumbs="Temperature Management" />
       <div className={s.kpis} style={{ "--kpi-cols": 4 } as CSSProperties}>
-        <Kpi icon={Thermometer} value={TEMP_SENSORS.length} label="Sensors online" color="#06B6D4" />
-        <Kpi icon={CheckCircle2} value={TEMP_SENSORS.filter((t) => t.current <= t.max).length} label="In range" color="#10B981" />
-        <Kpi icon={AlertOctagon} value={TEMP_SENSORS.filter((t) => t.current > t.max).length} label="Out of range" color="#EF4444" />
-        <Kpi icon={Thermometer} value="4.6 °C" label="Average cargo temp" sub="Target 2–8 °C" color="#8B5CF6" />
+        <Kpi icon={Thermometer} value={TEMP_SENSORS.length} label="Sensors online" color="var(--accent)" />
+        <Kpi icon={CheckCircle2} value={TEMP_SENSORS.filter((t) => t.current <= t.max).length} label="In range" color="var(--success)" />
+        <Kpi icon={AlertOctagon} value={TEMP_SENSORS.filter((t) => t.current > t.max).length} label="Out of range" color="var(--danger)" />
+        <Kpi icon={Thermometer} value="4.6 °C" label="Average cargo temp" sub="Target 2–8 °C" color="var(--violet)" />
       </div>
       <div className={s.grid}>
         <Card icon={Thermometer} title="Cargo temperature · DEMO-106 probe 1" sub="Shaded band = allowed 2–8 °C" className={s.span8}>
-          <AreaChart labels={series.map((p) => p.t)} series={[{ name: "Temperature", color: "#06B6D4", values: series.map((p) => p.v) }]} unit=" °C" band={[2, 8]} height={230} />
+          <AreaChart labels={series.map((p) => p.t)} series={[{ name: "Temperature", color: "var(--accent)", values: series.map((p) => p.v) }]} unit=" °C" band={[2, 8]} height={230} />
         </Card>
         <Card icon={Thermometer} title="Sensors" sub="Current reading" className={s.span4}>
           <ul className={s.list}>
@@ -197,7 +197,7 @@ export function TemperatureScreen() {
                   <strong>{t.vehicle}</strong>
                   <small>{t.probe} · {t.min}–{t.max} °C</small>
                 </div>
-                <Tag color={t.current > t.max ? "#EF4444" : "#10B981"} dot>{t.current} °C</Tag>
+                <Tag color={t.current > t.max ? "var(--danger)" : "var(--success)"} dot>{t.current} °C</Tag>
               </li>
             ))}
           </ul>
@@ -211,15 +211,15 @@ export function TemperatureScreen() {
 export function MaintenanceScreen() {
   const { toast } = useReplica();
   const [done, setDone] = useState<Set<string>>(new Set());
-  const color = (st: string) => (st === "Overdue" ? "#EF4444" : st === "Due soon" ? "#F59E0B" : "#06B6D4");
+  const color = (st: string) => (st === "Overdue" ? "var(--danger)" : st === "Due soon" ? "var(--warning)" : "var(--accent)");
   return (
     <>
       <PageHeader title="Service Reminders" crumbs="Maintenance" />
       <div className={s.kpis} style={{ "--kpi-cols": 4 } as CSSProperties}>
-        <Kpi icon={Wrench} value={SERVICES.length - done.size} label="Open reminders" color="#06B6D4" />
-        <Kpi icon={AlertOctagon} value={SERVICES.filter((x) => x.status === "Overdue" && !done.has(x.vehicle + x.task)).length} label="Overdue" color="#EF4444" />
-        <Kpi icon={CalendarCheck} value={SERVICES.filter((x) => x.status === "Due soon").length} label="Due in 7 days" color="#F59E0B" />
-        <Kpi icon={Wallet} value={inr(SERVICES.reduce((a, x) => a + x.cost, 0))} label="Estimated cost" color="#8B5CF6" />
+        <Kpi icon={Wrench} value={SERVICES.length - done.size} label="Open reminders" color="var(--accent)" />
+        <Kpi icon={AlertOctagon} value={SERVICES.filter((x) => x.status === "Overdue" && !done.has(x.vehicle + x.task)).length} label="Overdue" color="var(--danger)" />
+        <Kpi icon={CalendarCheck} value={SERVICES.filter((x) => x.status === "Due soon").length} label="Due in 7 days" color="var(--warning)" />
+        <Kpi icon={Wallet} value={inr(SERVICES.reduce((a, x) => a + x.cost, 0))} label="Estimated cost" color="var(--violet)" />
       </div>
       <div className={s.gridCard}>
         <div className={s.tableWrap}>
@@ -236,7 +236,7 @@ export function MaintenanceScreen() {
                     <td>{x.due}</td>
                     <td style={{ minWidth: 120 }}><Bar value={x.progress} color={color(x.status)} /></td>
                     <td className={s.num}>{inr(x.cost)}</td>
-                    <td><Tag color={closed ? "#10B981" : color(x.status)} dot>{closed ? "Completed" : x.status}</Tag></td>
+                    <td><Tag color={closed ? "var(--success)" : color(x.status)} dot>{closed ? "Completed" : x.status}</Tag></td>
                     <td>
                       <button type="button" className={s.btn} disabled={closed} onClick={() => { setDone((d) => new Set(d).add(key)); toast(`${x.task} on ${x.vehicle} closed out`); }}>
                         Mark done
@@ -264,7 +264,7 @@ export function DriversScreen() {
       header: "Score",
       render: (d) => (
         <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Bar value={d.score / 100} color={d.score >= 85 ? "#10B981" : d.score >= 70 ? "#F59E0B" : "#EF4444"} />
+          <Bar value={d.score / 100} color={d.score >= 85 ? "var(--success)" : d.score >= 70 ? "var(--warning)" : "var(--danger)"} />
           <b className={s.num}>{d.score}</b>
         </span>
       ),
@@ -281,9 +281,9 @@ export function DriversScreen() {
       <PageHeader title="Driver Scorecard" crumbs="Drivers" />
       <div className={s.kpis} style={{ "--kpi-cols": 4 } as CSSProperties}>
         <Kpi icon={User} value={DRIVERS.length} label="Active drivers" sub="Identified by iButton" />
-        <Kpi icon={BadgeCheck} value={avg} label="Average score" color="#10B981" />
-        <Kpi icon={Gauge} value={DRIVERS.reduce((a, d) => a + d.overspeed, 0)} label="Overspeed events" color="#F59E0B" />
-        <Kpi icon={KeyRound} value={DRIVERS.reduce((a, d) => a + d.harsh, 0)} label="Harsh events" color="#EF4444" />
+        <Kpi icon={BadgeCheck} value={avg} label="Average score" color="var(--success)" />
+        <Kpi icon={Gauge} value={DRIVERS.reduce((a, d) => a + d.overspeed, 0)} label="Overspeed events" color="var(--warning)" />
+        <Kpi icon={KeyRound} value={DRIVERS.reduce((a, d) => a + d.harsh, 0)} label="Harsh events" color="var(--danger)" />
       </div>
       <DataGrid rows={DRIVERS} columns={columns} rowKey={(d) => d.name} placeholder="Search drivers" />
     </>
@@ -357,9 +357,9 @@ export function ReportsScreen() {
 
           <div className={s.kpis}>
             <Kpi icon={Car} value={rows.length} label="Vehicles" />
-            <Kpi icon={CalendarCheck} value={total("trips")} label="Trips" color="#3B82F6" />
-            <Kpi icon={Gauge} value={`${Math.round(total("distance")).toLocaleString("en-IN")} km`} label="Distance" color="#10B981" />
-            <Kpi icon={Fuel} value={hm(total("idle"))} label="Idling" color="#F59E0B" />
+            <Kpi icon={CalendarCheck} value={total("trips")} label="Trips" color="var(--info)" />
+            <Kpi icon={Gauge} value={`${Math.round(total("distance")).toLocaleString("en-IN")} km`} label="Distance" color="var(--success)" />
+            <Kpi icon={Fuel} value={hm(total("idle"))} label="Idling" color="var(--warning)" />
           </div>
 
           <div className={s.gridCard}>
@@ -384,7 +384,7 @@ export function ReportsScreen() {
                       <td className={s.num}>{r.distance.toLocaleString("en-IN")} km</td>
                       <td className={s.num}>{hm(r.driving)}</td>
                       <td className={s.num}>{hm(r.idle)}</td>
-                      <td className={s.num} style={{ color: r.maxSpeed > 80 ? "#EF4444" : undefined }}>{r.maxSpeed} km/h</td>
+                      <td className={s.num} style={{ color: r.maxSpeed > 80 ? "var(--danger)" : undefined }}>{r.maxSpeed} km/h</td>
                     </tr>
                   ))}
                 </tbody>
@@ -408,7 +408,7 @@ export function ReportsScreen() {
 }
 
 // ======================= AI Insights =======================
-const TONE: Record<string, string> = { danger: "#EF4444", warning: "#F59E0B", info: "#06B6D4", success: "#10B981" };
+const TONE: Record<string, string> = { danger: "var(--danger)", warning: "var(--warning)", info: "var(--accent)", success: "var(--success)" };
 const ACTION_TARGET: Record<string, ScreenId> = {
   "Open fuel events": "fuel",
   "View scorecard": "drivers",
@@ -425,10 +425,10 @@ export function AiScreen() {
         <button type="button" className={cx(s.btn, s.btnPrimary)} onClick={openAi}><Sparkles size={14} /> Ask AI</button>
       </PageHeader>
       <div className={s.kpis} style={{ "--kpi-cols": 4 } as CSSProperties}>
-        <Kpi icon={AlertOctagon} value="3" label="Anomalies this week" color="#EF4444" />
-        <Kpi icon={ShieldAlert} value="2" label="High-risk drivers" color="#F59E0B" />
-        <Kpi icon={Car} value="71%" label="Fleet utilisation" color="#06B6D4" />
-        <Kpi icon={Lightbulb} value={inr(18400)} label="Savings identified" sub="per month" color="#10B981" />
+        <Kpi icon={AlertOctagon} value="3" label="Anomalies this week" color="var(--danger)" />
+        <Kpi icon={ShieldAlert} value="2" label="High-risk drivers" color="var(--warning)" />
+        <Kpi icon={Car} value="71%" label="Fleet utilisation" color="var(--accent)" />
+        <Kpi icon={Lightbulb} value={inr(18400)} label="Savings identified" sub="per month" color="var(--success)" />
       </div>
       <div className={s.grid}>
         <div className={s.span8} style={{ display: "grid", gap: 12 }}>
@@ -449,9 +449,9 @@ export function AiScreen() {
           <Donut
             center={{ value: DRIVERS.length, label: "Drivers" }}
             parts={[
-              { label: "Low risk", value: DRIVERS.filter((d) => d.score >= 85).length, color: "#10B981" },
-              { label: "Medium", value: DRIVERS.filter((d) => d.score >= 70 && d.score < 85).length, color: "#F59E0B" },
-              { label: "High", value: DRIVERS.filter((d) => d.score < 70).length, color: "#EF4444" },
+              { label: "Low risk", value: DRIVERS.filter((d) => d.score >= 85).length, color: "var(--success)" },
+              { label: "Medium", value: DRIVERS.filter((d) => d.score >= 70 && d.score < 85).length, color: "var(--warning)" },
+              { label: "High", value: DRIVERS.filter((d) => d.score < 70).length, color: "var(--danger)" },
             ]}
             size={140}
           />
@@ -464,7 +464,7 @@ export function AiScreen() {
 // ======================= Rental Hub =======================
 export function RentalScreen() {
   const { toast } = useReplica();
-  const statusColor: Record<string, string> = { Available: "#10B981", "On rent": "#3B82F6", Reserved: "#8B5CF6", "On hold": "#F59E0B", Leased: "#06B6D4" };
+  const statusColor: Record<string, string> = { Available: "var(--success)", "On rent": "var(--info)", Reserved: "var(--violet)", "On hold": "var(--warning)", Leased: "var(--accent)" };
   const counts = useMemo(() => RENTAL_VEHICLES.reduce<Record<string, number>>((a, v) => ((a[v.status] = (a[v.status] ?? 0) + 1), a), {}), []);
   return (
     <>
@@ -473,10 +473,10 @@ export function RentalScreen() {
       </PageHeader>
       <div className={s.kpis} style={{ "--kpi-cols": 5 } as CSSProperties}>
         <Kpi icon={Car} value="64%" label="Fleet utilisation" sub="30 days" />
-        <Kpi icon={KeyRound} value={counts["On rent"] ?? 0} label="On rent now" sub="0 overdue" color="#3B82F6" />
-        <Kpi icon={CalendarCheck} value={counts.Reserved ?? 0} label="Reserved" sub="2 pickups today" color="#8B5CF6" />
-        <Kpi icon={Receipt} value={inr(486200)} label="Charged this month" color="#10B981" />
-        <Kpi icon={Wallet} value={inr(452900)} label="Collected this month" color="#06B6D4" />
+        <Kpi icon={KeyRound} value={counts["On rent"] ?? 0} label="On rent now" sub="0 overdue" color="var(--info)" />
+        <Kpi icon={CalendarCheck} value={counts.Reserved ?? 0} label="Reserved" sub="2 pickups today" color="var(--violet)" />
+        <Kpi icon={Receipt} value={inr(486200)} label="Charged this month" color="var(--success)" />
+        <Kpi icon={Wallet} value={inr(452900)} label="Collected this month" color="var(--accent)" />
       </div>
       <div className={s.grid}>
         <Card icon={CalendarCheck} title="Today" sub="Pickups and returns" className={s.span5}>
@@ -488,7 +488,7 @@ export function RentalScreen() {
                   <small>{b.customer} · {b.ref}</small>
                 </div>
                 <span className={s.num}>{b.pickup}</span>
-                <Tag color={b.kind === "Pickup" ? "#8B5CF6" : "#3B82F6"}>{b.kind}</Tag>
+                <Tag color={b.kind === "Pickup" ? "var(--violet)" : "var(--info)"}>{b.kind}</Tag>
               </li>
             ))}
           </ul>
@@ -539,7 +539,7 @@ export function ModuleOverviewScreen({ id }: { id: ScreenId }) {
           <p style={{ margin: 0, color: "var(--t2)", fontSize: 15, lineHeight: 1.6 }}>{copy.summary}</p>
           <ul className={s.list}>
             {copy.points.map((p) => (
-              <li key={p} className={s.listRow}><CheckCircle2 size={16} color="#10B981" /> {p}</li>
+              <li key={p} className={s.listRow}><CheckCircle2 size={16} color="var(--success)" /> {p}</li>
             ))}
           </ul>
           <p className={s.muted} style={{ margin: 0 }}>This module is part of the full platform. Book a demo to see it with your own data.</p>

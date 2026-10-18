@@ -6,48 +6,143 @@
    LAS Mobility — Design System CSS Variables
    ============================================= */
 
+/* Colour rule: components never type a colour. They reference these tokens:
+   var(--accent), or rgb(var(--accent-rgb) / 0.3) for a translucent step.
+   Palette = the LAS Mobility app's softened graphite set (Fleet_Management_
+   Lasmobility/frontend-angular/src/styles/_themes.scss, 2026-08-25 pass):
+   same hues as the old brand cyan/green/amber/red, low chroma, so nothing on
+   the page glows. */
+
+/* Theme-independent inks and the dark surface ladder. Dark surfaces are the
+   app's graphite (near-neutral greys, a whisper of cool), not navy: a
+   saturated blue ground blooms under light text and reads as neon. */
+:root {
+  --white:          #FFFFFF;
+  --white-rgb:      255 255 255;
+  --black-rgb:      0 0 0;
+  /* graphite ladder: chrome -> page -> card -> elevated (app _themes.scss) */
+  --surface-0:      #191C21;
+  --surface-0-rgb:  25 28 33;
+  --surface-1:      #1F2329;
+  --surface-1-rgb:  31 35 41;
+  --surface-2:      #2B3038;
+  --surface-2-rgb:  43 48 56;
+  --surface-3:      #363C45;
+  --surface-3-rgb:  54 60 69;
+  --surface-input:  #1B1F24;
+  --ink:            var(--surface-1);
+  --ink-rgb:        var(--surface-1-rgb);
+  --ink-deep:       var(--surface-0);
+  --ink-deep-rgb:   var(--surface-0-rgb);
+  --stage:          #15181C;
+  --stage-rgb:      21 24 28;
+  --stage-raised:   var(--surface-2);
+  --mist:           #E9ECF1;
+  --mist-rgb:       233 236 241;
+  --slate-50:       #F5F7FA;
+  --slate-200:      #DCE1E7;
+  --slate-400:      #939BA7;
+  --slate-500:      #7A828E;
+  --slate-600:      #5B636E;
+  --slate-700:      #3C434C;
+  --slate-900:      #1F2329;
+  --slate-900-rgb:  31 35 41;
+}
+
+/* Dark: also applied to always-dark surfaces (the 3D story) via
+   .theme-dark-scope, so they keep dark accents when the site is light. */
+:root,
+[data-theme="dark"],
+.theme-dark-scope {
+  --accent:           #6CABAE;
+  --accent-rgb:       108 171 174;
+  --accent-hover:     #81C0C2;
+  --accent-text:      #92D2D5;
+  --accent-text-rgb:  146 210 213;
+  --accent-mid:       #4F9497;
+  --accent-strong:    #39787C;
+  --on-accent:        #031012;
+  --success:          #69AE8E;
+  --success-rgb:      105 174 142;
+  --success-light:    #7BC1A1;
+  --warning:          #C79B68;
+  --warning-rgb:      199 155 104;
+  --warning-light:    #D9B98F;
+  --danger:           #B97771;
+  --danger-rgb:       185 119 113;
+  --danger-light:     #C68A84;
+  --violet:           #887DB5;
+  --violet-rgb:       136 125 181;
+  --info:             #6988BB;
+  --info-rgb:         105 136 187;
+  --info-strong:      #6B86BA;
+  --orange:           #CC9072;
+  --pink:             #B57D98;
+}
+
 :root,
 [data-theme="dark"] {
-  --bg-base:        #0B1628;
-  --bg-deep:        #060E1A;
-  --bg-card:        #162035;
-  --bg-card-hover:  #1E2E45;
-  --bg-muted:       rgba(255,255,255,0.04);
-  --text-primary:   #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted:     #64748B;
-  --border:         rgba(255,255,255,0.08);
-  --border-accent:  rgba(14,206,206,0.3);
-  --accent:         #0ECECE;
-  --accent-dark:    #0AABAB;
-  --accent-glow:    rgba(14,206,206,0.2);
-  --accent-text:    #22D9D9;
-  --nav-bg:         rgba(6,14,26,0.88);
-  --shadow-card:    0 24px 64px rgba(0,0,0,0.5);
-  --shadow-glow:    0 0 60px rgba(14,206,206,0.18);
-  --glass-bg:       rgba(22,32,53,0.6);
+  --bg-base:        var(--surface-1);
+  --bg-deep:        var(--surface-0);
+  --bg-card:        var(--surface-2);
+  --bg-card-hover:  var(--surface-3);
+  --bg-muted:       rgb(var(--mist-rgb) / 0.04);
+  --text-primary:   #E9ECF1;
+  --text-secondary: #BAC1CC;
+  --text-muted:     #939BA7;
+  --border:         rgb(var(--mist-rgb) / 0.09);
+  --border-accent:  rgb(var(--accent-rgb) / 0.3);
+  --accent-dark:    var(--accent-strong);
+  --accent-glow:    rgb(var(--accent-rgb) / 0.12);
+  --nav-bg:         rgb(var(--surface-0-rgb) / 0.95);
+  --shadow-card:    0 1px 0 rgb(var(--white-rgb) / 0.035), 0 8px 20px rgb(var(--black-rgb) / 0.34);
+  --shadow-glow:    0 0 32px rgb(var(--accent-rgb) / 0.08);
+  --glass-bg:       rgb(var(--surface-2-rgb) / 0.7);
   color-scheme: dark;
 }
 
 [data-theme="light"] {
+  --accent:           #0EA5A8;
+  --accent-rgb:       14 165 168;
+  --accent-hover:     #0B8F92;
+  --accent-text:      #087F83;
+  --accent-text-rgb:  8 127 131;
+  --accent-mid:       #0B8F92;
+  --accent-strong:    #087F83;
+  --on-accent:        #071422;
+  --success:          #2F8F6B;
+  --success-rgb:      47 143 107;
+  --success-light:    #3FA07B;
+  --warning:          #B07A3A;
+  --warning-rgb:      176 122 58;
+  --warning-light:    #C08C4E;
+  --danger:           #B4554E;
+  --danger-rgb:       180 85 78;
+  --danger-light:     #C2665F;
+  --violet:           #6E5FA8;
+  --violet-rgb:       110 95 168;
+  --info:             #4A6FA8;
+  --info-rgb:         74 111 168;
+  --info-strong:      #3D5F95;
+  --orange:           #B9714F;
+  --pink:             #A2617F;
+
   --bg-base:        #F0F6FF;
   --bg-deep:        #E4EEF8;
   --bg-card:        #FFFFFF;
   --bg-card-hover:  #F7FBFF;
-  --bg-muted:       rgba(11,22,40,0.03);
+  --bg-muted:       rgb(var(--ink-rgb) / 0.03);
   --text-primary:   #0B1628;
   --text-secondary: #475569;
   --text-muted:     #94A3B8;
-  --border:         rgba(11,22,40,0.09);
-  --border-accent:  rgba(10,171,171,0.3);
-  --accent:         #0AABAB;
-  --accent-dark:    #087F7F;
-  --accent-glow:    rgba(10,171,171,0.12);
-  --accent-text:    #0AABAB;
-  --nav-bg:         rgba(255,255,255,0.92);
-  --shadow-card:    0 8px 40px rgba(11,22,40,0.07);
-  --shadow-glow:    0 0 40px rgba(10,171,171,0.14);
-  --glass-bg:       rgba(255,255,255,0.7);
+  --border:         rgb(var(--ink-rgb) / 0.09);
+  --border-accent:  rgb(var(--accent-rgb) / 0.3);
+  --accent-dark:    var(--accent-strong);
+  --accent-glow:    rgb(var(--accent-rgb) / 0.12);
+  --nav-bg:         rgb(var(--white-rgb) / 0.92);
+  --shadow-card:    0 8px 40px rgb(var(--ink-rgb) / 0.07);
+  --shadow-glow:    0 0 40px rgb(var(--accent-rgb) / 0.1);
+  --glass-bg:       rgb(var(--white-rgb) / 0.7);
   color-scheme: light;
 }
 
@@ -74,14 +169,14 @@ body {
 
 [data-theme="light"] body {
   background:
-    radial-gradient(ellipse 100% 60% at 50% -20%, rgba(10,171,171,0.06), transparent),
-    linear-gradient(180deg, #EEF4FB 0%, #F5F9FF 50%, #FFFFFF 100%);
+    radial-gradient(ellipse 100% 60% at 50% -20%, rgba(57, 120, 124,0.06), transparent),
+    linear-gradient(180deg, #EEF4FB 0%, #F5F9FF 50%, var(--white) 100%);
 }
 
 a { color: inherit; text-decoration: none; }
 
 ::selection {
-  background: rgba(14,206,206,0.25);
+  background: rgb(var(--accent-rgb) / 0.25);
   color: var(--text-primary);
 }
 
@@ -114,14 +209,14 @@ a { color: inherit; text-decoration: none; }
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, var(--accent-text) 0%, #22D9D9 50%, #5DECEC 100%);
+  background: linear-gradient(135deg, var(--accent-text) 0%, var(--accent-hover) 50%, var(--accent-hover) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 [data-theme="light"] .gradient-text {
-  background: linear-gradient(135deg, #0AABAB 0%, #087F7F 100%);
+  background: linear-gradient(135deg, var(--accent-strong) 0%, var(--accent-strong) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -130,16 +225,16 @@ a { color: inherit; text-decoration: none; }
 /* Glow button */
 .btn-primary {
   background: var(--accent);
-  color: var(--bg-deep);
+  color: var(--on-accent);
   font-weight: 600;
-  box-shadow: 0 0 28px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.15);
+  box-shadow: inset 0 1px 0 rgb(var(--white-rgb) / 0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 44px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.2);
-  background: var(--accent-dark);
+  box-shadow: 0 6px 18px rgb(var(--black-rgb) / 0.25), inset 0 1px 0 rgb(var(--white-rgb) / 0.2);
+  background: var(--accent-hover);
 }
 
 .btn-ghost {
@@ -175,9 +270,20 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* Section padding */
-.section-pad { padding: 5rem 1rem; }
-@media (min-width: 640px)  { .section-pad { padding: 5rem 1.5rem; } }
-@media (min-width: 1024px) { .section-pad { padding: 6rem 2rem; } }
+.section-pad { padding: 3.5rem 1rem; }
+@media (min-width: 640px)  { .section-pad { padding: 4rem 1.5rem; } }
+@media (min-width: 1024px) { .section-pad { padding: 4.5rem 2rem; } }
+@media (min-width: 1536px) { .section-pad { padding: 5rem 3rem; } }
+
+/* Motion system (mirrors styles/las/_variables.scss) */
+:root {
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-micro: 150ms;
+  --motion-ui: 240ms;
+  --motion-panel: 360ms;
+  --motion-camera: 750ms;
+  --motion-scene: 1100ms;
+}
 
 /* Shimmer skeleton */
 .shimmer {
@@ -256,15 +362,15 @@ a { color: inherit; text-decoration: none; }
 /* Hero premium gradient */
 .hero-premium {
   background:
-    radial-gradient(ellipse 100% 60% at 50% -5%, rgba(14,206,206,0.15), transparent),
-    radial-gradient(ellipse 60% 60% at 0% 50%, rgba(14,206,206,0.06), transparent),
-    radial-gradient(ellipse 60% 60% at 100% 50%, rgba(10,171,171,0.06), transparent),
-    linear-gradient(180deg, #060E1A 0%, #0B1628 100%);
+    radial-gradient(ellipse 100% 60% at 50% -5%, rgb(var(--accent-rgb) / 0.15), transparent),
+    radial-gradient(ellipse 60% 60% at 0% 50%, rgb(var(--accent-rgb) / 0.06), transparent),
+    radial-gradient(ellipse 60% 60% at 100% 50%, rgba(57, 120, 124,0.06), transparent),
+    linear-gradient(180deg, var(--ink-deep) 0%, var(--ink) 100%);
 }
 
 [data-theme="light"] .hero-premium {
   background:
-    radial-gradient(ellipse 100% 60% at 50% -5%, rgba(10,171,171,0.08), transparent),
+    radial-gradient(ellipse 100% 60% at 50% -5%, rgba(57, 120, 124,0.08), transparent),
     linear-gradient(180deg, #E4EEF8 0%, #F0F6FF 100%);
 }
 

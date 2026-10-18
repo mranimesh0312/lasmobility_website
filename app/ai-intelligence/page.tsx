@@ -28,10 +28,10 @@ function AccuracyChart() {
   const pts = vals.map((v,i) => `${36+i*38},${90-(v/maxV)*70}`).join(" ");
   return (
     <svg viewBox="0 0 340 120" className="w-full" aria-label="AI prediction accuracy over time">
-      {[0,50,100].map(v => { const y = 90-(v/maxV)*70; return <g key={v}><text x="28" y={y+4} fontSize="8" fill="rgba(255,255,255,0.3)" textAnchor="end">{v}%</text><line x1="32" y1={y} x2="330" y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1"/></g>; })}
+      {[0,50,100].map(v => { const y = 90-(v/maxV)*70; return <g key={v}><text x="28" y={y+4} fontSize="8" fill="rgb(var(--white-rgb) / 0.3)" textAnchor="end">{v}%</text><line x1="32" y1={y} x2="330" y2={y} stroke="rgb(var(--white-rgb) / 0.05)" strokeWidth="1"/></g>; })}
       <polyline points={pts} fill="none" stroke="url(#aiGrad)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-      {vals.map((v,i) => <g key={i}><circle cx={36+i*38} cy={90-(v/maxV)*70} r="3.5" fill="#8B5CF6"/><text x={36+i*38} y={90-(v/maxV)*70-8} fontSize="7.5" fill="rgba(139,92,246,0.85)" textAnchor="middle">{v}%</text><text x={36+i*38} y="106" fontSize="7.5" fill="rgba(255,255,255,0.3)" textAnchor="middle">{weeks[i]}</text></g>)}
-      <defs><linearGradient id="aiGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="#8B5CF6" stopOpacity="0.5"/><stop offset="100%" stopColor="#0ECECE"/></linearGradient></defs>
+      {vals.map((v,i) => <g key={i}><circle cx={36+i*38} cy={90-(v/maxV)*70} r="3.5" fill="var(--violet)"/><text x={36+i*38} y={90-(v/maxV)*70-8} fontSize="7.5" fill="rgb(var(--violet-rgb) / 0.85)" textAnchor="middle">{v}%</text><text x={36+i*38} y="106" fontSize="7.5" fill="rgb(var(--white-rgb) / 0.3)" textAnchor="middle">{weeks[i]}</text></g>)}
+      <defs><linearGradient id="aiGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stopColor="var(--violet)" stopOpacity="0.5"/><stop offset="100%" stopColor="var(--accent)"/></linearGradient></defs>
     </svg>
   );
 }
@@ -41,10 +41,10 @@ export default function AIIntelligencePage() {
     <>
       {/* Hero */}
       <section className="section-pad relative overflow-hidden" style={{ background: "var(--bg-deep)" }}>
-        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 60% 40% at 70% 20%, rgba(139,92,246,0.1), transparent)" }} />
+        <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 60% 40% at 70% 20%, rgb(var(--violet-rgb) / 0.1), transparent)" }} />
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-30" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider" style={{ border: "1px solid rgba(139,92,246,0.4)", color: "#8B5CF6", background: "rgba(139,92,246,0.1)" }}>
+          <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider" style={{ border: "1px solid rgb(var(--violet-rgb) / 0.4)", color: "var(--violet)", background: "rgb(var(--violet-rgb) / 0.1)" }}>
             <BrainCircuit className="h-3.5 w-3.5" /> AI Intelligence
           </span>
           <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl" style={{ color: "var(--text-primary)" }}>
@@ -64,9 +64,9 @@ export default function AIIntelligencePage() {
       <section style={{ background: "var(--bg-base)" }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4" style={{ borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-            {[{ v:"94%", l:"AI prediction accuracy at 8 weeks" }, { v:"6", l:"AI capability modules" }, { v:"Real-time", l:"Anomaly detection" }, { v:"Plain language", l:"Natural language insights" }].map(({v,l},i) => (
+            {[{ v:"Predictive", l:"Maintenance & risk insights" }, { v:"6", l:"AI capability modules" }, { v:"Real-time", l:"Anomaly detection" }, { v:"Plain language", l:"Natural language insights" }].map(({v,l},i) => (
               <div key={l} className="px-8 py-10 text-center" style={{ borderRight: i < 3 ? "1px solid var(--border)" : undefined }}>
-                <p className="text-3xl font-bold" style={{ color: "#8B5CF6" }}>{v}</p>
+                <p className="text-3xl font-bold" style={{ color: "var(--violet)" }}>{v}</p>
                 <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{l}</p>
               </div>
             ))}
@@ -77,10 +77,10 @@ export default function AIIntelligencePage() {
       {/* From dashboards to decisions */}
       <section className="section-pad" style={{ background: "var(--bg-base)" }}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-3xl overflow-hidden rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid rgba(139,92,246,0.3)" }}>
+          <div className="mx-auto max-w-3xl overflow-hidden rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid rgb(var(--violet-rgb) / 0.3)" }}>
             <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl" style={{ background: "rgba(139,92,246,0.12)" }}>
-                <Sparkles className="h-6 w-6" style={{ color: "#8B5CF6" }} />
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl" style={{ background: "rgb(var(--violet-rgb) / 0.12)" }}>
+                <Sparkles className="h-6 w-6" style={{ color: "var(--violet)" }} />
               </div>
               <div>
                 <h2 className="text-lg font-bold" style={{ color: "var(--text-primary)" }}>From dashboards to decisions</h2>
@@ -108,7 +108,7 @@ export default function AIIntelligencePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider" style={{ border: "1px solid rgba(139,92,246,0.4)", color: "#8B5CF6", background: "rgba(139,92,246,0.1)" }}>
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider" style={{ border: "1px solid rgb(var(--violet-rgb) / 0.4)", color: "var(--violet)", background: "rgb(var(--violet-rgb) / 0.1)" }}>
                 <Route className="h-3.5 w-3.5" /> Route Intelligence
               </span>
               <h2 className="mt-4 text-3xl font-bold" style={{ color: "var(--text-primary)" }}>AI that builds better routes every week</h2>
@@ -118,20 +118,20 @@ export default function AIIntelligencePage() {
               <ul className="mt-6 space-y-3">
                 {["Multi-stop AI sequencing with traffic awareness", "Planned vs actual deviation scoring per trip", "Dead mileage identification and elimination", "Fuel consumption pattern analysis per route"].map(f => (
                   <li key={f} className="flex items-start gap-2.5 text-sm" style={{ color: "var(--text-secondary)" }}>
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#8B5CF6" }} /> {f}
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "var(--violet)" }} /> {f}
                   </li>
                 ))}
               </ul>
-              <Link href="/features/route-optimization" className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold transition hover:opacity-70" style={{ color: "#8B5CF6" }}>
+              <Link href="/features/route-optimization" className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold transition hover:opacity-70" style={{ color: "var(--violet)" }}>
                 See Route Optimisation feature <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid rgba(139,92,246,0.2)" }}>
+            <div className="rounded-2xl p-6" style={{ background: "var(--bg-card)", border: "1px solid rgb(var(--violet-rgb) / 0.2)" }}>
               <p className="mb-1 text-sm font-bold" style={{ color: "var(--text-primary)" }}>AI prediction accuracy — improving week on week</p>
               <p className="mb-4 text-xs" style={{ color: "var(--text-muted)" }}>Route efficiency prediction vs actual outcome</p>
-              <div className="rounded-xl p-4" style={{ background: "#060E1A" }}><AccuracyChart /></div>
-              <div className="mt-4 rounded-lg p-3" style={{ background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.2)" }}>
-                <p className="text-xs font-semibold" style={{ color: "#8B5CF6" }}>94% accuracy by week 8 — improves as the model learns your routes.</p>
+              <div className="rounded-xl p-4" style={{ background: "var(--ink-deep)" }}><AccuracyChart /></div>
+              <div className="mt-4 rounded-lg p-3" style={{ background: "rgb(var(--violet-rgb) / 0.08)", border: "1px solid rgb(var(--violet-rgb) / 0.2)" }}>
+                <p className="text-xs font-semibold" style={{ color: "var(--violet)" }}>94% accuracy by week 8 — improves as the model learns your routes.</p>
               </div>
             </div>
           </div>
@@ -144,12 +144,12 @@ export default function AIIntelligencePage() {
           <SectionHeader eyebrow="Driver Intelligence" title="AI-powered driver risk scoring" description="LAS Mobility builds a composite risk profile for every driver — combining event frequency, severity, and improvement trend — updated after every trip." />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {[
-              { icon: ShieldCheck, title: "Risk Score", desc: "Each driver gets a 0–100 score combining harsh events, overspeed frequency, and improvement trend.", color: "#22C55E" },
-              { icon: TrendingDown, title: "Trend Analysis", desc: "Compare a driver's current week score against their rolling 30-day average to spot improvement or decline.", color: "#F59E0B" },
-              { icon: MessageSquareText, title: "Coaching Prompts", desc: "AI surfaces the specific behaviours driving poor scores so managers can have targeted coaching conversations.", color: "#8B5CF6" },
+              { icon: ShieldCheck, title: "Risk Score", desc: "Each driver gets a 0–100 score combining harsh events, overspeed frequency, and improvement trend.", color: "var(--success)" },
+              { icon: TrendingDown, title: "Trend Analysis", desc: "Compare a driver's current week score against their rolling 30-day average to spot improvement or decline.", color: "var(--warning)" },
+              { icon: MessageSquareText, title: "Coaching Prompts", desc: "AI surfaces the specific behaviours driving poor scores so managers can have targeted coaching conversations.", color: "var(--violet)" },
             ].map(({ icon: Icon, title, desc, color }) => (
               <div key={title} className="rounded-xl p-6" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: `${color}18`, border: `1px solid ${color}35` }}>
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl" style={{ background: `color-mix(in srgb, ${color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 21%, transparent)` }}>
                   <Icon className="h-5 w-5" style={{ color }} />
                 </span>
                 <h3 className="mt-4 text-base font-bold" style={{ color: "var(--text-primary)" }}>{title}</h3>
@@ -158,7 +158,7 @@ export default function AIIntelligencePage() {
             ))}
           </div>
           <div className="mt-6 text-center">
-            <Link href="/features/driver-safety" className="inline-flex items-center gap-1.5 text-sm font-semibold transition hover:opacity-70" style={{ color: "#8B5CF6" }}>
+            <Link href="/features/driver-safety" className="inline-flex items-center gap-1.5 text-sm font-semibold transition hover:opacity-70" style={{ color: "var(--violet)" }}>
               Explore Driver Safety feature <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -172,9 +172,9 @@ export default function AIIntelligencePage() {
           <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {[
               { icon: BarChart3,    title: "Utilisation Trends",    desc: "See which vehicles are over- or under-utilised before the imbalance costs money.", color: "var(--accent-text)" },
-              { icon: Gauge,        title: "Fuel Anomaly Flags",    desc: "Surface unexpected fuel consumption spikes that may indicate theft, idling, or mechanical issues.", color: "#F59E0B" },
-              { icon: BrainCircuit, title: "Anomaly Detection",     desc: "AI flags unusual patterns across routes, stops, and device connectivity before they become incidents.", color: "#8B5CF6" },
-              { icon: Wrench,       title: "Maintenance Signals",   desc: "Usage patterns and mileage data help predict which vehicles need servicing before breakdowns occur.", color: "#EF4444" },
+              { icon: Gauge,        title: "Fuel Anomaly Flags",    desc: "Surface unexpected fuel consumption spikes that may indicate theft, idling, or mechanical issues.", color: "var(--warning)" },
+              { icon: BrainCircuit, title: "Anomaly Detection",     desc: "AI flags unusual patterns across routes, stops, and device connectivity before they become incidents.", color: "var(--violet)" },
+              { icon: Wrench,       title: "Maintenance Signals",   desc: "Usage patterns and mileage data help predict which vehicles need servicing before breakdowns occur.", color: "var(--danger)" },
             ].map(({ icon: Icon, title, desc, color }) => (
               <div key={title} className="rounded-xl p-5" style={{ background: "var(--bg-card)", border: "1px solid var(--border)" }}>
                 <span className="flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: "var(--accent-glow)" }}>

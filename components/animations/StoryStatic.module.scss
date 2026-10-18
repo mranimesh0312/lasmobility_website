@@ -1,19 +1,24 @@
 @use "../../styles/las/variables" as *;
 @use "../../styles/las/mixins" as *;
+@use "../../styles/site/motion" as *;
+
+// Phones, tablets and reduced-motion: a purpose-built layout, not a shrunken
+// desktop story. Nothing here pins or scrubs, and only the product-screen
+// carousel snaps.
+
+$gutter: $spacing-4;
 
 .static {
-  background: $palette-navy-950;
-  color: $color-white;
+  background: var(--stage);
+  color: var(--white);
   overflow: hidden;
 }
 
-.hero {
-  display: grid;
-  gap: $spacing-8;
-  max-width: 1280px;
+%wrap {
+  max-width: $page-max;
   margin: 0 auto;
-  // The sticky header already sits above this section in the flow.
-  padding: $spacing-10 $spacing-4 $spacing-12;
+  padding-left: max(#{$gutter}, env(safe-area-inset-left));
+  padding-right: max(#{$gutter}, env(safe-area-inset-right));
 
   @include respond-up("sm") {
     padding-left: $spacing-6;
@@ -21,16 +26,47 @@
   }
 
   @include respond-up("lg") {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-    align-items: center;
-    min-height: 100vh;
     padding-left: $spacing-8;
     padding-right: $spacing-8;
   }
 }
 
+// ---------- hero ----------
+.hero {
+  @extend %wrap;
+  display: grid;
+  gap: $spacing-6;
+  // The sticky header already sits above this section in the flow.
+  padding-top: $spacing-6;
+  padding-bottom: $spacing-6;
+
+  @include respond-up("md") {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: $spacing-8;
+    padding-top: $spacing-10;
+  }
+
+  @include respond-up("lg") {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    min-height: calc(100svh - var(--site-header-h, 100px));
+  }
+}
+
 .heroCopy {
   min-width: 0;
+
+  // Phones: tighter hero so headline + primary CTA sit above the fold.
+  @include respond-to("sm") {
+    h1 {
+      margin-top: $spacing-3;
+      font-size: clamp(2rem, 9vw, 2.6rem);
+    }
+
+    p:first-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .heroStageWrap {
@@ -38,116 +74,599 @@
   gap: $spacing-3;
   min-width: 0;
   justify-items: center;
+
+  // Configurator: one scrollable row on narrow phones, never wraps the page.
+  > div:last-child {
+    max-width: 100%;
+    margin-top: 0;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    button {
+      flex-shrink: 0;
+    }
+  }
 }
 
 .heroStage {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 11;
+  border: 1px solid rgb(var(--white-rgb) / 0.08);
 
   @include respond-up("md") {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 4 / 3;
   }
 }
 
-.chapters {
-  display: grid;
-  gap: $spacing-16;
-  max-width: 760px;
-  margin: 0 auto;
-  padding: $spacing-12 $spacing-4 $spacing-20;
+// ---------- sensors ----------
+.sensors {
+  min-width: 0;
+
+  @include respond-up("md") {
+    grid-column: 1 / -1;
+  }
+}
+
+.railHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-3;
+  margin: 0 0 $spacing-3;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--slate-400);
+}
+
+.swipe {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--accent-text);
+  animation: nudge 1.8s $ease-out-expo infinite;
+
+  @include respond-up("lg") {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes nudge {
+  0%,
+  60%,
+  100% {
+    transform: none;
+  }
+  30% {
+    transform: translateX(4px);
+  }
+}
+
+%hrail {
+  display: flex;
+  gap: $spacing-2;
+  margin: 0 calc(-1 * #{$gutter});
+  padding: 2px $gutter $spacing-2;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  // Horizontal swipes scroll the rail; vertical swipes still scroll the page.
+  touch-action: pan-x pan-y;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > li {
+    flex-shrink: 0;
+  }
 
   @include respond-up("sm") {
-    padding-left: $spacing-6;
-    padding-right: $spacing-6;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.chips {
+  @extend %hrail;
+
+  @include respond-up("md") {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+
+.chip {
+  min-height: 44px;
+  padding: 0 $spacing-4;
+  border: 1px solid rgb(var(--accent-rgb) / 0.3);
+  border-radius: $radius-full;
+  background: rgb(var(--accent-rgb) / 0.06);
+  font-size: $font-size-sm;
+  color: var(--accent-text);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background $motion-micro, border-color $motion-micro, transform $motion-micro $ease-out-expo;
+
+  &:hover {
+    background: rgb(var(--accent-rgb) / 0.14);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 2px;
+  }
+}
+
+// ---------- telemetry rail ----------
+.telemetry {
+  @extend %wrap;
+  padding-top: $spacing-4;
+  padding-bottom: $spacing-8;
+}
+
+.teleRail {
+  @extend %hrail;
+
+  @include respond-up("lg") {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    overflow: visible;
+  }
+}
+
+.teleCard {
+  display: grid;
+  gap: 4px;
+  min-width: 148px;
+  padding: $spacing-3 $spacing-4;
+  border: 1px solid rgb(var(--white-rgb) / 0.1);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgb(var(--surface-2-rgb) / 0.8), rgb(var(--surface-0-rgb) / 0.7));
+}
+
+.teleLabel {
+  font-size: $font-size-xs;
+  color: var(--slate-400);
+}
+
+.teleValue {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-2;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  font-variant-numeric: tabular-nums;
+}
+
+// Status uses a word plus colour, never colour alone.
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+
+  &[data-status="warn"] {
+    background: var(--warning);
+  }
+}
+
+// ---------- chapters: cards on a route timeline ----------
+.chapters {
+  @extend %wrap;
+  position: relative;
+  display: grid;
+  gap: $spacing-4;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: $spacing-4;
+  padding-bottom: $spacing-10;
+  list-style: none;
+
+  // The route: a dashed line the chapter nodes sit on.
+  &::before {
+    content: "";
+    position: absolute;
+    top: $spacing-8;
+    bottom: $spacing-16;
+    left: calc(max(#{$gutter}, env(safe-area-inset-left)) + 15px);
+    border-left: 2px dashed rgb(var(--accent-rgb) / 0.3);
+
+    @include respond-up("sm") {
+      left: calc(#{$spacing-6} + 15px);
+    }
+  }
+
+  @include respond-up("lg") {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    &::before {
+      display: none;
+    }
   }
 }
 
 .chapter {
+  position: relative;
   min-width: 0;
+  margin-left: 44px;
+  padding: $spacing-4 $spacing-5;
+  border: 1px solid rgb(var(--white-rgb) / 0.08);
+  border-radius: 16px;
+  background: rgb(var(--white-rgb) / 0.03);
+
+  @include respond-up("lg") {
+    margin-left: 0;
+    padding: $spacing-6;
+  }
+}
+
+.node {
+  position: absolute;
+  top: $spacing-4;
+  left: -44px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgb(var(--accent-rgb) / 0.5);
+  border-radius: 50%;
+  background: var(--stage);
+  color: var(--accent);
+
+  @include respond-up("lg") {
+    position: static;
+    margin-bottom: $spacing-3;
+  }
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: $spacing-2;
-  margin: 0 0 $spacing-3;
-  font-size: $font-size-sm;
+  margin: 0 0 $spacing-2;
+  font-size: $font-size-xs;
   font-weight: $font-weight-semibold;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: $color-primary;
+  color: var(--accent);
 }
 
 .title {
   margin: 0;
-  font-size: clamp(1.6rem, 1.2rem + 2vw, 2.5rem);
+  font-size: clamp(1.25rem, 1rem + 1.4vw, 1.75rem);
   font-weight: $font-weight-bold;
-  line-height: 1.12;
+  line-height: 1.15;
   letter-spacing: -0.02em;
 }
 
 .body {
-  margin: $spacing-3 0 0;
-  font-size: $font-size-lg;
+  margin: $spacing-2 0 0;
+  font-size: $font-size-md;
   line-height: $line-height-relaxed;
-  color: rgba(233, 236, 241, 0.8);
+  color: rgb(var(--mist-rgb) / 0.78);
 }
 
 .points {
   display: flex;
   flex-wrap: wrap;
   gap: $spacing-2;
-  margin: $spacing-4 0 0;
+  margin: $spacing-3 0 0;
   padding: 0;
   list-style: none;
 
   li {
-    padding: $spacing-1 $spacing-3;
-    border: 1px solid rgba(24, 199, 204, 0.35);
+    padding: 2px $spacing-3;
+    border: 1px solid rgb(var(--accent-rgb) / 0.35);
     border-radius: $radius-full;
-    font-size: $font-size-sm;
-    color: $color-primary-light;
+    font-size: $font-size-xs;
+    color: var(--accent-text);
   }
 }
 
+// ---------- product screens: the one snapping carousel ----------
+.screensBlock {
+  @extend %wrap;
+  padding-bottom: $spacing-10;
+}
+
+.screensHead {
+  max-width: 720px;
+  margin-bottom: $spacing-5;
+}
+
 .screens {
-  display: grid;
-  gap: $spacing-8;
-  margin-top: $spacing-8;
+  display: flex;
+  gap: $spacing-4;
+  margin: 0 calc(-1 * #{$gutter});
+  padding: 0 $gutter $spacing-2;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 $gutter;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include respond-up("sm") {
+    margin: 0;
+    padding: 0 0 $spacing-2;
+    scroll-padding: 0;
+  }
 }
 
 .screen {
-  margin: 0;
+  flex: 0 0 88%;
   min-width: 0;
+  margin: 0;
+  scroll-snap-align: start;
+
+  @include respond-up("md") {
+    flex-basis: 70%;
+  }
+
+  @include respond-up("lg") {
+    flex-basis: 48%;
+  }
 
   figcaption {
     margin-top: $spacing-1;
-    font-size: $font-size-md;
-    color: $palette-slate-400;
+    font-size: $font-size-sm;
+    color: var(--slate-400);
     text-align: center;
   }
 }
 
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-top: $spacing-2;
+}
+
+// 44px hit area around an 8px dot.
+.dot {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: $radius-full;
+    background: rgb(var(--white-rgb) / 0.25);
+    transform: translate(-50%, -50%);
+    transition: width $motion-ui $ease-out-expo, background $motion-ui;
+  }
+
+  &[aria-current="true"]::after {
+    width: 22px;
+    background: var(--accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: -8px;
+    border-radius: $radius-full;
+  }
+}
+
+// ---------- CTA ----------
 .cta {
+  @extend %wrap;
+  padding-top: $spacing-8;
+  padding-bottom: calc(#{$spacing-12} + env(safe-area-inset-bottom));
   text-align: center;
+  background: radial-gradient(ellipse 60% 70% at 50% 100%, rgb(var(--accent-rgb) / 0.14), transparent 70%);
+}
+
+.ctaTitle {
+  margin: 0;
+  font-size: clamp(1.9rem, 1.2rem + 3.5vw, 3.2rem);
+  font-weight: $font-weight-bold;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: $spacing-3;
+  margin-top: $spacing-6;
+}
+
+%btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  min-height: 48px;
+  padding: 0 $spacing-6;
+  border-radius: $radius-lg;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: transform $motion-micro $ease-out-expo, background $motion-micro;
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 3px;
+  }
+
+  @include respond-to("xs") {
+    width: 100%;
+  }
 }
 
 .ctaBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-2;
-  margin-top: $spacing-6;
-  padding: $spacing-3 $spacing-6;
+  @extend %btn;
   border: 0;
-  border-radius: $radius-lg;
-  background: $color-primary;
-  font-size: $font-size-md;
-  font-weight: $font-weight-semibold;
-  color: $palette-navy-950;
+  background: var(--accent);
+  color: var(--stage);
+}
+
+.ctaGhost {
+  @extend %btn;
+  border: 1px solid rgb(var(--white-rgb) / 0.28);
+  background: rgb(var(--white-rgb) / 0.06);
+  color: var(--white);
+}
+
+// ---------- sensor bottom sheet ----------
+.sheetScrim {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgb(var(--surface-0-rgb) / 0.55);
+  animation: fadeIn $motion-ui ease both;
+}
+
+.sheet {
+  position: fixed;
+  z-index: 61;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 80svh;
+  overflow-y: auto;
+  padding: $spacing-6 max(#{$spacing-5}, env(safe-area-inset-right)) calc(#{$spacing-6} + env(safe-area-inset-bottom))
+    max(#{$spacing-5}, env(safe-area-inset-left));
+  border: 1px solid rgb(var(--accent-rgb) / 0.25);
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+  background: rgb(var(--surface-0-rgb) / 0.97);
+  box-shadow: 0 -20px 60px rgb(var(--black-rgb) / 0.5);
+  animation: sheetUp $motion-panel $ease-out-expo both;
+
+  @include respond-up("md") {
+    left: 50%;
+    right: auto;
+    width: 480px;
+    margin-left: -240px;
+  }
+}
+
+.sheetGrip {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 40px;
+  height: 4px;
+  margin-left: -20px;
+  border-radius: 2px;
+  background: rgb(var(--white-rgb) / 0.2);
+}
+
+.sheetClose {
+  position: absolute;
+  top: $spacing-2;
+  right: $spacing-2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: $radius-full;
+  background: transparent;
+  color: var(--slate-400);
   cursor: pointer;
 
   &:focus-visible {
-    outline: 2px solid $color-primary-light;
-    outline-offset: 3px;
+    outline: 2px solid var(--accent-text);
+  }
+}
+
+.sheetTitle {
+  margin: 0;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+}
+
+.sheetBody {
+  margin: $spacing-2 0 0;
+  font-size: $font-size-md;
+  line-height: $line-height-normal;
+  color: rgb(var(--mist-rgb) / 0.78);
+}
+
+.readings {
+  display: grid;
+  gap: $spacing-2;
+  margin: $spacing-4 0 0;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    padding-top: $spacing-2;
+    border-top: 1px solid rgb(var(--white-rgb) / 0.08);
+  }
+
+  dt {
+    font-size: $font-size-sm;
+    color: var(--slate-400);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: $font-weight-semibold;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.sample {
+  margin: $spacing-4 0 0;
+  font-size: $font-size-xs;
+  color: var(--slate-400);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sheetUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .sheetScrim {
+    animation: none;
   }
 }

@@ -61,10 +61,10 @@ const steps = [
 ];
 
 const stats = [
-  { value: "↓22%", label: "Cost per delivery" },
-  { value: "↑18%", label: "Fleet utilisation" },
-  { value: "98%", label: "Safety compliance" },
-  { value: "↓35%", label: "Unplanned downtime" },
+  { value: "Per km", label: "Cost per delivery" },
+  { value: "Measured", label: "Fleet utilisation" },
+  { value: "Scored", label: "Driver safety, every trip" },
+  { value: "Reminders", label: "Service before breakdowns" },
 ];
 
 export default function FleetIntelligencePage() {

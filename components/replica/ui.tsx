@@ -347,7 +347,7 @@ export function AreaChart({ labels, series, height = 200, unit = "", band }: { l
             fontSize: 11,
             pointerEvents: "none",
             whiteSpace: "nowrap",
-            boxShadow: "0 8px 20px rgba(0,0,0,.3)",
+            boxShadow: "0 8px 20px rgb(var(--black-rgb) / .3)",
           }}
         >
           <b style={{ display: "block", marginBottom: 2 }}>{labels[hover]}</b>
@@ -429,7 +429,7 @@ export function Modal({ title, body, confirm, danger, onConfirm, onClose }: { ti
 export function Drawer({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   return (
     <>
-      <div className={s.scrim} style={{ background: "rgba(0,0,0,.35)" }} onClick={onClose} role="presentation" />
+      <div className={s.scrim} style={{ background: "rgb(var(--black-rgb) / .35)" }} onClick={onClose} role="presentation" />
       <aside className={s.drawer} role="dialog" aria-modal="true" aria-label={title}>
         <div className={s.drawerHead}>
           <h4>{title}</h4>

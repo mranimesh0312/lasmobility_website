@@ -13,7 +13,7 @@ const StoryStatic = dynamic(() => import("./StoryStatic"), { ssr: false, loading
 /** Server-rendered first paint: the hero copy on the dark stage, no WebGL yet. */
 function StageShell() {
   return (
-    <section className={styles.story} aria-label="LAS Mobility platform story">
+    <section className={`${styles.story} theme-dark-scope`} aria-label="LAS Mobility platform story">
       <div className={styles.stage}>
         <div className={styles.scrim} aria-hidden="true" />
         <header className={`${styles.panel} ${styles.hero}`}>

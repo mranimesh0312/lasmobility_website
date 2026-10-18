@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { PALETTE } from "@/lib/palette";
 
 const rlMap = new Map<string, { count: number; windowStart: number }>();
 const RL_WINDOW_MS = 60 * 60 * 1000;
@@ -97,7 +98,7 @@ function emailShell(content: string) {
           <tr>
             <td style="background:linear-gradient(135deg,#06152b 0%,#082f49 100%);padding:26px 32px;">
               <img src="cid:${LOGO_CONTENT_ID}" width="190" alt="LAS Mobility" style="display:block;max-width:190px;height:auto;" />
-              <p style="margin:14px 0 0;font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#67e8f9;font-weight:700;">AI-Powered Fleet Intelligence</p>
+              <p style="margin:14px 0 0;font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:#92d2d5;font-weight:700;">AI-Powered Fleet Intelligence</p>
             </td>
           </tr>
           ${content}
@@ -194,7 +195,7 @@ function internalEmailHtml(fields: ApplicationFields) {
           ${rows
             .map(
               ([label, value], index) => `
-                <tr style="background:${index % 2 === 0 ? "#ffffff" : "#f8fafc"};">
+                <tr style="background:${index % 2 === 0 ? PALETTE.white : PALETTE.slate50};">
                   <td style="width:34%;padding:13px 16px;border-bottom:1px solid #e2e8f0;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;font-weight:800;color:#64748b;vertical-align:top;">${escapeHtml(label)}</td>
                   <td style="padding:13px 16px;border-bottom:1px solid #e2e8f0;font-size:14px;line-height:22px;font-weight:600;color:#0f172a;word-break:break-word;">${escapeHtml(value).replaceAll("\n", "<br />")}</td>
                 </tr>`

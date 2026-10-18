@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, ChevronDown, ArrowRight,
@@ -11,11 +11,13 @@ import {
   Truck, Building2, Zap, PackageCheck, School, UsersRound,
   Thermometer, Fingerprint, Video, Clock,
   Package, Bus, Factory, Landmark, Ambulance, Wrench,
-  BarChart3, Sparkles, Users, Briefcase, Mail, Target, Globe,
+  BarChart3, Sparkles, Users, Briefcase, Mail, Target, Globe, LogIn, CalendarCheck,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import ThemeLogo from "@/components/ThemeLogo";
 import AnnouncementBar from "@/components/AnnouncementBar";
+import ModulePreview from "@/components/modules/ModulePreview";
 import { useBookDemo } from "@/context/BookDemoContext";
 
 const features = [
@@ -62,28 +64,32 @@ const features = [
   },
 ];
 
-const comingSoonFeatures = [
-  {
-    icon: Thermometer,
-    label: "Temperature Monitoring",
-    desc: "Real-time cold chain visibility and threshold alerts",
-    href: "/features/temperature-monitoring",
-    image: "/module-temperature.svg",
-  },
+/** Hardware modules that are live in the app (own pages under /features). */
+const liveModules = [
   {
     icon: Fuel,
     label: "Fuel Monitoring",
-    desc: "Tank-level tracking, theft detection, cost per km",
+    desc: "Tank level, refuel and drain events, cost per km",
     href: "/features/fuel-monitoring",
     image: "/module-fuel.svg",
   },
   {
+    icon: Thermometer,
+    label: "Temperature Monitoring",
+    desc: "Cold chain readings and threshold breach alerts",
+    href: "/features/temperature-monitoring",
+    image: "/module-temperature.svg",
+  },
+  {
     icon: Fingerprint,
     label: "Driver Identification",
-    desc: "RFID / iButton login — know who's behind the wheel",
+    desc: "iButton / RFID keys, every trip tied to a driver",
     href: "/features/driver-identification",
     image: "/module-driver-id.svg",
   },
+];
+
+const comingSoonFeatures = [
   {
     icon: Video,
     label: "Dash Cam & DVR",
@@ -94,12 +100,12 @@ const comingSoonFeatures = [
 ];
 
 const solutions = [
-  { icon: Truck,        label: "Logistics & Delivery",   desc: "Real-time visibility for freight and last-mile ops", stat: "↓ 22% cost per delivery",   href: "/solutions/logistics-delivery" },
-  { icon: School,       label: "School Transport",        desc: "Student safety, live tracking, and parent alerts",   stat: "98% safety compliance",      href: "/solutions/school-transport" },
-  { icon: UsersRound,   label: "Employee Transport",      desc: "Shift visibility, route adherence, driver scores",   stat: "94% on-time rate",           href: "/solutions/employee-transport" },
-  { icon: Building2,    label: "Enterprise Fleet",        desc: "Multi-branch control, AI insights, role-based access", stat: "↑ 18% fleet utilisation",  href: "/solutions/enterprise-fleet" },
-  { icon: PackageCheck, label: "Delivery Operations",     desc: "Sequence stops, reduce idle, improve SLAs",         stat: "20% more drops per day",     href: "/solutions/delivery-operations" },
-  { icon: Zap,          label: "Field Operations",        desc: "Dispatch technicians, track mobile teams live",      stat: "30% more service calls/day", href: "/solutions/field-operations" },
+  { icon: Truck,        label: "Logistics & Delivery",   desc: "Real-time visibility for freight and last-mile ops", stat: "Cost per delivery tracked",   href: "/solutions/logistics-delivery" },
+  { icon: School,       label: "School Transport",        desc: "Student safety, live tracking, and parent alerts",   stat: "Driver behaviour on record",      href: "/solutions/school-transport" },
+  { icon: UsersRound,   label: "Employee Transport",      desc: "Shift visibility, route adherence, driver scores",   stat: "On-time runs tracked",           href: "/solutions/employee-transport" },
+  { icon: Building2,    label: "Enterprise Fleet",        desc: "Multi-branch control, AI insights, role-based access", stat: "Utilisation by branch",  href: "/solutions/enterprise-fleet" },
+  { icon: PackageCheck, label: "Delivery Operations",     desc: "Sequence stops, reduce idle, improve SLAs",         stat: "More drops per route",     href: "/solutions/delivery-operations" },
+  { icon: Zap,          label: "Field Operations",        desc: "Dispatch technicians, track mobile teams live",      stat: "Nearest technician dispatched", href: "/solutions/field-operations" },
 ];
 
 const industriesNav = [
@@ -145,16 +151,14 @@ const APP_LOGIN_URL = `${process.env.NEXT_PUBLIC_APP_URL ?? "https://lasmobility
 
 /** The site's dark-theme header palette, applied over dark sections in either theme. */
 const DARK_TONE = {
-  "--nav-bg": "rgba(6,14,26,0.72)",
-  "--bg-card": "#162035",
-  "--text-primary": "#F8FAFC",
-  "--text-secondary": "#94A3B8",
-  "--text-muted": "#94A3B8",
-  "--border": "rgba(255,255,255,0.08)",
-  "--border-accent": "rgba(14,206,206,0.3)",
-  "--accent": "#0ECECE",
-  "--accent-glow": "rgba(14,206,206,0.2)",
-  "--accent-text": "#22D9D9",
+  "--nav-bg": "rgb(var(--ink-deep-rgb) / 0.72)",
+  "--bg-card": "var(--surface-2)",
+  "--text-primary": "var(--slate-50)",
+  "--text-secondary": "var(--slate-400)",
+  "--text-muted": "var(--slate-400)",
+  "--border": "rgb(var(--white-rgb) / 0.08)",
+  "--border-accent": "rgb(var(--accent-rgb) / 0.3)",
+  "--accent-glow": "rgb(var(--accent-rgb) / 0.12)",
 } as React.CSSProperties;
 
 export default function Navbar() {
@@ -222,14 +226,15 @@ export default function Navbar() {
     <header
       id="site-header"
       ref={headerRef}
-      className="sticky top-0 z-50 w-full transition-all duration-300 motion-reduce:transition-none"
+      // Over the always-dark story the header takes the dark accent set too.
+      className={`sticky top-0 z-50 w-full transition-all duration-300 motion-reduce:transition-none ${overDark ? "theme-dark-scope" : ""}`}
       style={{
         ...(overDark ? DARK_TONE : null),
         background: "var(--nav-bg)",
         backdropFilter: "blur(24px)",
         WebkitBackdropFilter: "blur(24px)",
         borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-        boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.12)" : "none",
+        boxShadow: scrolled ? "0 4px 24px rgb(var(--black-rgb) / 0.12)" : "none",
 
       }}
     >
@@ -241,17 +246,17 @@ export default function Navbar() {
       />
       <AnnouncementBar />
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-6 xl:px-8"
+        className="mx-auto flex h-[68px] max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 xl:px-8"
         aria-label="Primary navigation"
       >
         {/* Logo — never shrinks */}
         <Link href="/" className="flex shrink-0 items-center" aria-label="LAS Mobility home">
-          <ThemeLogo width={172} height={34} priority forceDark={overDark} />
+          <ThemeLogo width={156} height={31} priority forceDark={overDark} />
         </Link>
 
         {/* Desktop nav — shown from xl (1280px) upward */}
         <div className="hidden min-w-0 flex-1 items-center justify-center xl:flex">
-          <div className="flex items-center">
+          <div className="flex items-center gap-0.5">
             {navLinks.map((item) => {
               const active = pathname === item.href || pathname.startsWith(item.href + "/");
               const hasDropdown = !!item.dropdown;
@@ -264,17 +269,17 @@ export default function Navbar() {
                 >
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-0.5 whitespace-nowrap rounded-lg px-2.5 py-2 text-[13px] font-medium transition-all ${
-                      item.label === "Coming Soon"
-                        ? "font-semibold"
-                        : active
-                        ? "text-[var(--accent-text)]"
+                    className={`relative z-10 flex h-9 items-center gap-1 whitespace-nowrap rounded-[10px] px-2.5 text-[13.5px] font-medium transition-colors duration-150 2xl:px-3.5 ${
+                      active || activeDropdown === item.label
+                        ? "text-[var(--text-primary)]"
                         : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                    }`}
-                    style={item.label === "Coming Soon" ? { color: "#F59E0B" } : undefined}
+                    } ${active ? "" : "hover:bg-[var(--bg-muted)]"} ${activeDropdown === item.label && !active ? "bg-[var(--bg-muted)]" : ""}`}
                   >
-                    {item.label === "Coming Soon" && <Clock className="h-3 w-3 mr-0.5 shrink-0" />}
                     {item.label}
+                    {/* Coming Soon reads like the other links, marked with a quiet amber dot. */}
+                    {item.label === "Coming Soon" && (
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: "var(--warning)" }} aria-hidden="true" />
+                    )}
                     {hasDropdown && (
                       <ChevronDown
                         className={`h-3 w-3 shrink-0 transition-transform duration-200 ${
@@ -283,11 +288,13 @@ export default function Navbar() {
                       />
                     )}
                   </Link>
+                  {/* Active page: a highlight that slides between items. */}
                   {active && (
                     <motion.div
                       layoutId="nav-indicator"
-                      className="absolute bottom-0 left-2.5 right-2.5 h-0.5 rounded-full"
-                      style={{ background: "var(--accent)" }}
+                      className="absolute inset-0 rounded-[10px]"
+                      style={{ background: "var(--accent-glow)", boxShadow: "inset 0 0 0 1px var(--border-accent)" }}
+                      transition={{ type: "spring", stiffness: 480, damping: 38 }}
                     />
                   )}
 
@@ -298,12 +305,20 @@ export default function Navbar() {
                         // Centering goes through framer's `x` (a CSS transform would be
                         // overwritten by the `y` animation), and the gap below the
                         // trigger is padding, so the pointer never leaves the hover area.
+                        // The wide Features panel centres on the viewport under the
+                        // sticky header, so it never spills off narrower screens.
                         initial={{ opacity: 0, y: 10, x: item.dropdown === "coming-soon" ? 0 : "-50%" }}
                         animate={{ opacity: 1, y: 0, x: item.dropdown === "coming-soon" ? 0 : "-50%" }}
                         exit={{ opacity: 0, y: 10, x: item.dropdown === "coming-soon" ? 0 : "-50%" }}
-                        transition={{ duration: 0.18, ease: "easeOut" }}
-                        className="absolute top-full pt-2"
-                        style={item.dropdown === "coming-soon" ? { right: 0 } : { left: "50%" }}
+                        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                        className={item.dropdown === "features" ? "fixed pt-2" : "absolute top-full pt-2"}
+                        style={
+                          item.dropdown === "coming-soon"
+                            ? { right: 0 }
+                            : item.dropdown === "features"
+                              ? { left: "50%", top: "calc(var(--site-header-h, 100px) - 14px)" }
+                              : { left: "50%" }
+                        }
                       >
                         {item.dropdown === "features" && <FeaturesMegaMenu />}
                         {item.dropdown === "solutions" && <SolutionsMegaMenu />}
@@ -321,25 +336,26 @@ export default function Navbar() {
         </div>
 
         {/* Desktop actions — never shrinks, shown from xl upward */}
-        <div className="hidden shrink-0 items-center gap-1.5 xl:flex">
+        {/* Theme, Log in and Book a Demo share one height (40px) and radius (10px). */}
+        <div className="hidden shrink-0 items-center gap-2 xl:flex">
           <ThemeSwitcher />
           <Link
             href={APP_LOGIN_URL}
-            className="inline-flex h-9 items-center whitespace-nowrap rounded-lg px-3.5 text-[13px] font-semibold transition-all hover:opacity-90"
+            className="inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-[10px] px-4 text-[13px] font-semibold transition-colors duration-150 hover:border-[var(--border-accent)] hover:bg-[var(--bg-card-hover)]"
             style={{
               color: "var(--text-primary)",
               border: "1px solid var(--border)",
               background: "var(--bg-card)",
             }}
           >
-            Log in
+            <LogIn className="hidden h-4 w-4 2xl:block" style={{ color: "var(--text-muted)" }} /> Log in
           </Link>
           <button
             type="button"
             onClick={() => openBookDemo("navbar")}
-            className="btn-primary inline-flex h-9 items-center whitespace-nowrap rounded-lg px-3.5 text-[13px] font-semibold"
+            className="btn-primary inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-[10px] px-4 text-[13px] font-semibold"
           >
-            Book a Demo
+            <CalendarCheck className="hidden h-4 w-4 2xl:block" /> Book a Demo
           </button>
         </div>
 
@@ -349,7 +365,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setMobileOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border transition"
+            className="flex h-10 w-10 items-center justify-center rounded-[10px] border transition"
             style={{
               background: "var(--bg-card)",
               border: "1px solid var(--border)",
@@ -386,7 +402,7 @@ export default function Navbar() {
           >
             <div className="mx-auto max-w-7xl space-y-1 px-4 py-4 sm:px-6">
               {navLinks.map((item) => {
-                const list = item.dropdown === "features" ? features : item.dropdown === "solutions" ? solutions : item.dropdown === "industries" ? industriesNav : item.dropdown === "ai" ? aiNav : item.dropdown === "about" ? aboutNav : item.dropdown === "coming-soon" ? comingSoonFeatures : null;
+                const list = item.dropdown === "features" ? [...features, ...liveModules] : item.dropdown === "solutions" ? solutions : item.dropdown === "industries" ? industriesNav : item.dropdown === "ai" ? aiNav : item.dropdown === "about" ? aboutNav : item.dropdown === "coming-soon" ? comingSoonFeatures : null;
                 return (
                   <div key={item.href}>
                     <Link
@@ -442,66 +458,122 @@ export default function Navbar() {
 }
 
 /* ── Features Mega Menu ── */
+type NavItem = { icon: LucideIcon; label: string; desc: string; href: string; image?: string };
+
+/** One row in the features menu; hovering or focusing it drives the preview. */
+function FeatureRow({ item, active, onPreview, isNew = false }: { item: NavItem; active: boolean; onPreview: (i: NavItem) => void; isNew?: boolean }) {
+  const { icon: Icon, label, desc, href, image } = item;
+  return (
+    <Link
+      href={href}
+      className="group flex h-full items-start gap-3 rounded-xl px-3 py-2.5 transition-colors duration-150"
+      style={{ background: active ? "var(--accent-glow)" : "transparent" }}
+      onMouseEnter={() => onPreview(item)}
+      onFocus={() => onPreview(item)}
+    >
+      <span className="relative mt-0.5 h-9 w-9 shrink-0">
+        {image ? (
+          <span className="relative block h-9 w-9 overflow-hidden rounded-lg" style={{ border: "1px solid var(--border)" }}>
+            <Image src={image} alt="" fill sizes="36px" className="object-cover object-left-top" />
+          </span>
+        ) : (
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg" style={{ background: "var(--accent-glow)", border: "1px solid var(--border-accent)" }}>
+            <Icon className="h-4 w-4" style={{ color: "var(--accent-text)" }} />
+          </span>
+        )}
+        {/* "New" marker sits on the icon so it never pushes the title onto two lines. */}
+        {isNew && (
+          <span
+            className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full"
+            style={{ background: "var(--success)", boxShadow: "0 0 0 2px var(--bg-card)" }}
+            aria-hidden="true"
+          />
+        )}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-sm font-semibold leading-5" style={{ color: "var(--text-primary)" }}>
+          {label}
+          {isNew && <span className="sr-only"> (new)</span>}
+        </span>
+        <span className="mt-0.5 line-clamp-2 text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
+      </span>
+    </Link>
+  );
+}
+
 function FeaturesMegaMenu() {
+  const [preview, setPreview] = useState<NavItem>(features[0]);
+  const PreviewIcon = preview.icon;
+  // Filled row by row (two platform items, then one hardware module) so every
+  // row shares one height across all three equal columns.
+  const rows = [0, 1, 2].map((r) => [features[r * 2], features[r * 2 + 1], liveModules[r]] as const);
+  const hardwareCell = "border-l pl-2";
   return (
     <div
-      className="w-[680px] overflow-hidden rounded-2xl p-1"
+      className="w-[1040px] max-w-[calc(100vw-32px)] overflow-hidden rounded-2xl p-1.5"
       style={{
         background: "var(--bg-card)",
         border: "1px solid var(--border)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 4px 16px rgba(0,0,0,0.1)",
+        boxShadow: "0 24px 60px rgb(var(--black-rgb) / 0.24), 0 4px 16px rgb(var(--black-rgb) / 0.1)",
       }}
     >
-      <div className="grid grid-cols-[1fr_196px]">
-        {/* Left: feature list */}
-        <div className="p-3">
-          <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
-            Platform Features
-          </p>
-          <div className="grid grid-cols-2 gap-0.5">
-            {features.map(({ icon: Icon, label, desc, href, image }) => (
-              <Link
-                key={href + label}
-                href={href}
-                className="group flex items-start gap-3 rounded-xl p-3 transition-all"
-                onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "var(--accent-glow)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
-              >
-                {image ? (
-                  <div className="relative mt-0.5 h-8 w-8 shrink-0 overflow-hidden rounded-lg" style={{ border: "1px solid var(--border-accent)" }}>
-                    <Image src={image} alt={label} fill sizes="32px" className="object-cover object-left-top" />
-                  </div>
-                ) : (
-                  <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "var(--accent-glow)", border: "1px solid var(--border-accent)" }}>
-                    <Icon className="h-4 w-4" style={{ color: "var(--accent-text)" }} />
-                  </span>
-                )}
-                <span>
-                  <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
-                  <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
-                </span>
-              </Link>
+      <div className="grid grid-cols-[1fr_260px] gap-1.5">
+        <div className="flex flex-col p-2">
+          <div className="grid flex-1 grid-cols-3 gap-x-1 gap-y-1">
+            <p className="col-span-2 px-3 pb-1 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
+              Platform
+            </p>
+            <p
+              className={`${hardwareCell} flex items-center gap-1.5 px-3 pb-1 text-[10px] font-bold uppercase tracking-widest`}
+              style={{ color: "var(--text-muted)", borderColor: "var(--border)" }}
+            >
+              Hardware modules
+              <span className="ml-auto flex items-center gap-1 normal-case tracking-normal" style={{ color: "var(--success)" }}>
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--success)" }} aria-hidden="true" /> New &amp; live
+              </span>
+            </p>
+            {rows.map(([a, b, hw]) => (
+              <Fragment key={hw.href}>
+                <FeatureRow item={a} active={preview.href === a.href} onPreview={setPreview} />
+                <FeatureRow item={b} active={preview.href === b.href} onPreview={setPreview} />
+                <div className={hardwareCell} style={{ borderColor: "var(--border)" }}>
+                  <FeatureRow item={hw} active={preview.href === hw.href} onPreview={setPreview} isNew />
+                </div>
+              </Fragment>
             ))}
           </div>
-          <div className="mt-3 border-t px-3 pt-3" style={{ borderColor: "var(--border)" }}>
+          <div className="mt-2 flex items-center justify-between border-t px-3 pt-3" style={{ borderColor: "var(--border)" }}>
             <Link href="/features" className="flex items-center gap-1 text-xs font-semibold transition hover:opacity-80" style={{ color: "var(--accent-text)" }}>
               View all features <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+            <Link href="/coming-soon" className="flex items-center gap-1 text-xs transition hover:opacity-80" style={{ color: "var(--text-muted)" }}>
+              <Clock className="h-3 w-3" /> Coming next: Dash Cam &amp; DVR
             </Link>
           </div>
         </div>
 
-        {/* Right: visual panel */}
-        <div className="relative m-1 flex flex-col overflow-hidden rounded-xl" style={{ background: "linear-gradient(135deg, #060E1A 0%, #0B1628 100%)" }}>
-          <div className="relative flex-1 overflow-hidden">
-            <Image src="/module-tracking.svg" alt="Live Tracking Module" fill className="object-cover object-center opacity-90" />
+        {/* Preview: follows the hovered item. Always dark, like the product. */}
+        <Link
+          href={preview.href}
+          className="theme-dark-scope group relative flex flex-col overflow-hidden rounded-xl"
+          style={{ background: "var(--surface-0)", border: "1px solid rgb(var(--mist-rgb) / 0.08)" }}
+        >
+          {/* Coded preview from the module page's own panel data; icon for non-module links. */}
+          <div className="relative h-48 overflow-hidden border-b" style={{ borderColor: "rgb(var(--mist-rgb) / 0.08)" }}>
+            {ModulePreview({ href: preview.href }) ?? (
+              <span className="flex h-full items-center justify-center" style={{ background: "rgb(var(--accent-rgb) / 0.08)" }}>
+                <PreviewIcon className="h-10 w-10" style={{ color: "var(--accent-text)" }} />
+              </span>
+            )}
           </div>
-          <div className="p-4">
-            <p className="text-xs font-bold text-white">Live Tracking</p>
-            <p className="mt-1 text-[11px] leading-4" style={{ color: "rgba(200,235,255,0.65)" }}>
-              Real-time GPS, vehicle status, and live fleet command.
-            </p>
+          <div className="flex flex-1 flex-col p-4">
+            <p className="text-sm font-bold" style={{ color: "var(--mist)" }}>{preview.label}</p>
+            <p className="mt-1 text-xs leading-5" style={{ color: "rgb(var(--mist-rgb) / 0.65)" }}>{preview.desc}</p>
+            <span className="mt-auto inline-flex items-center gap-1 pt-3 text-xs font-semibold" style={{ color: "var(--accent-text)" }}>
+              Open {preview.label} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </span>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );
@@ -511,63 +583,62 @@ function FeaturesMegaMenu() {
 function ComingSoonMegaMenu() {
   return (
     <div
-      className="w-[580px] overflow-hidden rounded-2xl p-1"
+      className="w-[600px] max-w-[calc(100vw-32px)] overflow-hidden rounded-2xl p-1.5"
       style={{
         background: "var(--bg-card)",
-        border: "1px solid rgba(245,158,11,0.3)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 0 40px rgba(245,158,11,0.06)",
+        border: "1px solid var(--border)",
+        boxShadow: "0 24px 60px rgb(var(--black-rgb) / 0.24)",
       }}
     >
-      <div className="p-3">
-        <div className="mb-3 flex items-center gap-2 px-2">
-          <span
-            className="flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest"
-            style={{ background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.35)", color: "#F59E0B" }}
+      <div className="p-2">
+        <p className="mb-2 flex items-center gap-1.5 px-2 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--warning)" }}>
+          <Clock className="h-3 w-3" /> In development
+        </p>
+        {comingSoonFeatures.map(({ icon: Icon, label, desc, href, image }) => (
+          <Link
+            key={href}
+            href={href}
+            className="group flex items-center gap-4 rounded-xl p-3 transition-colors"
+            style={{ border: "1px solid rgb(var(--warning-rgb) / 0.25)", background: "rgb(var(--warning-rgb) / 0.05)" }}
           >
-            <Clock className="h-3 w-3" /> Coming Soon
-          </span>
-          <span className="text-[11px]" style={{ color: "var(--text-muted)" }}>
-            Next-generation hardware integrations
-          </span>
-        </div>
-        <div className="grid grid-cols-2 gap-2">
-          {comingSoonFeatures.map(({ icon: Icon, label, desc, href, image }) => (
-            <Link
-              key={href + label}
-              href={href}
-              className="group flex items-start gap-3 rounded-xl p-3 transition-all"
-              style={{ border: "1px solid var(--border)" }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "rgba(245,158,11,0.05)";
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(245,158,11,0.3)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "transparent";
-                (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
-              }}
-            >
-              {image ? (
-                <div className="relative mt-0.5 h-10 w-10 shrink-0 overflow-hidden rounded-lg" style={{ border: "1px solid rgba(245,158,11,0.25)" }}>
-                  <Image src={image} alt={label} fill sizes="40px" className="object-cover object-left-top" />
-                </div>
-              ) : (
-                <span className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)" }}>
-                  <Icon className="h-5 w-5" style={{ color: "#F59E0B" }} />
-                </span>
-              )}
-              <span>
-                <span className="flex items-center gap-1.5">
-                  <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
-                  <span className="rounded-full px-1.5 py-px text-[9px] font-bold uppercase" style={{ background: "rgba(245,158,11,0.15)", color: "#F59E0B" }}>Soon</span>
-                </span>
-                <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
+            {image ? (
+              <span className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg" style={{ border: "1px solid var(--border)" }}>
+                <Image src={image} alt="" fill sizes="96px" className="object-cover object-left-top" />
               </span>
+            ) : (
+              <Icon className="h-6 w-6" style={{ color: "var(--warning)" }} />
+            )}
+            <span className="min-w-0 flex-1">
+              <span className="flex items-center gap-1.5">
+                <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
+                <span className="rounded-full px-1.5 py-px text-[9px] font-bold uppercase" style={{ background: "rgb(var(--warning-rgb) / 0.15)", color: "var(--warning)" }}>Soon</span>
+              </span>
+              <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
+            </span>
+            <ArrowRight className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5" style={{ color: "var(--warning)" }} />
+          </Link>
+        ))}
+
+        <p className="mb-1.5 mt-4 flex items-center gap-1.5 px-2 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--success)" }}>
+          <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--success)" }} aria-hidden="true" /> Recently launched
+        </p>
+        <div className="grid grid-cols-3 gap-1.5">
+          {liveModules.map(({ icon: Icon, label, href }) => (
+            <Link
+              key={href}
+              href={href}
+              className="flex flex-col gap-2 rounded-xl p-3 transition-colors hover:bg-[var(--accent-glow)]"
+              style={{ border: "1px solid var(--border)" }}
+            >
+              <Icon className="h-4 w-4" style={{ color: "var(--accent-text)" }} />
+              <span className="text-xs font-semibold leading-4" style={{ color: "var(--text-primary)" }}>{label}</span>
             </Link>
           ))}
         </div>
+
         <div className="mt-3 border-t px-2 pt-3" style={{ borderColor: "var(--border)" }}>
-          <Link href="/coming-soon" className="flex items-center gap-1 text-xs font-semibold transition hover:opacity-80" style={{ color: "#F59E0B" }}>
-            See all upcoming features <ArrowRight className="h-3.5 w-3.5" />
+          <Link href="/coming-soon" className="flex items-center gap-1 text-xs font-semibold transition hover:opacity-80" style={{ color: "var(--warning)" }}>
+            Roadmap &amp; launches <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
       </div>
@@ -582,15 +653,15 @@ function SolutionsMegaMenu() {
       className="w-[620px] overflow-hidden rounded-2xl p-1"
       style={{
         background: "var(--bg-card)",
-        border: "1px solid rgba(34,197,94,0.25)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 0 40px rgba(34,197,94,0.05)",
+        border: "1px solid rgb(var(--success-rgb) / 0.25)",
+        boxShadow: "0 20px 60px rgb(var(--black-rgb) / 0.22), 0 0 40px rgb(var(--success-rgb) / 0.05)",
       }}
     >
       <div className="p-3">
         <div className="mb-3 flex items-center gap-2 px-1">
           <span
             className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest"
-            style={{ background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)", color: "#22C55E" }}
+            style={{ background: "rgb(var(--success-rgb) / 0.12)", border: "1px solid rgb(var(--success-rgb) / 0.3)", color: "var(--success)" }}
           >
             Solutions
           </span>
@@ -606,21 +677,21 @@ function SolutionsMegaMenu() {
               className="group flex items-start gap-3 rounded-xl p-3 transition-all"
               style={{ border: "1px solid transparent" }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "rgba(34,197,94,0.05)";
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(34,197,94,0.2)";
+                (e.currentTarget as HTMLElement).style.background = "rgb(var(--success-rgb) / 0.05)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgb(var(--success-rgb) / 0.2)";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.background = "transparent";
                 (e.currentTarget as HTMLElement).style.borderColor = "transparent";
               }}
             >
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.25)" }}>
-                <Icon className="h-4 w-4" style={{ color: "#22C55E" }} />
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgb(var(--success-rgb) / 0.1)", border: "1px solid rgb(var(--success-rgb) / 0.25)" }}>
+                <Icon className="h-4 w-4" style={{ color: "var(--success)" }} />
               </span>
               <span>
                 <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
                 <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
-                <span className="mt-1 block text-[10px] font-bold" style={{ color: "#22C55E" }}>{stat}</span>
+                <span className="mt-1 block text-[10px] font-semibold" style={{ color: "var(--accent-text)" }}>{stat}</span>
               </span>
             </Link>
           ))}
@@ -629,7 +700,7 @@ function SolutionsMegaMenu() {
           <Link
             href="/solutions"
             className="flex items-center gap-1.5 text-xs font-semibold transition hover:opacity-80"
-            style={{ color: "#22C55E" }}
+            style={{ color: "var(--success)" }}
           >
             View all solutions <ArrowRight className="h-3.5 w-3.5" />
           </Link>
@@ -647,7 +718,7 @@ function IndustriesMegaMenu() {
       style={{
         background: "var(--bg-card)",
         border: "1px solid var(--border)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 4px 16px rgba(0,0,0,0.1)",
+        boxShadow: "0 20px 60px rgb(var(--black-rgb) / 0.22), 0 4px 16px rgb(var(--black-rgb) / 0.1)",
       }}
     >
       <div className="p-3">
@@ -687,7 +758,7 @@ function IndustriesMegaMenu() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
                 <span
                   className="absolute left-2 top-2 flex h-6 w-6 items-center justify-center rounded-md backdrop-blur-sm"
-                  style={{ background: "rgba(14,206,206,0.25)", border: "1px solid rgba(14,206,206,0.4)" }}
+                  style={{ background: "rgb(var(--accent-rgb) / 0.25)", border: "1px solid rgb(var(--accent-rgb) / 0.4)" }}
                 >
                   <Icon className="h-3 w-3 text-cyan-300" />
                 </span>
@@ -720,15 +791,15 @@ function AiMegaMenu() {
       className="w-[480px] overflow-hidden rounded-2xl p-1"
       style={{
         background: "var(--bg-card)",
-        border: "1px solid rgba(139,92,246,0.3)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.22), 0 0 40px rgba(139,92,246,0.06)",
+        border: "1px solid rgb(var(--violet-rgb) / 0.3)",
+        boxShadow: "0 20px 60px rgb(var(--black-rgb) / 0.22), 0 0 40px rgb(var(--violet-rgb) / 0.06)",
       }}
     >
       <div className="p-3">
         <div className="mb-3 flex items-center gap-2 px-1">
           <span
             className="flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest"
-            style={{ background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.3)", color: "#8B5CF6" }}
+            style={{ background: "rgb(var(--violet-rgb) / 0.12)", border: "1px solid rgb(var(--violet-rgb) / 0.3)", color: "var(--violet)" }}
           >
             <BrainCircuit className="h-3 w-3" /> AI Intelligence
           </span>
@@ -742,16 +813,16 @@ function AiMegaMenu() {
               className="flex items-start gap-3 rounded-xl p-3 transition-all"
               style={{ border: "1px solid transparent" }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "rgba(139,92,246,0.06)";
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.2)";
+                (e.currentTarget as HTMLElement).style.background = "rgb(var(--violet-rgb) / 0.06)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgb(var(--violet-rgb) / 0.2)";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLElement).style.background = "transparent";
                 (e.currentTarget as HTMLElement).style.borderColor = "transparent";
               }}
             >
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.25)" }}>
-                <Icon className="h-4 w-4" style={{ color: "#8B5CF6" }} />
+              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "rgb(var(--violet-rgb) / 0.1)", border: "1px solid rgb(var(--violet-rgb) / 0.25)" }}>
+                <Icon className="h-4 w-4" style={{ color: "var(--violet)" }} />
               </span>
               <span>
                 <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
@@ -761,7 +832,7 @@ function AiMegaMenu() {
           ))}
         </div>
         <div className="mt-3 border-t px-1 pt-3" style={{ borderColor: "var(--border)" }}>
-          <Link href="/ai-intelligence" className="flex items-center gap-1.5 text-xs font-semibold transition hover:opacity-80" style={{ color: "#8B5CF6" }}>
+          <Link href="/ai-intelligence" className="flex items-center gap-1.5 text-xs font-semibold transition hover:opacity-80" style={{ color: "var(--violet)" }}>
             Explore AI Intelligence <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>
@@ -772,44 +843,43 @@ function AiMegaMenu() {
 
 /* ── About Mega Menu ── */
 function AboutMegaMenu() {
+  // Two columns keep the menu inside short viewports; Contact sits in the footer.
+  const items = aboutNav.filter((i) => i.href !== "/contact");
   return (
     <div
-      className="w-[380px] overflow-hidden rounded-2xl p-1"
+      className="w-[640px] max-w-[calc(100vw-32px)] overflow-hidden rounded-2xl p-1"
       style={{
         background: "var(--bg-card)",
         border: "1px solid var(--border)",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08)",
+        boxShadow: "0 20px 60px rgb(var(--black-rgb) / 0.18), 0 4px 16px rgb(var(--black-rgb) / 0.08)",
       }}
     >
       <div className="p-3">
-        <p className="mb-3 px-1 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
+        <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
           About LAS Mobility
         </p>
-        <div className="grid grid-cols-1 gap-0.5">
-          {aboutNav.map(({ icon: Icon, label, desc, href }) => (
+        <div className="grid grid-cols-2 gap-1">
+          {items.map(({ icon: Icon, label, desc, href }) => (
             <Link
               key={href + label}
               href={href}
-              className="flex items-start gap-3 rounded-xl p-3 transition-all"
-              style={{ border: "1px solid transparent" }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "var(--accent-glow)";
-                (e.currentTarget as HTMLElement).style.borderColor = "var(--border-accent)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "transparent";
-                (e.currentTarget as HTMLElement).style.borderColor = "transparent";
-              }}
+              className="flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-[var(--accent-glow)]"
             >
               <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: "var(--accent-glow)", border: "1px solid var(--border-accent)" }}>
                 <Icon className="h-4 w-4" style={{ color: "var(--accent-text)" }} />
               </span>
-              <span>
-                <span className="block text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
-                <span className="mt-0.5 block text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
+              <span className="min-w-0">
+                <span className="block truncate text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{label}</span>
+                <span className="mt-0.5 line-clamp-2 text-xs leading-4" style={{ color: "var(--text-muted)" }}>{desc}</span>
               </span>
             </Link>
           ))}
+        </div>
+        <div className="mt-2 flex items-center justify-between border-t px-2 pt-3" style={{ borderColor: "var(--border)" }}>
+          <Link href="/contact" className="flex items-center gap-1 text-xs font-semibold transition hover:opacity-80" style={{ color: "var(--accent-text)" }}>
+            <Mail className="h-3.5 w-3.5" /> Contact us <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+          <span className="text-xs" style={{ color: "var(--text-muted)" }}>Talk to our team or book a demo</span>
         </div>
       </div>
     </div>

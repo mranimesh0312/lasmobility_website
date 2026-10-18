@@ -5,6 +5,7 @@ import type { GeoJSONSource, Map as MapLibreMap, Marker, StyleSpecification } fr
 import "maplibre-gl/dist/maplibre-gl.css";
 import { STATUS_META, type LiveStatus, type LngLat } from "@/data/appReplicaData";
 import s from "./Replica.module.scss";
+import { PALETTE } from "@/lib/palette";
 
 const STYLE_URL = { dark: "https://tiles.openfreemap.org/styles/dark", light: "https://tiles.openfreemap.org/styles/positron" };
 const FALLBACK: StyleSpecification = { version: 8, sources: {}, layers: [{ id: "bg", type: "background", paint: { "background-color": "#1b2027" } }] };
@@ -122,7 +123,7 @@ export default function ReplicaMap({
         ready.current = true;
         instance!.addSource("route", { type: "geojson", data: { type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: [] } } });
         instance!.addLayer({ id: "route-casing", type: "line", source: "route", paint: { "line-color": "#000", "line-width": 7, "line-opacity": 0.25 }, layout: { "line-cap": "round", "line-join": "round" } });
-        instance!.addLayer({ id: "route", type: "line", source: "route", paint: { "line-color": "#18C7CC", "line-width": 4 }, layout: { "line-cap": "round", "line-join": "round" } });
+        instance!.addLayer({ id: "route", type: "line", source: "route", paint: { "line-color": PALETTE.accent, "line-width": 4 }, layout: { "line-cap": "round", "line-join": "round" } });
         sync();
       });
       sync();
