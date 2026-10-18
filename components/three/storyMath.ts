@@ -29,7 +29,7 @@ export const CAMERA_KEYS: CameraKey[] = [
   // Hero target sits 2.2 m to the camera's left of the car (right vector is
   // (sin az, 0, -cos az)), which puts the car in the right half beside the copy.
   { az: 0.72, el: 0.12, r: 9.4, target: [-1.08, 0.8, 1.24], fov: 30 }, // 0 hero
-  { az: 2.55, el: 0.18, r: 9.6, target: [-0.78, 0.8, -1.16], fov: 30 }, // 1 orbit to rear three-quarter
+  { az: 0.95, el: 0.4, r: 36, target: [-7.4, 3.2, 5.3], fov: 32 }, // 1 fleet network: high wide shot, network right of the copy
   { az: 1.57, el: 0.08, r: 11, target: [-1.6, 0.9, 0], fov: 28 }, // 2 highway side tracking
   { az: 1.15, el: 0.98, r: 18, target: [4, 0, -1], fov: 34 }, // 3 GPS, high
   { az: 0.95, el: 0.28, r: 10.5, target: [-1.95, 1.0, 1.4], fov: 30 }, // 4 telemetry
@@ -58,6 +58,8 @@ export function cameraAt(ch: number): CameraKey {
 }
 
 export interface SceneMix {
+  /** Fleet chapter: other vehicles + IoT links to the cloud hub. */
+  fleet: number;
   studio: number;
   road: number;
   gps: number;
@@ -74,6 +76,7 @@ export interface SceneMix {
 export function sceneMix(ch: number): SceneMix {
   const road = smoothstep(1.35, 1.95, ch) * (1 - smoothstep(5.3, 5.85, ch));
   return {
+    fleet: bump(ch, 0.62, 1.12, 0.42),
     road,
     studio: 1 - road,
     gps: bump(ch, 2.75, 3.55),

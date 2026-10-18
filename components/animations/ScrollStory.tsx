@@ -7,6 +7,7 @@ import { gsap, ScrollTrigger } from "./gsap";
 import { scrollToTarget } from "./SmoothScroll";
 import HeroControls from "./HeroControls";
 import HeroCopy from "./HeroCopy";
+import ChapterDetail, { hasChapterDetail } from "./ChapterDetail";
 import HeroCards from "./HeroCards";
 import { CHAPTERS, copyOpacity } from "@/components/three/storyMath";
 import { invalidateScenes } from "@/components/three/SceneCanvas";
@@ -269,7 +270,8 @@ export default function ScrollStory() {
               </p>
               <h2 className={styles.chapterTitle}>{c.title}</h2>
               <p className={styles.chapterBody}>{c.body}</p>
-              {c.points && (
+              <ChapterDetail id={c.id} />
+              {c.points && !hasChapterDetail(c.id) && (
                 <ul className={styles.points}>
                   {c.points.map((p) => (
                     <li key={p}>{p}</li>

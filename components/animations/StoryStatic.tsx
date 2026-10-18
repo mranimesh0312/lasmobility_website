@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { ArrowRight, CalendarCheck, ChevronsRight, X } from "lucide-react";
 import HeroCopy from "./HeroCopy";
+import ChapterDetail, { hasChapterDetail } from "./ChapterDetail";
 import HeroControls from "./HeroControls";
 import MotionReveal from "./MotionReveal";
 import ScreenshotViewer from "@/components/showcase/ScreenshotViewer";
@@ -179,7 +180,8 @@ export default function StoryStatic({ webgl }: { webgl: boolean }) {
               </p>
               <h2 className={styles.title}>{c.title}</h2>
               <p className={styles.body}>{c.body}</p>
-              {c.points && (
+              <ChapterDetail id={c.id} />
+              {c.points && !hasChapterDetail(c.id) && (
                 <ul className={styles.points}>
                   {c.points.map((p) => (
                     <li key={p}>{p}</li>

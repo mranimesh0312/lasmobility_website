@@ -395,7 +395,7 @@
 .chapter {
   @extend %vcenter;
   left: max(#{$spacing-6}, calc((100vw - #{$page-max}) / 2 + #{$spacing-8}));
-  width: min(470px, 40vw);
+  width: min(500px, 38vw);
   pointer-events: none;
 
   a,

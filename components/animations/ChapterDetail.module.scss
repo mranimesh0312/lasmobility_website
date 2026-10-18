@@ -1,0 +1,472 @@
+// Story chapter data cards. Theme tokens only; the story sections set
+// .theme-dark-scope, so these always render on the dark set.
+
+.card {
+  margin-top: 22px;
+  padding: 14px 16px;
+  border: 1px solid rgb(var(--mist-rgb) / 0.1);
+  border-radius: 16px;
+  background: rgb(var(--surface-0-rgb) / 0.72);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 40px rgb(var(--black-rgb) / 0.3);
+  color: var(--mist);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+
+  b {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 700;
+  }
+}
+
+.demo {
+  flex-shrink: 0;
+  padding: 2px 7px;
+  border: 1px solid rgb(var(--mist-rgb) / 0.16);
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--mist-rgb) / 0.55);
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 3px rgb(var(--success-rgb) / 0.18);
+}
+
+.caption {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: rgb(var(--mist-rgb) / 0.5);
+}
+
+.ok {
+  color: var(--success) !important;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+// ---------- fleet ----------
+.cats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  // Phones: compact tiles, count above a label that may wrap, never cut off.
+  @media (max-width: 640px) {
+    li {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 2px;
+      padding: 7px 8px;
+
+      svg {
+        display: none;
+      }
+
+      span {
+        overflow: visible;
+        white-space: normal;
+        font-size: 10.5px;
+        line-height: 1.25;
+      }
+
+      b {
+        margin-left: 0;
+        font-size: 15px;
+      }
+    }
+  }
+
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    padding: 8px 9px;
+    border: 1px solid rgb(var(--mist-rgb) / 0.08);
+    border-radius: 10px;
+    background: rgb(var(--mist-rgb) / 0.03);
+    font-size: 12px;
+    color: rgb(var(--mist-rgb) / 0.75);
+
+    svg {
+      flex-shrink: 0;
+      color: var(--accent-text);
+    }
+
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    b {
+      margin-left: auto;
+      font-variant-numeric: tabular-nums;
+      color: var(--mist);
+    }
+  }
+}
+
+%status-colors {
+  background: var(--success);
+
+  &[data-status="idle"] {
+    background: var(--warning);
+  }
+
+  &[data-status="stopped"] {
+    background: var(--danger);
+  }
+
+  &[data-status="offline"] {
+    background: rgb(var(--mist-rgb) / 0.3);
+  }
+}
+
+.statusBar {
+  display: flex;
+  gap: 3px;
+  height: 6px;
+  margin-top: 14px;
+
+  i {
+    @extend %status-colors;
+    border-radius: 3px;
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: rgb(var(--mist-rgb) / 0.6);
+
+    i {
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
+      background: var(--success);
+    }
+
+    &[data-status="idle"] i {
+      background: var(--warning);
+    }
+
+    &[data-status="stopped"] i {
+      background: var(--danger);
+    }
+
+    &[data-status="offline"] i {
+      background: rgb(var(--mist-rgb) / 0.3);
+    }
+
+    b {
+      font-variant-numeric: tabular-nums;
+      color: var(--mist);
+    }
+  }
+}
+
+// ---------- shared 2x2 stats ----------
+.stats4 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+
+  div {
+    min-width: 0;
+    padding: 8px 10px;
+    border: 1px solid rgb(var(--mist-rgb) / 0.08);
+    border-radius: 10px;
+    background: rgb(var(--mist-rgb) / 0.03);
+  }
+
+  dt {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10.5px;
+    color: rgb(var(--mist-rgb) / 0.55);
+  }
+
+  dd {
+    margin: 3px 0 0;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-variant-numeric: tabular-nums;
+    color: var(--mist);
+
+    // Phones: wrap long values instead of cutting them off.
+    @media (max-width: 640px) {
+      overflow: visible;
+      font-size: 13px;
+      line-height: 1.3;
+      white-space: normal;
+    }
+  }
+}
+
+// ---------- road ----------
+.spark {
+  display: block;
+  width: 100%;
+  height: 56px;
+  margin-top: 10px;
+}
+
+.sparkArea {
+  fill: rgb(var(--accent-rgb) / 0.14);
+}
+
+.sparkLine {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+// ---------- gps ----------
+.route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+%pin {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.routeA {
+  @extend %pin;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.routeB {
+  @extend %pin;
+  border: 1px dashed rgb(var(--mist-rgb) / 0.4);
+  color: rgb(var(--mist-rgb) / 0.7);
+}
+
+.routeTrack {
+  position: relative;
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgb(var(--mist-rgb) / 0.12);
+}
+
+.routeDone {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.routeVan {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  background: var(--surface-0);
+  color: var(--accent-text);
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+// ---------- telemetry ----------
+.stream {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 9px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: rgb(var(--mist-rgb) / 0.72);
+
+    &:nth-child(odd) {
+      background: rgb(var(--mist-rgb) / 0.03);
+    }
+
+    time {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 10.5px;
+      color: rgb(var(--mist-rgb) / 0.45);
+    }
+
+    svg {
+      color: var(--accent-text);
+    }
+
+    b {
+      font-variant-numeric: tabular-nums;
+      color: var(--mist);
+    }
+
+    &[data-tone="warn"] {
+      svg,
+      b {
+        color: var(--warning);
+      }
+    }
+  }
+
+  // The newest reading eases in, so the stream reads as live.
+  li:first-child {
+    animation: streamIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+}
+
+@keyframes streamIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+// ---------- twin ----------
+.sensors {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 7px 10px;
+    border: 1px solid rgb(var(--mist-rgb) / 0.08);
+    border-radius: 10px;
+    font-size: 12px;
+    color: rgb(var(--mist-rgb) / 0.75);
+
+    svg {
+      flex-shrink: 0;
+      color: var(--accent-text);
+    }
+
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    i {
+      flex-shrink: 0;
+      width: 7px;
+      height: 7px;
+      margin-left: auto;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    // Phones: drop the icon and let names wrap instead of cutting them off.
+    @media (max-width: 640px) {
+      padding: 7px 8px;
+      font-size: 11px;
+
+      svg {
+        display: none;
+      }
+
+      span:not(.srOnly) {
+        overflow: visible;
+        white-space: normal;
+        line-height: 1.25;
+      }
+    }
+  }
+}
+
+// ---------- product ----------
+.modules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid rgb(var(--accent-rgb) / 0.25);
+    border-radius: 999px;
+    background: rgb(var(--accent-rgb) / 0.08);
+    font-size: 12px;
+    color: var(--accent-text);
+  }
+}

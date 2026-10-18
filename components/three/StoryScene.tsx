@@ -10,6 +10,7 @@ import StudioLighting from "./StudioLighting";
 import CameraRig from "./CameraRig";
 import Highway, { ROAD_SPEED } from "./Highway";
 import GpsLayer from "./GpsLayer";
+import FleetNetwork from "./FleetNetwork";
 import Laptop from "./Laptop";
 import Effects from "./Effects";
 import { CHAPTERS, sceneMix, smoothstep } from "./storyMath";
@@ -320,6 +321,7 @@ export default function StoryScene({ tier, screens, theme, interactive, onFocusS
       <StudioFloor rt={rt} tier={tier} />
       <Highway rt={rt} lowDetail={tier === "low"} />
       <GpsLayer rt={rt} roofY={SPEC.roof} />
+      <FleetNetwork rt={rt} mainRoof={SPEC.roof} />
       <Vehicle rt={rt} focus={focus} onSelect={setFocus} lowDetail={tier === "low"} />
       <Laptop rt={rt} features={screens} theme={theme} position={[0.1, 0, 4.2]} faceAz={0.74} />
       <Effects tier={tier} />
